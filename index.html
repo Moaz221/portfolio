@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Moaz.dev — Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000000;
+      --card:#1a1a2e;
+      --ring:rgba(99,102,241,0.8);
+      --grad1:#6366f1;
+      --grad2:#06b6d4;
+      --accent:#a855f7;
+    }
+    html,body{scroll-behavior:smooth}
+    body{font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#ffffff}
+
+    .link-underline{position:relative}
+    .link-underline::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:linear-gradient(90deg,var(--grad1),var(--grad2));transition:width .25s ease}
+    .link-underline:hover::after{width:100%}
+
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.15),rgba(255,255,255,0.08));border:1px solid rgba(255,255,255,0.25);box-shadow:0 10px 30px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.15);border-radius:16px}
+    .card:hover{border-color:rgba(255,255,255,0.4)}
+
+    .btn-primary{background:linear-gradient(90deg,var(--grad1),var(--grad2));color:#fff;border-radius:12px;padding:12px 16px;font-weight:600;box-shadow:0 8px 24px rgba(99,102,241,0.6);transition:transform .15s ease,box-shadow .2s ease,filter .2s ease}
+    .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.15);box-shadow:0 12px 28px rgba(99,102,241,0.8)}
+    .btn-ghost{border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);color:#fff;border-radius:12px;padding:12px 16px;font-weight:600;transition:background .2s ease,border-color .2s ease,transform .15s ease}
+    .btn-ghost:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.6);transform:translateY(-1px)}
+
+    .tag{background:rgba(99,102,241,0.3);color:#e0e7ff;border:1px solid rgba(99,102,241,0.6);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+
+    .ring-grad{position:absolute;inset:-2px;border-radius:20px;padding:2px;background:linear-gradient(120deg,rgba(99,102,241,0.28),rgba(34,211,238,0.28));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.8}
+
+    @keyframes robot-drift{0%{transform:translateX(0)}50%{transform:translateX(300px)}100%{transform:translateX(0)}}
+    .robot-hero{animation:robot-drift 6s linear infinite;filter:drop-shadow(0 8px 16px rgba(79,70,229,0.35))}
+
+    section{scroll-margin-top:96px}
+
+    .slide-down{transform-origin:top;animation:slideDown .25s ease forwards}
+    @keyframes slideDown{from{opacity:0;transform:scaleY(0.9)}to{opacity:1;transform:scaleY(1)}}
+
+    /* Floating buddy animation */
+    @keyframes floatBuddy{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(.5deg)}100%{transform:translateY(0) rotate(0)}}
+    .float-buddy{animation:floatBuddy 3.2s ease-in-out infinite}
+
+    /* Minimal circular icon buttons */
+    .circle-icon{width:44px;height:44px;border-radius:9999px;display:inline-grid;place-items:center;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.02);transition:transform .15s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease}
+    .circle-icon:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(99,102,241,0.35);border-color:rgba(255,255,255,0.24);background:rgba(255,255,255,0.04)}
+    .circle-icon svg{display:block}
+
+    /* Tooltip */
+    .tooltip{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);background:#0f1115;color:#e5e7eb;padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s ease, transform .15s ease;box-shadow:0 8px 24px rgba(0,0,0,0.35)}
+    .tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(255,255,255,0.12)}
+    .icon-wrap{position:relative}
+    .icon-wrap:hover .tooltip{opacity:1;transform:translate(-50%,-4px)}
+
+    /* Modern Effects */
+    .parallax-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.4}
+    .floating-orbs{position:absolute;width:100%;height:100%;overflow:hidden;pointer-events:none}
+    .orb{position:absolute;border-radius:50%;background:linear-gradient(45deg,rgba(99,102,241,0.15),rgba(34,211,238,0.15));filter:blur(1px)}
+    .orb1{width:120px;height:120px;top:20%;left:10%;animation:float1 8s ease-in-out infinite}
+    .orb2{width:80px;height:80px;top:60%;right:15%;animation:float2 6s ease-in-out infinite}
+    .orb3{width:60px;height:60px;bottom:30%;left:70%;animation:float3 7s ease-in-out infinite}
+    @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}}
+    @keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-30px) rotate(-180deg)}}
+    @keyframes float3{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(90deg)}}
+
+    /* Glassmorphism enhancement */
+    .glass-card{backdrop-filter:blur(20px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+    
+    /* Smooth scroll reveal */
+    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}
+    .reveal.active{opacity:1;transform:translateY(0)}
+
+    /* Gradient text */
+    .gradient-text{background:linear-gradient(90deg,var(--grad1),var(--grad2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* Pulse animation for highlights */
+    .pulse-glow{animation:pulseGlow 2s ease-in-out infinite}
+    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.6)}50%{box-shadow:0 0 50px rgba(99,102,241,0.8),0 0 60px rgba(34,211,238,0.6)}}
+
+    /* Cinematic Intro Styles */
+    #cinematicIntro{transition:opacity 1s ease-out, visibility 1s ease-out}
+    #cinematicIntro.fade-out{opacity:0;visibility:hidden}
+    
+    /* Particles Background */
+    .particles-bg{position:absolute;width:100%;height:100%;overflow:hidden;z-index:-1}
+    .particles-bg::before,.particles-bg::after{content:'';position:absolute;width:4px;height:4px;background:rgba(99,102,241,0.6);border-radius:50%;animation:float-particles 4s linear infinite}
+    .particles-bg::before{top:20%;left:10%;animation-delay:0s}
+    .particles-bg::after{top:60%;right:15%;animation-delay:2s}
+    @keyframes float-particles{0%{transform:translateY(100vh) scale(0)}50%{transform:translateY(50vh) scale(1)}100%{transform:translateY(-10vh) scale(0)}}
+
+    /* Typewriter Effect */
+    .typewriter{border-right:3px solid rgba(99,102,241,0.8);animation:blink 1s infinite}
+    @keyframes blink{0%,50%{border-color:rgba(99,102,241,0.8)}51%,100%{border-color:transparent}}
+
+    /* Neon Glow Effect */
+    .neon-glow{text-shadow:0 0 15px rgba(99,102,241,1),0 0 30px rgba(99,102,241,0.8),0 0 45px rgba(99,102,241,0.6),0 0 60px rgba(34,211,238,0.5);animation:neon-pulse 2s ease-in-out infinite alternate}
+    @keyframes neon-pulse{from{text-shadow:0 0 15px rgba(99,102,241,1),0 0 30px rgba(99,102,241,0.8),0 0 45px rgba(99,102,241,0.6)}to{text-shadow:0 0 25px rgba(99,102,241,1),0 0 40px rgba(99,102,241,1),0 0 55px rgba(99,102,241,0.8),0 0 70px rgba(34,211,238,0.7)}}
+
+    /* Fade-in Delayed */
+    .fade-in-delayed{animation:fadeInDelayed 2s ease-out 3s forwards}
+    @keyframes fadeInDelayed{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+    /* Page Transitions */
+    .page-transition{transition:opacity 0.5s ease-in-out, transform 0.5s ease-in-out}
+    .page-fade-out{opacity:0;transform:translateY(-20px)}
+    .page-fade-in{opacity:1;transform:translateY(0)}
+
+    /* Enhanced Glassmorphism */
+    .glass-enhanced{backdrop-filter:blur(25px) saturate(180%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);box-shadow:0 12px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1)}
+
+    /* Project Card Animations */
+    .project-card{transition:transform 0.3s ease,box-shadow 0.3s ease;position:relative;overflow:hidden}
+    .project-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1)}
+    .project-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.6s ease;pointer-events:none}
+    .project-card:hover::before{left:100%}
+
+    /* CTA Button Animations */
+    .cta-button{position:relative;overflow:hidden;background:linear-gradient(135deg,#4f46e5,#7c3aed,#22d3ee);border-radius:50px;padding:14px 28px;font-weight:600;color:white;border:none;cursor:pointer;transition:all 0.3s ease;animation:ctaPopIn 0.6s ease-out 0.3s both,ctaPulse 4s ease-in-out 2s infinite;box-shadow:0 8px 24px rgba(79,70,229,0.4),inset 0 1px 0 rgba(255,255,255,0.2)}
+    .cta-button:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(79,70,229,0.6),0 0 20px rgba(34,211,238,0.4),inset 0 1px 0 rgba(255,255,255,0.3)}
+    .cta-button:focus{outline:2px solid rgba(99,102,241,0.8);outline-offset:2px}
+    .cta-button::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.3);border-radius:50%;transition:width 0.3s ease,height 0.3s ease;transform:translate(-50%,-50%)}
+    .cta-button:active::before{width:300px;height:300px}
+
+    @keyframes ctaPopIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
+    @keyframes ctaPulse{0%,100%{box-shadow:0 8px 24px rgba(79,70,229,0.4),inset 0 1px 0 rgba(255,255,255,0.2)}50%{box-shadow:0 8px 24px rgba(79,70,229,0.6),0 0 15px rgba(34,211,238,0.3),inset 0 1px 0 rgba(255,255,255,0.2)}}
+
+    /* Modal Styles */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s ease}
+    .modal-overlay.show{opacity:1;visibility:visible}
+    .modal-content{background:linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:32px;max-width:400px;width:90%;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.5);transform:scale(0.9) translateY(20px);transition:transform 0.3s ease}
+    .modal-overlay.show .modal-content{transform:scale(1) translateY(0)}
+    .modal-button{background:linear-gradient(135deg,#4f46e5,#22d3ee);border:none;border-radius:12px;padding:12px 24px;color:white;font-weight:600;cursor:pointer;transition:all 0.2s ease;width:100%;margin-bottom:12px}
+    .modal-button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,0.4)}
+    .modal-button:focus{outline:2px solid rgba(99,102,241,0.8);outline-offset:2px}
+    .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s ease}
+    .modal-close:hover{background:rgba(255,255,255,0.2);transform:scale(1.1)}
+
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce){
+      .project-card,.cta-button,.modal-content{transition:none !important}
+      .project-card::before{display:none}
+      .cta-button{animation:none !important}
+      .cta-button::before{display:none}
+    }
+
+    /* Robot Interactive Animations */
+    .robot-wave{animation:robotWave 1s ease-in-out}
+    @keyframes robotWave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-15deg)}75%{transform:rotate(15deg)}}
+
+    .robot-eyes-glow{animation:eyesGlow 2s ease-in-out}
+    @keyframes eyesGlow{0%,100%{filter:drop-shadow(0 0 5px rgba(34,211,238,0.8))}50%{filter:drop-shadow(0 0 15px rgba(34,211,238,1)) drop-shadow(0 0 25px rgba(79,70,229,0.8))}}
+
+    .robot-spin{animation:robotSpin 1.5s ease-in-out}
+    @keyframes robotSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+    .robot-jump{animation:robotJump 0.8s ease-in-out}
+    @keyframes robotJump{0%,100%{transform:translateY(0)}25%{transform:translateY(-20px)}50%{transform:translateY(-30px)}75%{transform:translateY(-15px)}}
+
+    .robot-transform{animation:robotTransform 2s ease-in-out}
+    @keyframes robotTransform{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(0.8) rotate(90deg)}50%{transform:scale(1.2) rotate(180deg);filter:drop-shadow(0 0 20px rgba(99,102,241,1))}75%{transform:scale(0.9) rotate(270deg)}}
+
+    /* Speech Bubble */
+    .speech-bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-10px);background:rgba(255,255,255,0.95);color:#1a1a1a;padding:12px 16px;border-radius:20px;font-size:14px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:60}
+    .speech-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:rgba(255,255,255,0.95)}
+    .speech-bubble.show{opacity:1;transform:translateX(-50%) translateY(-20px)}
+
+    /* Confetti Animation */
+    .confetti{position:absolute;width:8px;height:8px;pointer-events:none;z-index:55}
+    .confetti-1{background:#ff6b6b;animation:confetti1 2s ease-out forwards}
+    .confetti-2{background:#4ecdc4;animation:confetti2 2s ease-out forwards}
+    .confetti-3{background:#45b7d1;animation:confetti3 2s ease-out forwards}
+    .confetti-4{background:#f9ca24;animation:confetti4 2s ease-out forwards}
+    .confetti-5{background:#6c5ce7;animation:confetti5 2s ease-out forwards}
+    .confetti-6{background:#fd79a8;animation:confetti6 2s ease-out forwards}
+
+    @keyframes confetti1{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-100px) translateX(-50px) rotate(720deg) scale(0);opacity:0}}
+    @keyframes confetti2{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-120px) translateX(60px) rotate(-720deg) scale(0);opacity:0}}
+    @keyframes confetti3{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-80px) translateX(-80px) rotate(360deg) scale(0);opacity:0}}
+    @keyframes confetti4{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-150px) translateX(40px) rotate(-360deg) scale(0);opacity:0}}
+    @keyframes confetti5{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-90px) translateX(-30px) rotate(540deg) scale(0);opacity:0}}
+    @keyframes confetti6{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-110px) translateX(70px) rotate(-540deg) scale(0);opacity:0}}
+  </style>
+</head>
+<body class="min-h-screen">
+  <!-- Cinematic Intro Overlay -->
+  <div id="cinematicIntro" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
+    <div class="text-center">
+      <div class="particles-bg"></div>
+      <h1 class="text-6xl md:text-8xl font-bold mb-4">
+        <span id="typewriter" class="neon-glow"></span>
+      </h1>
+      <p class="text-xl text-neutral-300 opacity-0 fade-in-delayed">Welcome to my digital world</p>
+    </div>
+  </div>
+
+  <!-- Floating orbs background -->
+  <div class="floating-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 backdrop-blur bg-neutral-900/80 border-b border-white/30">
+    <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+      <a href="#home" class="text-lg font-semibold tracking-tight">Moaz<span class="text-indigo-400">.dev</span></a>
+      <button id="menuBtn" class="md:hidden px-3 py-2 rounded-xl border border-white/10 text-sm">Menu</button>
+      <ul class="hidden md:flex gap-6 text-sm">
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#about">About</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#skills">Skills</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#projects">Projects</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#internship">Internship Experience</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#education">Education</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#contact">Contact</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline text-indigo-300" href="https://drive.google.com/file/d/1h7LG0r7fhpH1GDmIFKR3ZV_dEzuKxyAj/view?usp=sharing" target="_blank" rel="noopener">CV</a></li>
+      </ul>
+    </nav>
+    <div id="mobileMenu" class="hidden md:hidden border-t border-white/30 slide-down">
+      <ul class="mx-auto max-w-6xl px-4 py-3 grid gap-3 text-sm">
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#about">About</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#skills">Skills</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#projects">Projects</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#internship">Internship Experience</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#education">Education</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#contact">Contact</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100 text-indigo-300" href="https://drive.google.com/file/d/1h7LG0r7fhpH1GDmIFKR3ZV_dEzuKxyAj/view?usp=sharing" target="_blank" rel="noopener">CV</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative overflow-hidden">
+    <div class="absolute top-8 left-6 robot-hero" aria-hidden="true">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#4f46e5"/>
+            <stop offset="100%" stop-color="#22d3ee"/>
+          </linearGradient>
+        </defs>
+        <circle cx="60" cy="60" r="52" stroke="url(#g)" stroke-width="4" opacity="0.25"/>
+        <rect x="32" y="38" width="56" height="44" rx="10" fill="#141622" stroke="url(#g)" stroke-width="2"/>
+        <rect x="50" y="30" width="20" height="10" rx="3" fill="#141622" stroke="url(#g)" stroke-width="2"/>
+        <circle cx="48" cy="58" r="6" fill="#22d3ee"/>
+        <circle cx="72" cy="58" r="6" fill="#4f46e5"/>
+        <rect x="44" y="72" width="32" height="6" rx="3" fill="url(#g)"/>
+      </svg>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-4 py-20 md:py-28 relative">
+      <div class="relative card pulse-glow p-8 md:p-12">
+        <div class="ring-grad rounded-2xl"></div>
+        <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
+          <div class="flex-1">
+            <p class="text-sm uppercase tracking-widest text-indigo-300/80 mb-3">Hello, I’m</p>
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight neon-glow">
+              Moaz Ragab <span class="gradient-text">Kamel</span>
+            </h1>
+            <p class="mt-4 text-neutral-300 max-w-2xl">
+              Android Developer turning ideas into smooth, user-friendly apps
+            </p>
+            <div class="mt-6 flex flex-wrap gap-3">
+              <a href="#projects" class="btn-primary">View Projects</a>
+              <a href="#contact" class="btn-ghost">Contact Me</a>
+            </div>
+          </div>
+          <div class="w-full md:w-auto">
+            <div class="card p-6 md:p-8 text-center">
+              <p class="text-sm text-neutral-300">Current Focus</p>
+              <p class="text-lg font-semibold mt-2">C++ • Kotlin • Problem Solving</p>
+              <div class="mt-4 grid grid-cols-3 gap-2">
+                <span class="tag">OOP</span>
+                <span class="tag">JAVA</span>
+                <span class="tag">Git</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="card p-4 text-center">
+          <p class="text-2xl font-bold">2025</p>
+          <p class="text-xs text-neutral-400 mt-1">Active Year</p>
+        </div>
+        <div class="card p-4 text-center">
+          <p class="text-2xl font-bold">2</p>
+          <p class="text-xs text-neutral-400 mt-1">Showcase Projects</p>
+        </div>
+        <div class="card p-4 text-center">
+          <p class="text-2xl font-bold">C++/Kotlin</p>
+          <p class="text-xs text-neutral-400 mt-1">Core Stack</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="grid md:grid-cols-2 gap-8 items-stretch">
+      <div class="card p-8 flex flex-col">
+        <h2 class="text-2xl md:text-3xl font-bold neon-glow">About</h2>
+        <p class="mt-4 text-neutral-300">
+          Computer science student specializing in artificial intelligence with a strong passion for Android development. Currently interning at the Digital Egypt Pioneers Initiative, I am enhancing my Android skills and collaborating with peers.
+        </p>
+        <p class="mt-3 text-neutral-300">
+          My proficiency in Java and OOP complements my focus on mobile app development, preparing me to bring valuable contributions to real-world projects.
+        </p>
+        <div class="mt-6">
+          <a href="#projects" class="btn-ghost">See What I’ve Built</a>
+        </div>
+      </div>
+
+      <div class="card p-8">
+        <div class="grid sm:grid-cols-2 gap-6 items-center">
+          <div class="relative">
+            <div class="absolute inset-0 rounded-2xl opacity-60" style="background: radial-gradient(120px 120px at 30% 20%, rgba(99,102,241,0.25), transparent 60%), radial-gradient(140px 140px at 80% 70%, rgba(34,211,238,0.22), transparent 60%);"></div>
+            <div class="relative aspect-square rounded-2xl overflow-hidden ring-1 ring-white/10">
+              <img src="https://i.postimg.cc/CMRr5HtS/IMG-.%20-822.jpg" alt="Moaz Ragab Kamel photo" class="w-full h-full object-cover" referrerpolicy="no-referrer" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';"/>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold">Quick Highlights</h3>
+            <ul class="mt-4 space-y-3 text-neutral-300">
+              <li>• Strong OOP foundations</li>
+              <li>• Comfortable with Git, VS Code, and IntelliJ IDEA</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="card p-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Skills</h2>
+        <span class="text-sm text-neutral-400">Updated 2025</span>
+      </div>
+      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="card p-5">
+          <p class="text-sm text-neutral-400">Core</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="tag">C++</span><span class="tag">Java</span><span class="tag">JAVA</span><span class="tag">OOP</span>
+          </div>
+        </div>
+        <div class="card p-5">
+          <p class="text-sm text-neutral-400">Mobile</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="tag">Flutter (beginner)</span><span class="tag">HTML</span>
+          </div>
+        </div>
+        <div class="card p-5">
+          <p class="text-sm text-neutral-400">Tools</p>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <span class="tag">Git & GitHub</span><span class="tag">VS Code</span><span class="tag">IntelliJ IDEA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
+      <h2 class="text-2xl md:text-3xl font-bold neon-glow">Projects</h2>
+      <a href="#contact" class="text-sm text-indigo-300 hover:text-indigo-200 link-underline">Open to collaboration</a>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <article class="card project-card p-6 flex flex-col">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-xl font-semibold">Rock–Paper–Scissors (C++)</h3>
+          <span class="text-xs text-neutral-400">2025</span>
+        </div>
+        <p class="mt-3 text-neutral-300">Console game written in modern C++ with clean input handling and replay logic.</p>
+        <div class="mt-4 flex flex-wrap gap-2"><span class="tag">C++</span></div>
+        <div class="mt-5">
+          <button 
+            id="openRockPaperScissorsModal" 
+            class="cta-button w-full text-center"
+            aria-label="Open demo and source code for Rock–Paper–Scissors (C++)"
+          >
+            Demo & Code — Rock–Paper–Scissors (C++)
+          </button>
+        </div>
+      </article>
+
+      <article class="card project-card p-6 flex flex-col">
+        <div class="flex items-center justify-between gap-3">
+          <h3 class="text-xl font-semibold">TODO (Java)</h3>
+          <span class="text-xs text-neutral-400">2025</span>
+        </div>
+        <p class="mt-3 text-neutral-300">Lightweight productivity tool with persistent storage. Features sound effects, built-in timer, and automatic task saving to .txt files for seamless workflow management.</p>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="tag">Java</span><span class="tag">File I/O</span><span class="tag">Audio</span>
+        </div>
+        <div class="mt-5">
+          <button 
+            id="openTodoModal" 
+            class="cta-button w-full text-center"
+            aria-label="Open demo and source code for TODO (Java)"
+          >
+            Demo & Code — TODO (Java)
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Internship Experience -->
+  <section id="internship" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="card p-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Internship Experience</h2>
+        <span class="text-sm text-neutral-400">2025</span>
+      </div>
+      <article class="mt-6 card p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+          <div>
+            <h3 class="text-xl font-semibold">Android Development Trainee</h3>
+            <p class="text-neutral-300">Digital Egypt Pioneers Initiative (DEPI)</p>
+          </div>
+          <p class="text-sm text-neutral-400">07/2025 – 12/2025 • Egypt</p>
+        </div>
+        <p class="mt-4 text-neutral-300">Trainee focused on Android development.</p>
+        <ul class="mt-4 space-y-2 text-neutral-300">
+          <li>• Enrolled in DEPI program focused on Android development</li>
+          <li>• Studying core Android components such as activities, layouts, and views</li>
+          <li>• Developing communication and team collaboration skills</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <div class="card p-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Education</h2>
+        <span class="text-sm text-neutral-400">2024 – 2028</span>
+      </div>
+      <div class="mt-4">
+        <h3 class="text-xl font-semibold">B.Sc. in Computer Science</h3>
+        <p class="text-neutral-300">Beni-Suef National University — Artificial Intelligence (AI) Track</p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="mx-auto max-w-6xl px-4 pb-20 md:pb-28">
+    <div class="card p-8">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Contact</h2>
+        <p class="text-sm text-neutral-400">Let’s build something great together!</p>
+      </div>
+
+      <!-- Minimal circular icons with tooltips (kept in place) -->
+      <div class="mt-6 flex items-center gap-3">
+        <!-- WhatsApp -->
+        <div class="icon-wrap">
+          <a class="circle-icon" href="https://wa.me/201025586813" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="#25D366" aria-hidden="true">
+              <path d="M187.6 68.4A84 84 0 0 0 41.7 186.2L28.1 227a8 8 0 0 0 10.1 10.1l40.8-13.6A84 84 0 0 0 187.6 68.4Zm-10.9 108.7A68 68 0 0 1 83 83a68.2 68.2 0 0 1 96.3 96.1Zm-12.5-27.6c-2.2 6.1-12.8 11.6-17.8 12.4c-4.8.7-11 .9-31.9-9.9c-26.9-13.8-44.3-39.9-45.7-41.8s-10.9-14.5-10.9-27.7s6.9-19.7 9.4-22.4a12.8 12.8 0 0 1 9.1-4.1c2.2 0 4.5 0 6.4.1c2 .1 4.8-.8 7.5 5.8s9.6 23.3 10.5 25s1.6 3.6.3 5.8s-2 3.6-4 5.6s-4.1 4.6-5.9 6.2s-4.1 4.5-1.7 8.6s10.5 17.3 22.5 28c15.5 13.7 28.5 18 33 20s7.2 1.7 9.9-1s11.4-13.3 14.4-17.9s6-3.7 9.9-2.2s25.7 12.1 30.1 14.3s7.2 3.3 8.2 5.1s1 11.9-5.1 18Z"/>
+            </svg>
+          </a>
+          <span class="tooltip">WhatsApp</span>
+        </div>
+
+        <!-- LinkedIn -->
+        <div class="icon-wrap">
+          <a class="circle-icon" href="https://www.linkedin.com/in/moaz-ragab-1a868931b" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8-2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.2V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9-2.4 0-2.8 1.9-2.8 3.8V24h-4V8z"/>
+            </svg>
+          </a>
+          <span class="tooltip">LinkedIn</span>
+        </div>
+
+        <!-- GitHub -->
+        <div class="icon-wrap">
+          <a class="circle-icon" href="https://github.com/Moaz221" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/>
+            </svg>
+          </a>
+          <span class="tooltip">GitHub</span>
+        </div>
+      </div>
+
+      <div class="mt-6 grid md:grid-cols-2 gap-6">
+        <form id="contactForm" class="card p-6" action="https://formspree.io/f/xdkdvyeo" method="POST">
+          <p class="text-sm text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 mb-4">
+            Your message is delivered to my inbox: <span class="font-semibold text-emerald-300">moazragab652@gmail.com</span>.
+          </p>
+
+          <input type="hidden" name="_subject" value="New message from Moaz.dev"/>
+
+          <label class="block text-sm mb-1">Name</label>
+          <input required type="text" name="name" placeholder="Your name" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"/>
+
+          <label class="block text-sm mt-4 mb-1">Email</label>
+          <input required type="email" name="email" placeholder="you@example.com" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"/>
+
+          <label class="block text-sm mt-4 mb-1">Message</label>
+          <textarea required name="message" rows="4" placeholder="Say hi!" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"></textarea>
+
+          <button class="btn-primary w-full mt-4" type="submit">Send Message</button>
+        </form>
+
+        <div class="card p-6">
+          <h3 class="font-semibold">Quick Info</h3>
+          <ul class="mt-4 space-y-3">
+            <li class="text-neutral-300">📍 Cairo, Egypt</li>
+            <li class="text-neutral-300">⚡ Available for projects</li>
+            <li class="text-neutral-300">🎯 Android Development Focus</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 card p-6">
+        <h3 class="font-semibold">Submissions (Demo)</h3>
+        <div id="submissions" class="mt-4 space-y-3 text-neutral-300">
+          <p class="text-neutral-400">No messages yet.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t border-white/10 py-6">
+    <div class="mx-auto max-w-6xl px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-400">
+      <p>© 2025 Moaz Ragab Kamel</p>
+      <p>Built with love and curiosity.</p>
+    </div>
+  </footer>
+
+  <!-- Rock Paper Scissors Modal -->
+  <div id="rockPaperScissorsModal" class="modal-overlay" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h3 id="modalTitle" class="text-xl font-semibold mb-2">Rock–Paper–Scissors (C++)</h3>
+      <p id="modalDescription" class="text-neutral-300 mb-6">Choose how you'd like to explore this project:</p>
+      <div class="space-y-3">
+        <button 
+          id="openLiveDemo" 
+          class="modal-button"
+          aria-label="Open live demo in new tab"
+        >
+          🚀 Open Live Demo
+        </button>
+        <button 
+          id="viewSourceCode" 
+          class="modal-button"
+          aria-label="View source code in new tab"
+        >
+          📝 View Source Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO Modal -->
+  <div id="todoModal" class="modal-overlay" role="dialog" aria-labelledby="todoModalTitle" aria-describedby="todoModalDescription">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Close modal">×</button>
+      <h3 id="todoModalTitle" class="text-xl font-semibold mb-2">TODO (Java)</h3>
+      <p id="todoModalDescription" class="text-neutral-300 mb-6">Choose how you'd like to explore this project:</p>
+      <div class="space-y-3">
+        <button 
+          id="openTodoLiveDemo" 
+          class="modal-button"
+          aria-label="Run live demo in new tab"
+        >
+          🚀 Run Live Demo
+        </button>
+        <button 
+          id="viewTodoSourceCode" 
+          class="modal-button"
+          aria-label="View source code in new tab"
+        >
+          📝 View Source Code
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Full-Body Robot Buddy -->
+  <div id="robotBuddy" class="draggable fixed bottom-6 right-6 z-50">
+    <div class="relative">
+      <div id="speechBubble" class="speech-bubble">Hello, welcome to my portfolio!</div>
+      <button id="closeBuddy" aria-label="Close robot" class="absolute -top-2 -right-2 bg-white/10 hover:bg-white/20 text-white rounded-full w-6 h-6 leading-none grid place-items-center border border-white/20 shadow">×</button>
+      <div class="mx-auto w-20 h-4 bg-black/50 blur-lg rounded-full opacity-60"></div>
+      <div id="robotHandle" class="float-buddy mt-1 cursor-grab active:cursor-grabbing select-none cursor-pointer">
+        <svg width="124" height="160" viewBox="0 0 124 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rbA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient>
+            <linearGradient id="rbB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9ea8ff"/><stop offset="100%" stop-color="#bff5ff"/></linearGradient>
+          </defs>
+          <line x1="62" y1="10" x2="62" y2="26" stroke="url(#rbA)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="62" cy="7" r="5" fill="url(#rbA)"/>
+          <rect x="34" y="26" width="56" height="40" rx="10" fill="#141622" stroke="url(#rbA)" stroke-width="3"/>
+          <circle cx="50" cy="46" r="6" fill="#22d3ee"/>
+          <circle cx="74" cy="46" r="6" fill="#4f46e5"/>
+          <rect x="48" y="58" width="28" height="6" rx="3" fill="url(#rbB)"/>
+          <rect x="28" y="70" width="68" height="52" rx="14" fill="#141622" stroke="url(#rbA)" stroke-width="3"/>
+          <rect x="40" y="82" width="44" height="16" rx="8" fill="url(#rbB)" opacity="0.9"/>
+          <circle cx="46" cy="108" r="5" fill="#22d3ee" opacity="0.85"/>
+          <rect x="14" y="78" width="12" height="40" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
+          <rect x="98" y="78" width="12" height="40" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
+          <circle cx="20" cy="122" r="6" fill="url(#rbB)"/>
+          <circle cx="104" cy="122" r="6" fill="url(#rbB)"/>
+          <rect x="42" y="122" width="12" height="24" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
+          <rect x="70" y="122" width="12" height="24" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
+          <rect x="36" y="146" width="24" height="8" rx="4" fill="url(#rbB)"/>
+          <rect x="64" y="146" width="24" height="8" rx="4" fill="url(#rbB)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn=document.getElementById('menuBtn');
+    const mobileMenu=document.getElementById('mobileMenu');
+    const mobileLinks=mobileMenu.querySelectorAll('a');
+    let open=false;
+    function setMenu(state){open=state;mobileMenu.classList.toggle('hidden',!open);menuBtn.textContent=open?'Close':'Menu'}
+    menuBtn?.addEventListener('click',()=>setMenu(!open));
+    mobileLinks.forEach(a=>a.addEventListener('click',()=>setMenu(false)));
+
+    // Contact form confirmation
+    const form=document.getElementById('contactForm');
+    const submissions=document.getElementById('submissions');
+    if(form){
+      form.addEventListener('submit',async(e)=>{
+        e.preventDefault();
+        const submitBtn=form.querySelector('button[type="submit"]');
+        const original=submitBtn.textContent;
+        submitBtn.textContent='Sending...';submitBtn.disabled=true;
+        const formData=new FormData(form);
+        try{
+          const res=await fetch(form.action,{method:'POST',body:formData,headers:{'Accept':'application/json'}});
+          if(res.ok){
+            const wrap=document.createElement('div');wrap.className='card p-4';
+            wrap.innerHTML=`<p><strong>Thanks!</strong> Your message has been sent.</p><p class="mt-2 text-neutral-400">I’ll reply to you at the email you provided.</p>`;
+            if(submissions && submissions.firstElementChild && submissions.firstElementChild.tagName.toLowerCase()==='p'){submissions.innerHTML='';}
+            submissions?.prepend(wrap);form.reset();
+          }else{
+            alert('Sorry, something went wrong. Please try again or email me directly at moazragab652@gmail.com.');
+          }
+        }catch(err){
+          alert('Network error. Please try again later.');
+        }finally{
+          submitBtn.textContent=original;submitBtn.disabled=false;
+        }
+      });
+    }
+
+    // Floating robot buddy: drag + close
+    const buddy=document.getElementById('robotBuddy');
+    const handle=document.getElementById('robotHandle');
+    const closeBuddy=document.getElementById('closeBuddy');
+
+    closeBuddy?.addEventListener('click',()=>{buddy.style.display='none';});
+
+    let dragging=false;let offsetX=0,offsetY=0;
+    function onPointerDown(e){
+      dragging=true;
+      const rect=buddy.getBoundingClientRect();
+      offsetX=(e.clientX||(e.touches&&e.touches[0].clientX))-rect.left;
+      offsetY=(e.clientY||(e.touches&&e.touches[0].clientY))-rect.top;
+      document.addEventListener('pointermove',onPointerMove);
+      document.addEventListener('pointerup',onPointerUp);
+    }
+    function onPointerMove(e){
+      if(!dragging)return;
+      const x=e.clientX-offsetX;
+      const y=e.clientY-offsetY;
+      const maxX=window.innerWidth-buddy.offsetWidth-4;
+      const maxY=window.innerHeight-buddy.offsetHeight-4;
+      buddy.style.left=Math.min(Math.max(4,x),maxX)+'px';
+      buddy.style.top=Math.min(Math.max(4,y),maxY)+'px';
+      buddy.style.right='auto';buddy.style.bottom='auto';buddy.style.position='fixed';
+    }
+    function onPointerUp(){
+      dragging=false;
+      document.removeEventListener('pointermove',onPointerMove);
+      document.removeEventListener('pointerup',onPointerUp);
+    }
+    handle?.addEventListener('pointerdown',onPointerDown);
+
+    window.addEventListener('resize',()=>{
+      if(!buddy||buddy.style.display==='none')return;
+      const rect=buddy.getBoundingClientRect();
+      const maxX=window.innerWidth-buddy.offsetWidth-4;
+      const maxY=window.innerHeight-buddy.offsetHeight-4;
+      buddy.style.left=Math.min(rect.left,maxX)+'px';
+      buddy.style.top=Math.min(rect.top,maxY)+'px';
+    });
+
+    // Cinematic Intro with Typewriter Effect
+    const cinematicIntro = document.getElementById('cinematicIntro');
+    const typewriter = document.getElementById('typewriter');
+    const text = 'Moaz.dev';
+    let i = 0;
+
+    function typeEffect() {
+      if (i < text.length) {
+        typewriter.textContent += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 150);
+      } else {
+        setTimeout(() => {
+          typewriter.classList.remove('typewriter');
+          setTimeout(() => {
+            cinematicIntro.classList.add('fade-out');
+            document.body.classList.add('page-fade-in');
+          }, 1000);
+        }, 1000);
+      }
+    }
+
+    // Start the intro sequence
+    window.addEventListener('load', () => {
+      typewriter.classList.add('typewriter');
+      setTimeout(typeEffect, 500);
+    });
+
+    // Scroll reveal animation
+    const observerOptions={threshold:0.1,rootMargin:'0px 0px -50px 0px'};
+    const observer=new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          entry.target.classList.add('active');
+        }
+      });
+    },observerOptions);
+
+    // Add reveal class to sections and observe them
+    document.querySelectorAll('section').forEach((section,index)=>{
+      if(index>0){ // Skip hero section
+        section.classList.add('reveal');
+        observer.observe(section);
+      }
+    });
+
+    // Page transition effects for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          document.body.classList.add('page-transition');
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth' });
+            document.body.classList.remove('page-transition');
+          }, 100);
+        }
+      });
+    });
+
+    // Robot Interactive Animations
+    const robotHandle = document.getElementById('robotHandle');
+    const speechBubble = document.getElementById('speechBubble');
+    const robotBuddy = document.getElementById('robotBuddy');
+    let clickCount = 0;
+    let isAnimating = false;
+
+    function createConfetti() {
+      const colors = ['confetti-1', 'confetti-2', 'confetti-3', 'confetti-4', 'confetti-5', 'confetti-6'];
+      const robotRect = robotBuddy.getBoundingClientRect();
+      
+      for (let i = 0; i < 12; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = `confetti ${colors[Math.floor(Math.random() * colors.length)]}`;
+        confetti.style.left = (robotRect.left + robotRect.width / 2) + 'px';
+        confetti.style.top = (robotRect.top + robotRect.height / 2) + 'px';
+        confetti.style.animationDelay = (Math.random() * 0.3) + 's';
+        document.body.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 2000);
+      }
+    }
+
+    function showSpeechBubble() {
+      speechBubble.classList.add('show');
+      setTimeout(() => {
+        speechBubble.classList.remove('show');
+      }, 3000);
+    }
+
+    function triggerRobotAnimation() {
+      if (isAnimating) return;
+      isAnimating = true;
+      clickCount++;
+
+      // Remove any existing animation classes
+      robotHandle.className = robotHandle.className.replace(/robot-\w+/g, '');
+      
+      const animations = ['robot-wave', 'robot-eyes-glow', 'robot-spin', 'robot-jump', 'robot-transform'];
+      const currentAnimation = animations[clickCount % animations.length];
+      
+      robotHandle.classList.add(currentAnimation);
+      
+      // Special effects for specific animations
+      if (currentAnimation === 'robot-eyes-glow') {
+        showSpeechBubble();
+      } else if (currentAnimation === 'robot-jump') {
+        createConfetti();
+      } else if (currentAnimation === 'robot-wave') {
+        showSpeechBubble();
+      }
+      
+      // Reset animation state
+      setTimeout(() => {
+        robotHandle.className = robotHandle.className.replace(/robot-\w+/g, '');
+        robotHandle.classList.add('float-buddy', 'mt-1', 'cursor-grab', 'active:cursor-grabbing', 'select-none', 'cursor-pointer');
+        isAnimating = false;
+      }, currentAnimation === 'robot-transform' ? 2000 : 1500);
+    }
+
+    // Add click event to robot (separate from drag functionality)
+    robotHandle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!dragging) {
+        triggerRobotAnimation();
+      }
+    });
+
+    // Prevent animation trigger during drag
+    let dragStartTime = 0;
+    const originalOnPointerDown = onPointerDown;
+    
+    function onPointerDown(e) {
+      dragStartTime = Date.now();
+      originalOnPointerDown(e);
+    }
+    
+    function onPointerUp() {
+      const dragDuration = Date.now() - dragStartTime;
+      dragging = false;
+      document.removeEventListener('pointermove', onPointerMove);
+      document.removeEventListener('pointerup', onPointerUp);
+      
+      // Only trigger animation if it was a quick click (not a drag)
+      if (dragDuration < 200) {
+        setTimeout(() => triggerRobotAnimation(), 50);
+      }
+    }
+
+    // Modal Functionality - Reusable for both projects
+    function createModalHandler(modalId, openBtnId, replitUrl) {
+      const modal = document.getElementById(modalId);
+      const openModalBtn = document.getElementById(openBtnId);
+      const closeModalBtn = modal?.querySelector('.modal-close');
+      const openLiveDemoBtn = modal?.querySelector('[id*="LiveDemo"]');
+      const viewSourceCodeBtn = modal?.querySelector('[id*="SourceCode"]');
+
+      function openModal() {
+        modal?.classList.add('show');
+        document.body.style.overflow = 'hidden';
+        closeModalBtn?.focus();
+      }
+
+      function closeModal() {
+        modal?.classList.remove('show');
+        document.body.style.overflow = '';
+        openModalBtn?.focus();
+      }
+
+      // Event listeners
+      openModalBtn?.addEventListener('click', openModal);
+      closeModalBtn?.addEventListener('click', closeModal);
+
+      openLiveDemoBtn?.addEventListener('click', () => {
+        window.open(replitUrl, '_blank', 'noopener,noreferrer');
+        closeModal();
+      });
+
+      viewSourceCodeBtn?.addEventListener('click', () => {
+        window.open(replitUrl, '_blank', 'noopener,noreferrer');
+        closeModal();
+      });
+
+      // Close modal on overlay click
+      modal?.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal?.classList.contains('show')) {
+          closeModal();
+        }
+      });
+
+      // Keyboard navigation within modal
+      modal?.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          const focusableElements = modal.querySelectorAll('button');
+          const firstElement = focusableElements[0];
+          const lastElement = focusableElements[focusableElements.length - 1];
+
+          if (e.shiftKey && document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          } else if (!e.shiftKey && document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
+      });
+    }
+
+    // Initialize both modals
+    createModalHandler('rockPaperScissorsModal', 'openRockPaperScissorsModal', 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1');
+    createModalHandler('todoModal', 'openTodoModal', 'https://replit.com/@moazragab652/TODO?v=1');
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d69cb81431d746',t:'MTc1NzU4NzkxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
