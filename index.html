@@ -43,9 +43,13 @@
     .slide-down{transform-origin:top;animation:slideDown .25s ease forwards}
     @keyframes slideDown{from{opacity:0;transform:scaleY(0.9)}to{opacity:1;transform:scaleY(1)}}
 
-    /* Floating buddy animation */
+    /* Floating animations */
     @keyframes floatBuddy{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(.5deg)}100%{transform:translateY(0) rotate(0)}}
     .float-buddy{animation:floatBuddy 3.2s ease-in-out infinite}
+
+    /* Subtle vertical float for profile image */
+    @keyframes floatSoft{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+    .float-soft{animation:floatSoft 8s ease-in-out infinite}
 
     /* Minimal circular icon buttons */
     .circle-icon{width:44px;height:44px;border-radius:9999px;display:inline-grid;place-items:center;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.02);transition:transform .15s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease}
@@ -185,6 +189,66 @@
     @keyframes confetti4{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-150px) translateX(40px) rotate(-360deg) scale(0);opacity:0}}
     @keyframes confetti5{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-90px) translateX(-30px) rotate(540deg) scale(0);opacity:0}}
     @keyframes confetti6{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-110px) translateX(70px) rotate(-540deg) scale(0);opacity:0}}
+
+    /* Light Mode Styles */
+body.light-mode {
+  background: #f7f7fa !important;
+  color: #18181b !important;
+}
+body.light-mode,
+body.light-mode .card,
+body.light-mode .glass-card,
+body.light-mode .glass-enhanced,
+body.light-mode .project-card,
+body.light-mode .btn-ghost,
+body.light-mode .modal-content,
+body.light-mode .speech-bubble,
+body.light-mode .tooltip {
+  color: #18181b !important;
+}
+body.light-mode .text-neutral-300,
+body.light-mode .text-neutral-400,
+body.light-mode .text-indigo-300,
+body.light-mode .text-indigo-400,
+body.light-mode .text-indigo-200 {
+  color: #18181b !important;
+}
+body.light-mode .neon-glow,
+body.light-mode .gradient-text {
+  color: #3730a3 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: initial !important;
+  color: #3730a3 !important;
+}
+body.light-mode .tooltip {
+  background: #fff !important;
+  color: #18181b !important;
+  border-color: #e5e7eb !important;
+}
+body.light-mode .modal-content {
+  background: #fff !important;
+  color: #18181b !important;
+  border-color: #e5e7eb !important;
+}
+body.light-mode .modal-close {
+  background: #f3f4f6 !important;
+  color: #18181b !important;
+  border-color: #e5e7eb !important;
+}
+body.light-mode .circle-icon {
+  background: #f3f4f6 !important;
+  color: #3730a3 !important;
+  border-color: #e5e7eb !important;
+}
+body.light-mode .circle-icon:hover {
+  background: #e0e7ff !important;
+}
+body.light-mode .speech-bubble {
+  background: #fff !important;
+  color: #18181b !important;
+  border-color: #e5e7eb !important;
+}
   </style>
 </head>
 <body class="min-h-screen">
@@ -209,6 +273,10 @@
   <header class="sticky top-0 z-40 backdrop-blur bg-neutral-900/80 border-b border-white/30">
     <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
       <a href="#home" class="text-lg font-semibold tracking-tight">Moaz<span class="text-indigo-400">.dev</span></a>
+      <!-- زر تبديل الوضع -->
+      <button id="themeToggle" class="mr-3 px-2 py-2 rounded-xl border border-white/10 text-sm" aria-label="Toggle light/dark mode">
+        🌙
+      </button>
       <button id="menuBtn" class="md:hidden px-3 py-2 rounded-xl border border-white/10 text-sm">Menu</button>
       <ul class="hidden md:flex gap-6 text-sm">
         <li><a class="opacity-80 hover:opacity-100 link-underline" href="#about">About</a></li>
@@ -320,8 +388,8 @@
         <div class="grid sm:grid-cols-2 gap-6 items-center">
           <div class="relative">
             <div class="absolute inset-0 rounded-2xl opacity-60" style="background: radial-gradient(120px 120px at 30% 20%, rgba(99,102,241,0.25), transparent 60%), radial-gradient(140px 140px at 80% 70%, rgba(34,211,238,0.22), transparent 60%);"></div>
-            <div class="relative aspect-square rounded-2xl overflow-hidden ring-1 ring-white/10">
-              <img src="https://i.postimg.cc/CMRr5HtS/IMG-.%20-822.jpg" alt="Moaz Ragab Kamel photo" class="w-full h-full object-cover" referrerpolicy="no-referrer" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';"/>
+            <div class="relative rounded-2xl overflow-hidden ring-1 ring-white/10 mx-auto w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[28rem] xl:h-[28rem]">
+              <img src="https://i.postimg.cc/3NRythkq/Whats-App-Image-2025-09-13-at-14-40-15-1cf9e022.jpg" alt="Moaz Ragab Kamel photo" class="w-full h-full object-cover float-soft rounded-full border-4 border-indigo-200" referrerpolicy="no-referrer" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';"/>
             </div>
           </div>
 
@@ -926,6 +994,44 @@
     // Initialize both modals
     createModalHandler('rockPaperScissorsModal', 'openRockPaperScissorsModal', 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1');
     createModalHandler('todoModal', 'openTodoModal', 'https://replit.com/@moazragab652/TODO?v=1');
+
+    // Theme toggle (Light/Dark mode)
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// حفظ الوضع في localStorage
+function setTheme(mode) {
+  if (mode === 'light') {
+    body.classList.add('light-mode');
+    themeToggle.textContent = '🌞';
+    localStorage.setItem('theme', 'light');
+  } else {
+    body.classList.remove('light-mode');
+    themeToggle.textContent = '🌙';
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+// عند الضغط على الزر
+themeToggle?.addEventListener('click', () => {
+  if (body.classList.contains('light-mode')) {
+    setTheme('dark');
+  } else {
+    setTheme('light');
+  }
+});
+
+// عند تحميل الصفحة: استرجع الوضع من localStorage أو حسب تفضيل النظام
+(function () {
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    setTheme(saved);
+  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+    setTheme('light');
+  } else {
+    setTheme('dark');
+  }
+})();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d69cb81431d746',t:'MTc1NzU4NzkxMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e87a19432211c0',t:'MTc1Nzc3NTIzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
