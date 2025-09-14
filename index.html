@@ -249,6 +249,77 @@ body.light-mode .speech-bubble {
   color: #18181b !important;
   border-color: #e5e7eb !important;
 }
+    .sending-anim {
+  position: relative;
+  background: linear-gradient(90deg,#22d3ee,#6366f1) !important;
+  color: #fff !important;
+  overflow: hidden;
+}
+.sending-anim .drone-fly {
+  display: block;
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-120%);
+  font-size: 1.7em;
+  animation: drone-fly-anim 2.5s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+@keyframes drone-fly-anim {
+  0% { left: -40px; top: 50%; opacity: 1; }
+  10% { opacity: 1; }
+  50% { left: 60%; top: 10%; opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 110%; top: 50%; opacity: 0; }
+}
+
+/* يمكنك إضافة هذا الكود في ملف CSS أو داخل <style> في <head> */
+/* Laser/Gradient Animated Underline for Navbar Buttons */
+nav ul li button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+  padding: 5px 10px;
+  transition: color 0.3s;
+  outline: none;
+}
+
+nav ul li button:hover,
+nav ul li.active button {
+  color: #00c3ff;
+}
+
+/* خط ليزر متحرك تحت الزر */
+nav ul li button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  transform: translateX(-50%) scaleX(0);
+  width: 140%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #00c3ff, #00f7ff, transparent);
+  box-shadow: 0 0 20px #00c3ff, 0 0 40px #00c3ff, 0 0 60px #00f7ff;
+  transition: transform 0.4s ease, opacity 0.3s;
+  animation: laserMove 1.5s infinite linear;
+  opacity: 0;
+}
+
+nav ul li button:hover::after,
+nav ul li.active button::after {
+  transform: translateX(-50%) scaleX(1);
+  opacity: 1;
+}
+
+/* أنيميشن الليزر */
+@keyframes laserMove {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
   </style>
 </head>
 <body class="min-h-screen">
@@ -344,7 +415,7 @@ body.light-mode .speech-bubble {
               <div class="mt-4 grid grid-cols-3 gap-2">
                 <span class="tag">OOP</span>
                 <span class="tag">JAVA</span>
-                <span class="tag">Git</span>
+                <span class="tag">GitHub</span>
               </div>
             </div>
           </div>
@@ -361,7 +432,7 @@ body.light-mode .speech-bubble {
           <p class="text-xs text-neutral-400 mt-1">Showcase Projects</p>
         </div>
         <div class="card p-4 text-center">
-          <p class="text-2xl font-bold">C++/Kotlin</p>
+          <p class="text-2xl font-bold">java / Kotlin</p>
           <p class="text-xs text-neutral-400 mt-1">Core Stack</p>
         </div>
       </div>
@@ -397,7 +468,7 @@ body.light-mode .speech-bubble {
             <h3 class="text-xl font-semibold">Quick Highlights</h3>
             <ul class="mt-4 space-y-3 text-neutral-300">
               <li>• Strong OOP foundations</li>
-              <li>• Comfortable with Git, VS Code, and IntelliJ IDEA</li>
+              <li>• Comfortable with GitHub, Android studio, and IntelliJ IDEA</li>
             </ul>
           </div>
         </div>
@@ -422,13 +493,13 @@ body.light-mode .speech-bubble {
         <div class="card p-5">
           <p class="text-sm text-neutral-400">Mobile</p>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="tag">Flutter (beginner)</span><span class="tag">HTML</span>
+            <span class="tag">Flutter (beginner)</span><span class="tag">Android</span>
           </div>
         </div>
         <div class="card p-5">
           <p class="text-sm text-neutral-400">Tools</p>
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="tag">Git & GitHub</span><span class="tag">VS Code</span><span class="tag">IntelliJ IDEA</span>
+            <span class="tag">Git & GitHubHub</span><span class="tag">Android studio</span><span class="tag">IntelliJ IDEA</span>
           </div>
         </div>
       </div>
@@ -587,7 +658,7 @@ body.light-mode .speech-bubble {
         <div class="card p-6">
           <h3 class="font-semibold">Quick Info</h3>
           <ul class="mt-4 space-y-3">
-            <li class="text-neutral-300">📍 Cairo, Egypt</li>
+            <li class="text-neutral-300">📍 Beni-suif, Egypt</li>
             <li class="text-neutral-300">⚡ Available for projects</li>
             <li class="text-neutral-300">🎯 Android Development Focus</li>
           </ul>
@@ -694,6 +765,125 @@ body.light-mode .speech-bubble {
     </div>
   </div>
 
+  <!-- Circular Floating Menu Button & Menu -->
+<link rel="stylesheet" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.css"/>
+<style>
+  /* Circular Floating Menu Styles */
+  .circular-toggle {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    background: linear-gradient(135deg, #22d3ee, #6366f1);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(99,102,241,0.25);
+    transition: box-shadow 0.2s;
+  }
+  .circular-toggle:hover {
+    box-shadow: 0 12px 32px rgba(99,102,241,0.35);
+  }
+  .circular-toggle ion-icon {
+    font-size: 32px;
+    color: #fff;
+    transition: 0.4s;
+  }
+  .circular-toggle.active ion-icon {
+    transform: rotate(135deg);
+  }
+  ul.circular-menu {
+    position: fixed;
+    bottom: 70px;
+    right: 70px;
+    width: 180px;
+    height: 180px;
+    pointer-events: none;
+    z-index: 99;
+    transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+    transform: scale(0);
+  }
+  ul.circular-menu.active {
+    pointer-events: all;
+    transform: scale(1);
+  }
+  ul.circular-menu li {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.4s;
+  }
+  ul.circular-menu.active li {
+    /* 6 items, 60deg apart */
+  }
+  ul.circular-menu li a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    color: #18181b;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.10);
+    transition: background 0.2s, color 0.2s;
+    border: 2px solid #e0e7ff;
+  }
+  ul.circular-menu li a:hover {
+    background: #6366f1;
+    color: #fff;
+    border-color: #6366f1;
+  }
+  /* Position each menu item in a circle */
+  ul.circular-menu li:nth-child(1) { --angle: 0deg; }
+  ul.circular-menu li:nth-child(2) { --angle: 60deg; }
+  ul.circular-menu li:nth-child(3) { --angle: 120deg; }
+  ul.circular-menu li:nth-child(4) { --angle: 180deg; }
+  ul.circular-menu li:nth-child(5) { --angle: 240deg; }
+  ul.circular-menu li:nth-child(6) { --angle: 300deg; }
+  ul.circular-menu.active li {
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--angle))
+      translate(80px)
+      rotate(calc(-1 * var(--angle)));
+  }
+</style>
+
+<div class="circular-toggle" id="circularToggle" aria-label="Open menu">
+  <ion-icon name="add-outline"></ion-icon>
+</div>
+<ul class="circular-menu" id="circularMenu">
+  <li><a href="#about" title="About"><ion-icon name="person-outline"></ion-icon></a></li>
+  <li><a href="#skills" title="Skills"><ion-icon name="settings-outline"></ion-icon></a></li>
+  <li><a href="#projects" title="Projects"><ion-icon name="briefcase-outline"></ion-icon></a></li>
+  <li><a href="#education" title="Education"><ion-icon name="school-outline"></ion-icon></a></li>
+  <li><a href="#internship" title="Internship"><ion-icon name="business-outline"></ion-icon></a></li>
+  <li><a href="#contact" title="Contact"><ion-icon name="mail-outline"></ion-icon></a></li>
+</ul>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script>
+  // Circular Floating Menu Logic
+  const circularToggle = document.getElementById('circularToggle');
+  const circularMenu = document.getElementById('circularMenu');
+  circularToggle.addEventListener('click', () => {
+    circularToggle.classList.toggle('active');
+    circularMenu.classList.toggle('active');
+  });
+  // Close menu on link click (optional)
+  circularMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      circularToggle.classList.remove('active');
+      circularMenu.classList.remove('active');
+    });
+  });
+</script>
   <script>
     // Mobile menu toggle
     const menuBtn=document.getElementById('menuBtn');
@@ -706,31 +896,39 @@ body.light-mode .speech-bubble {
 
     // Contact form confirmation
     const form=document.getElementById('contactForm');
-    const submissions=document.getElementById('submissions');
-    if(form){
-      form.addEventListener('submit',async(e)=>{
-        e.preventDefault();
-        const submitBtn=form.querySelector('button[type="submit"]');
-        const original=submitBtn.textContent;
-        submitBtn.textContent='Sending...';submitBtn.disabled=true;
-        const formData=new FormData(form);
-        try{
-          const res=await fetch(form.action,{method:'POST',body:formData,headers:{'Accept':'application/json'}});
-          if(res.ok){
-            const wrap=document.createElement('div');wrap.className='card p-4';
-            wrap.innerHTML=`<p><strong>Thanks!</strong> Your message has been sent.</p><p class="mt-2 text-neutral-400">I’ll reply to you at the email you provided.</p>`;
-            if(submissions && submissions.firstElementChild && submissions.firstElementChild.tagName.toLowerCase()==='p'){submissions.innerHTML='';}
-            submissions?.prepend(wrap);form.reset();
-          }else{
-            alert('Sorry, something went wrong. Please try again or email me directly at moazragab652@gmail.com.');
-          }
-        }catch(err){
-          alert('Network error. Please try again later.');
-        }finally{
-          submitBtn.textContent=original;submitBtn.disabled=false;
-        }
-      });
+const submissions=document.getElementById('submissions');
+if(form){
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    const submitBtn=form.querySelector('button[type="submit"]');
+    const original=submitBtn.textContent;
+    // أضف كلاس للزر لبدء الأنيميشن
+    submitBtn.classList.add('sending-anim');
+    submitBtn.innerHTML = 'It\'s on the way 🚀';
+    submitBtn.disabled=true;
+    const formData=new FormData(form);
+    try{
+      const res=await fetch(form.action,{method:'POST',body:formData,headers:{'Accept':'application/json'}});
+      if(res.ok){
+        const wrap=document.createElement('div');wrap.className='card p-4';
+        wrap.innerHTML=`<p><strong>Thanks!</strong> Your message has been sent.</p><p class="mt-2 text-neutral-400">I’ll reply to you at the email you provided.</p>`;
+        if(submissions && submissions.firstElementChild && submissions.firstElementChild.tagName.toLowerCase()==='p'){submissions.innerHTML='';}
+        submissions?.prepend(wrap);form.reset();
+      }else{
+        alert('Sorry, something went wrong. Please try again or email me directly at moazragab652@gmail.com.');
+      }
+    }catch(err){
+      alert('Network error. Please try again later.');
+    }finally{
+      // بعد 10 ثواني يرجع الزر لطبيعته
+      setTimeout(()=>{
+        submitBtn.classList.remove('sending-anim');
+        submitBtn.textContent=original;
+        submitBtn.disabled=false;
+      },10000);
     }
+  });
+}
 
     // Floating robot buddy: drag + close
     const buddy=document.getElementById('robotBuddy');
@@ -847,6 +1045,8 @@ body.light-mode .speech-bubble {
       
       for (let i = 0; i < 12; i++) {
         const confetti = document.createElement('div');
+       
+
         confetti.className = `confetti ${colors[Math.floor(Math.random() * colors.length)]}`;
         confetti.style.left = (robotRect.left + robotRect.width / 2) + 'px';
         confetti.style.top = (robotRect.top + robotRect.height / 2) + 'px';
