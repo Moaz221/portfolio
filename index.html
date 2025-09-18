@@ -378,7 +378,7 @@ nav ul li.active button::after {
         <li><a class="opacity-80 hover:opacity-100 link-underline" href="#internship">Internship Experience</a></li>
         <li><a class="opacity-80 hover:opacity-100 link-underline" href="#education">Education</a></li>
         <li><a class="opacity-80 hover:opacity-100 link-underline" href="#contact">Contact</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline text-indigo-300" href="https://drive.google.com/file/d/1h7LG0r7fhpH1GDmIFKR3ZV_dEzuKxyAj/view?usp=sharing" target="_blank" rel="noopener">CV</a></li>
+        <li><a class="opacity-80 hover:opacity-100 link-underline text-indigo-300" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
       </ul>
     </nav>
     <div id="mobileMenu" class="hidden md:hidden border-t border-white/30 slide-down">
@@ -389,7 +389,7 @@ nav ul li.active button::after {
         <li><a class="block py-2 opacity-80 hover:opacity-100" href="#internship">Internship Experience</a></li>
         <li><a class="block py-2 opacity-80 hover:opacity-100" href="#education">Education</a></li>
         <li><a class="block py-2 opacity-80 hover:opacity-100" href="#contact">Contact</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100 text-indigo-300" href="https://drive.google.com/file/d/1h7LG0r7fhpH1GDmIFKR3ZV_dEzuKxyAj/view?usp=sharing" target="_blank" rel="noopener">CV</a></li>
+        <li><a class="block py-2 opacity-80 hover:opacity-100 text-indigo-300" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
       </ul>
     </div>
   </header>
@@ -782,22 +782,48 @@ nav ul li.active button::after {
   <!-- Circular Floating Menu Button & Menu -->
 <link rel="stylesheet" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.css"/>
 <style>
-  /* Circular Floating Menu Styles */
-  .circular-toggle {
-    position: fixed;
-    bottom: 40px;
-    right: 40px;
-    background: linear-gradient(135deg, #22d3ee, #6366f1);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    z-index: 9999; /* تأكد أن الزر فوق كل العناصر */
-    box-shadow: 0 8px 24px rgba(99,102,241,0.25);
-    transition: box-shadow 0.2s;
+ /* Circular Floating Menu Styles */
+.circular-toggle {
+  position: fixed;   /* يفضل عن absolute */
+  bottom: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #22d3ee, #6366f1);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 9999; /* فوق كل العناصر */
+}
+
+
+/* Hover effect */
+.circular-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+}
+
+/* Floating animation */
+@keyframes floatPlus {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.circular-toggle {
+  animation: floatPlus 3s ease-in-out infinite;
+}
+
+  @media (max-width: 640px) {
+    .circular-toggle {
+      bottom: 16px;
+      right: 16px;
+    }
+    ul.circular-menu {
+      bottom: 46px;
+      right: 46px;
+    }
   }
   .circular-toggle:hover {
     box-shadow: 0 12px 32px rgba(99,102,241,0.35);
@@ -880,9 +906,9 @@ nav ul li.active button::after {
   <li><a href="#internship" title="Internship"><ion-icon name="business-outline"></ion-icon></a></li>
   <li><a href="#contact" title="Contact"><ion-icon name="mail-outline"></ion-icon></a></li>
 </ul>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script>
   // Circular Floating Menu Logic
   const circularToggle = document.getElementById('circularToggle');
   const circularMenu = document.getElementById('circularMenu');
