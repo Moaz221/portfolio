@@ -5,1303 +5,1591 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Moaz.dev — Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#000000;
-      --card:#1a1a2e;
-      --ring:rgba(99,102,241,0.8);
-      --grad1:#6366f1;
-      --grad2:#06b6d4;
-      --accent:#a855f7;
-    }
-    html,body{scroll-behavior:smooth}
-    body{font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#ffffff}
-
-    .link-underline{position:relative}
-    .link-underline::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:linear-gradient(90deg,var(--grad1),var(--grad2));transition:width .25s ease}
-    .link-underline:hover::after{width:100%}
-
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.15),rgba(255,255,255,0.08));border:1px solid rgba(255,255,255,0.25);box-shadow:0 10px 30px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.15);border-radius:16px}
-    .card:hover{border-color:rgba(255,255,255,0.4)}
-
-    .btn-primary{background:linear-gradient(90deg,var(--grad1),var(--grad2));color:#fff;border-radius:12px;padding:12px 16px;font-weight:600;box-shadow:0 8px 24px rgba(99,102,241,0.6);transition:transform .15s ease,box-shadow .2s ease,filter .2s ease}
-    .btn-primary:hover{transform:translateY(-1px);filter:brightness(1.15);box-shadow:0 12px 28px rgba(99,102,241,0.8)}
-    .btn-ghost{border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.1);color:#fff;border-radius:12px;padding:12px 16px;font-weight:600;transition:background .2s ease,border-color .2s ease,transform .15s ease}
-    .btn-ghost:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.6);transform:translateY(-1px)}
-
-    .tag{background:rgba(99,102,241,0.3);color:#e0e7ff;border:1px solid rgba(99,102,241,0.6);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
-
-    .ring-grad{position:absolute;inset:-2px;border-radius:20px;padding:2px;background:linear-gradient(120deg,rgba(99,102,241,0.28),rgba(34,211,238,0.28));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:.8}
-
-    @keyframes robot-drift{0%{transform:translateX(0)}50%{transform:translateX(300px)}100%{transform:translateX(0)}}
-    .robot-hero{animation:robot-drift 6s linear infinite;filter:drop-shadow(0 8px 16px rgba(79,70,229,0.35))}
-
-    section{scroll-margin-top:96px}
-
-    .slide-down{transform-origin:top;animation:slideDown .25s ease forwards}
-    @keyframes slideDown{from{opacity:0;transform:scaleY(0.9)}to{opacity:1;transform:scaleY(1)}}
-
-    /* Floating animations */
-    @keyframes floatBuddy{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(.5deg)}100%{transform:translateY(0) rotate(0)}}
-    .float-buddy{animation:floatBuddy 3.2s ease-in-out infinite}
-
-    /* Subtle vertical float for profile image */
-    @keyframes floatSoft{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
-    .float-soft{animation:floatSoft 8s ease-in-out infinite}
-
-    /* Minimal circular icon buttons */
-    .circle-icon{width:44px;height:44px;border-radius:9999px;display:inline-grid;place-items:center;border:1px solid rgba(255,255,255,0.14);background:rgba(255,255,255,0.02);transition:transform .15s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease}
-    .circle-icon:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(99,102,241,0.35);border-color:rgba(255,255,255,0.24);background:rgba(255,255,255,0.04)}
-    .circle-icon svg{display:block}
-
-    /* Tooltip */
-    .tooltip{position:absolute;bottom:52px;left:50%;transform:translateX(-50%);background:#0f1115;color:#e5e7eb;padding:6px 8px;border-radius:8px;border:1px solid rgba(255,255,255,0.12);font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s ease, transform .15s ease;box-shadow:0 8px 24px rgba(0,0,0,0.35)}
-    .tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(255,255,255,0.12)}
-    .icon-wrap{position:relative}
-    .icon-wrap:hover .tooltip{opacity:1;transform:translate(-50%,-4px)}
-
-    /* Modern Effects */
-    .parallax-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.4}
-    .floating-orbs{position:absolute;width:100%;height:100%;overflow:hidden;pointer-events:none}
-    .orb{position:absolute;border-radius:50%;background:linear-gradient(45deg,rgba(99,102,241,0.15),rgba(34,211,238,0.15));filter:blur(1px)}
-    .orb1{width:120px;height:120px;top:20%;left:10%;animation:float1 8s ease-in-out infinite}
-    .orb2{width:80px;height:80px;top:60%;right:15%;animation:float2 6s ease-in-out infinite}
-    .orb3{width:60px;height:60px;bottom:30%;left:70%;animation:float3 7s ease-in-out infinite}
-    @keyframes float1{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(180deg)}}
-    @keyframes float2{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-30px) rotate(-180deg)}}
-    @keyframes float3{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(90deg)}}
-
-    /* Glassmorphism enhancement */
-    .glass-card{backdrop-filter:blur(20px);background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
-    
-    /* Smooth scroll reveal */
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease}
-    .reveal.active{opacity:1;transform:translateY(0)}
-
-    /* Gradient text */
-    .gradient-text{background:linear-gradient(90deg,var(--grad1),var(--grad2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-    /* Pulse animation for highlights */
-    .pulse-glow{animation:pulseGlow 2s ease-in-out infinite}
-    @keyframes pulseGlow{0%,100%{box-shadow:0 0 30px rgba(99,102,241,0.6)}50%{box-shadow:0 0 50px rgba(99,102,241,0.8),0 0 60px rgba(34,211,238,0.6)}}
-
-    /* Cinematic Intro Styles */
-    #cinematicIntro{transition:opacity 1s ease-out, visibility 1s ease-out}
-    #cinematicIntro.fade-out{opacity:0;visibility:hidden}
-    
-    /* Particles Background */
-    .particles-bg{position:absolute;width:100%;height:100%;overflow:hidden;z-index:-1}
-    .particles-bg::before,.particles-bg::after{content:'';position:absolute;width:4px;height:4px;background:rgba(99,102,241,0.6);border-radius:50%;animation:float-particles 4s linear infinite}
-    .particles-bg::before{top:20%;left:10%;animation-delay:0s}
-    .particles-bg::after{top:60%;right:15%;animation-delay:2s}
-    @keyframes float-particles{0%{transform:translateY(100vh) scale(0)}50%{transform:translateY(50vh) scale(1)}100%{transform:translateY(-10vh) scale(0)}}
-
-    /* Typewriter Effect */
-    .typewriter{border-right:3px solid rgba(99,102,241,0.8);animation:blink 1s infinite}
-    @keyframes blink{0%,50%{border-color:rgba(99,102,241,0.8)}51%,100%{border-color:transparent}}
-
-    /* Neon Glow Effect */
-    .neon-glow{text-shadow:0 0 15px rgba(99,102,241,1),0 0 30px rgba(99,102,241,0.8),0 0 45px rgba(99,102,241,0.6),0 0 60px rgba(34,211,238,0.5);animation:neon-pulse 2s ease-in-out infinite alternate}
-    @keyframes neon-pulse{from{text-shadow:0 0 15px rgba(99,102,241,1),0 0 30px rgba(99,102,241,0.8),0 0 45px rgba(99,102,241,0.6)}to{text-shadow:0 0 25px rgba(99,102,241,1),0 0 40px rgba(99,102,241,1),0 0 55px rgba(99,102,241,0.8),0 0 70px rgba(34,211,238,0.7)}}
-
-    /* Fade-in Delayed */
-    .fade-in-delayed{animation:fadeInDelayed 2s ease-out 3s forwards}
-    @keyframes fadeInDelayed{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-
-    /* Page Transitions */
-    .page-transition{transition:opacity 0.5s ease-in-out, transform 0.5s ease-in-out}
-    .page-fade-out{opacity:0;transform:translateY(-20px)}
-    .page-fade-in{opacity:1;transform:translateY(0)}
-
-    /* Enhanced Glassmorphism */
-    .glass-enhanced{backdrop-filter:blur(25px) saturate(180%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);box-shadow:0 12px 40px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1)}
-
-    /* Project Card Animations */
-    .project-card{transition:transform 0.3s ease,box-shadow 0.3s ease;position:relative;overflow:hidden}
-    .project-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.1)}
-    .project-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);transition:left 0.6s ease;pointer-events:none}
-    .project-card:hover::before{left:100%}
-
-    /* CTA Button Animations */
-    .cta-button{position:relative;overflow:hidden;background:linear-gradient(135deg,#4f46e5,#7c3aed,#22d3ee);border-radius:50px;padding:14px 28px;font-weight:600;color:white;border:none;cursor:pointer;transition:all 0.3s ease;animation:ctaPopIn 0.6s ease-out 0.3s both,ctaPulse 4s ease-in-out 2s infinite;box-shadow:0 8px 24px rgba(79,70,229,0.4),inset 0 1px 0 rgba(255,255,255,0.2)}
-    .cta-button:hover{transform:scale(1.05);box-shadow:0 12px 32px rgba(79,70,229,0.6),0 0 20px rgba(34,211,238,0.4),inset 0 1px 0 rgba(255,255,255,0.3)}
-    .cta-button:focus{outline:2px solid rgba(99,102,241,0.8);outline-offset:2px}
-    .cta-button::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:rgba(255,255,255,0.3);border-radius:50%;transition:width 0.3s ease,height 0.3s ease;transform:translate(-50%,-50%)}
-    .cta-button:active::before{width:300px;height:300px}
-
-    @keyframes ctaPopIn{0%{opacity:0;transform:scale(0.8)}100%{opacity:1;transform:scale(1)}}
-    @keyframes ctaPulse{0%,100%{box-shadow:0 8px 24px rgba(79,70,229,0.4),inset 0 1px 0 rgba(255,255,255,0.2)}50%{box-shadow:0 8px 24px rgba(79,70,229,0.6),0 0 15px rgba(34,211,238,0.3),inset 0 1px 0 rgba(255,255,255,0.2)}}
-
-    /* Modal Styles */
-    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s ease}
-    .modal-overlay.show{opacity:1;visibility:visible}
-    .modal-content{background:linear-gradient(180deg,rgba(255,255,255,0.1),rgba(255,255,255,0.05));border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:32px;max-width:400px;width:90%;backdrop-filter:blur(20px);box-shadow:0 20px 60px rgba(0,0,0,0.5);transform:scale(0.9) translateY(20px);transition:transform 0.3s ease}
-    .modal-overlay.show .modal-content{transform:scale(1) translateY(0)}
-    .modal-button{background:linear-gradient(135deg,#4f46e5,#22d3ee);border:none;border-radius:12px;padding:12px 24px;color:white;font-weight:600;cursor:pointer;transition:all 0.2s ease;width:100%;margin-bottom:12px}
-    .modal-button:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,0.4)}
-    .modal-button:focus{outline:2px solid rgba(99,102,241,0.8);outline-offset:2px}
-    .modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s ease}
-    .modal-close:hover{background:rgba(255,255,255,0.2);transform:scale(1.1)}
-
-    /* Reduced Motion Support */
-    @media (prefers-reduced-motion: reduce){
-      .project-card,.cta-button,.modal-content{transition:none !important}
-      .project-card::before{display:none}
-      .cta-button{animation:none !important}
-      .cta-button::before{display:none}
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --android-green: #3ddc84;
+      --android-blue: #4285f4;
+      --android-dark: #073042;
+      --code-purple: #c792ea;
+      --code-cyan: #89ddff;
+      --code-green: #c3e88d;
+      --code-orange: #ffcb6b;
+      --code-pink: #ff5370;
+      --code-blue: #82aaff;
     }
 
-    /* Robot Interactive Animations */
-    .robot-wave{animation:robotWave 1s ease-in-out}
-    @keyframes robotWave{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-15deg)}75%{transform:rotate(15deg)}}
+    html, body { scroll-behavior: smooth; }
+    
+    body {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: var(--bg);
+      color: #e4e4e7;
+      background-image: 
+        radial-gradient(ellipse at top, rgba(61, 220, 132, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(66, 133, 244, 0.03) 0%, transparent 50%);
+    }
 
-    .robot-eyes-glow{animation:eyesGlow 2s ease-in-out}
-    @keyframes eyesGlow{0%,100%{filter:drop-shadow(0 0 5px rgba(34,211,238,0.8))}50%{filter:drop-shadow(0 0 15px rgba(34,211,238,1)) drop-shadow(0 0 25px rgba(79,70,229,0.8))}}
+    .font-mono { font-family: "JetBrains Mono", monospace; }
 
-    .robot-spin{animation:robotSpin 1.5s ease-in-out}
-    @keyframes robotSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .card {
+      background: linear-gradient(145deg, rgba(18, 18, 26, 0.9), rgba(10, 10, 15, 0.95));
+      border: 1px solid rgba(61, 220, 132, 0.15);
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+    .card:hover {
+      border-color: rgba(61, 220, 132, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(61, 220, 132, 0.1);
+    }
 
-    .robot-jump{animation:robotJump 0.8s ease-in-out}
-    @keyframes robotJump{0%,100%{transform:translateY(0)}25%{transform:translateY(-20px)}50%{transform:translateY(-30px)}75%{transform:translateY(-15px)}}
+    .btn-primary {
+      background: linear-gradient(135deg, var(--android-green), #00c853);
+      color: #000;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      box-shadow: 0 4px 20px rgba(61, 220, 132, 0.4);
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(61, 220, 132, 0.5);
+    }
 
-    .robot-transform{animation:robotTransform 2s ease-in-out}
-    @keyframes robotTransform{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(0.8) rotate(90deg)}50%{transform:scale(1.2) rotate(180deg);filter:drop-shadow(0 0 20px rgba(99,102,241,1))}75%{transform:scale(0.9) rotate(270deg)}}
+    .btn-ghost {
+      border: 1px solid rgba(61, 220, 132, 0.4);
+      background: transparent;
+      color: var(--android-green);
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-ghost:hover {
+      background: rgba(61, 220, 132, 0.1);
+      border-color: var(--android-green);
+    }
 
-    /* Speech Bubble */
-    .speech-bubble{position:absolute;bottom:100%;left:50%;transform:translateX(-50%) translateY(-10px);background:rgba(255,255,255,0.95);color:#1a1a1a;padding:12px 16px;border-radius:20px;font-size:14px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease;box-shadow:0 8px 24px rgba(0,0,0,0.2);z-index:60}
-    .speech-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:rgba(255,255,255,0.95)}
-    .speech-bubble.show{opacity:1;transform:translateX(-50%) translateY(-20px)}
+    .tag {
+      background: rgba(61, 220, 132, 0.15);
+      color: var(--android-green);
+      border: 1px solid rgba(61, 220, 132, 0.3);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .tag:hover {
+      background: rgba(61, 220, 132, 0.25);
+      transform: scale(1.05);
+    }
 
-    /* Confetti Animation */
-    .confetti{position:absolute;width:8px;height:8px;pointer-events:none;z-index:55}
-    .confetti-1{background:#ff6b6b;animation:confetti1 2s ease-out forwards}
-    .confetti-2{background:#4ecdc4;animation:confetti2 2s ease-out forwards}
-    .confetti-3{background:#45b7d1;animation:confetti3 2s ease-out forwards}
-    .confetti-4{background:#f9ca24;animation:confetti4 2s ease-out forwards}
-    .confetti-5{background:#6c5ce7;animation:confetti5 2s ease-out forwards}
-    .confetti-6{background:#fd79a8;animation:confetti6 2s ease-out forwards}
+    section { scroll-margin-top: 96px; }
 
-    @keyframes confetti1{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-100px) translateX(-50px) rotate(720deg) scale(0);opacity:0}}
-    @keyframes confetti2{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-120px) translateX(60px) rotate(-720deg) scale(0);opacity:0}}
-    @keyframes confetti3{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-80px) translateX(-80px) rotate(360deg) scale(0);opacity:0}}
-    @keyframes confetti4{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-150px) translateX(40px) rotate(-360deg) scale(0);opacity:0}}
-    @keyframes confetti5{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-90px) translateX(-30px) rotate(540deg) scale(0);opacity:0}}
-    @keyframes confetti6{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(-110px) translateX(70px) rotate(-540deg) scale(0);opacity:0}}
+    .slide-down { animation: slideDown 0.25s ease forwards; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    /* Light Mode Styles */
-body.light-mode {
-  background: #f7f7fa !important;
-  color: #18181b !important;
-}
-body.light-mode,
-body.light-mode .card,
-body.light-mode .glass-card,
-body.light-mode .glass-enhanced,
-body.light-mode .project-card,
-body.light-mode .btn-ghost,
-body.light-mode .modal-content,
-body.light-mode .speech-bubble,
-body.light-mode .tooltip {
-  color: #18181b !important;
-}
-body.light-mode .text-neutral-300,
-body.light-mode .text-neutral-400,
-body.light-mode .text-indigo-300,
-body.light-mode .text-indigo-400,
-body.light-mode .text-indigo-200 {
-  color: #18181b !important;
-}
-body.light-mode .neon-glow,
-body.light-mode .gradient-text {
-  color: #3730a3 !important;
-  text-shadow: none !important;
-  -webkit-text-fill-color: initial !important;
-  background-clip: initial !important;
-  color: #3730a3 !important;
-}
-body.light-mode .tooltip {
-  background: #fff !important;
-  color: #18181b !important;
-  border-color: #e5e7eb !important;
-}
-body.light-mode .modal-content {
-  background: #fff !important;
-  color: #18181b !important;
-  border-color: #e5e7eb !important;
-}
-body.light-mode .modal-close {
-  background: #f3f4f6 !important;
-  color: #18181b !important;
-  border-color: #e5e7eb !important;
-}
-body.light-mode .circle-icon {
-  background: #f3f4f6 !important;
-  color: #3730a3 !important;
-  border-color: #e5e7eb !important;
-}
-body.light-mode .circle-icon:hover {
-  background: #e0e7ff !important;
-}
-body.light-mode .speech-bubble {
-  background: #fff !important;
-  color: #18181b !important;
-  border-color: #e5e7eb !important;
-}
-    .sending-anim {
-  position: relative;
-  background: linear-gradient(90deg,#22d3ee,#6366f1) !important;
-  color: #fff !important;
-  overflow: hidden;
-}
-.sending-anim .drone-fly {
-  display: block;
-  position: absolute;
-  left: -40px;
-  top: 50%;
-  transform: translateY(-120%);
-  font-size: 1.7em;
-  animation: drone-fly-anim 2.5s linear infinite;
-  pointer-events: none;
-  z-index: 2;
-}
-@keyframes drone-fly-anim {
-  0% { left: -40px; top: 50%; opacity: 1; }
-  10% { opacity: 1; }
-  50% { left: 60%; top: 10%; opacity: 1; }
-  90% { opacity: 1; }
-  100% { left: 110%; top: 50%; opacity: 0; }
-}
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-/* يمكنك إضافة هذا الكود في ملف CSS أو داخل <style> في <head> */
-/* Laser/Gradient Animated Underline for Navbar Buttons */
-nav ul li button {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  position: relative;
-  padding: 5px 10px;
-  transition: color 0.3s;
-  outline: none;
-}
+    .gradient-text {
+      background: linear-gradient(135deg, var(--android-green), var(--android-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-nav ul li button:hover,
-nav ul li.active button {
-  color: #00c3ff;
-}
+    .android-glow {
+      text-shadow: 0 0 20px rgba(61, 220, 132, 0.5), 0 0 40px rgba(61, 220, 132, 0.3);
+    }
 
-/* خط ليزر متحرك تحت الزر */
-nav ul li button::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -8px;
-  transform: translateX(-50%) scaleX(0);
-  width: 140%;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #00c3ff, #00f7ff, transparent);
-  box-shadow: 0 0 20px #00c3ff, 0 0 40px #00c3ff, 0 0 60px #00f7ff;
-  transition: transform 0.4s ease, opacity 0.3s;
-  animation: laserMove 1.5s infinite linear;
-  opacity: 0;
-}
+    .pulse-glow { animation: androidPulse 3s ease-in-out infinite; }
+    @keyframes androidPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(61, 220, 132, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(61, 220, 132, 0.5), 0 0 60px rgba(66, 133, 244, 0.3); }
+    }
 
-nav ul li button:hover::after,
-nav ul li.active button::after {
-  transform: translateX(-50%) scaleX(1);
-  opacity: 1;
-}
+    #cinematicIntro { transition: opacity 1s ease-out, visibility 1s ease-out; }
+    #cinematicIntro.fade-out { opacity: 0; visibility: hidden; pointer-events: none; }
 
-/* أنيميشن الليزر */
-@keyframes laserMove {
-  0% { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
-  }
-  .glow-ring {
-  box-shadow:
-    0 0 0 8px rgba(99,102,241,0.18),
-    0 0 32px 8px #6366f1,
-    0 0 64px 16px #22d3ee;
-  transition: box-shadow 0.4s;
-  animation: glowPulse 2.5s infinite alternate;
-}
-@keyframes glowPulse {
-  0% {
-    box-shadow:
-      0 0 0 8px rgba(99,102,241,0.18),
-      0 0 32px 8px #6366f1,
-      0 0 64px 16px #22d3ee;
-  }
-  100% {
-    box-shadow:
-      0 0 0 16px rgba(99,102,241,0.10),
-      0 0 48px 16px #6366f1,
-      0 0 96px 32px #22d3ee;
-  }
-}
+    .typewriter { border-right: 3px solid var(--android-green); animation: blink 0.8s infinite; }
+    @keyframes blink {
+      0%, 50% { border-color: var(--android-green); }
+      51%, 100% { border-color: transparent; }
+    }
+
+    .project-card {
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(61, 220, 132, 0.05), transparent);
+      transition: left 0.6s ease;
+    }
+    .project-card:hover::before { left: 100%; }
+
+    .featured-badge {
+      position: absolute;
+      top: -1px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--android-green), #00c853);
+      color: #000;
+      padding: 6px 16px;
+      border-radius: 0 0 12px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .video-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--android-dark);
+      border: 2px solid rgba(61, 220, 132, 0.3);
+    }
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .apk-button {
+      background: linear-gradient(135deg, #4285f4, #1a73e8);
+      border: none;
+      border-radius: 12px;
+      padding: 14px 24px;
+      color: white;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(66, 133, 244, 0.4);
+      text-decoration: none;
+    }
+    .apk-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(66, 133, 244, 0.5);
+    }
+    .apk-button svg { animation: downloadBounce 2s ease-in-out infinite; }
+    @keyframes downloadBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--android-green), #00c853);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(61, 220, 132, 0.4);
+    }
+    .cta-button:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(61, 220, 132, 0.5);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.show { opacity: 1; visibility: visible; }
+    .modal-content {
+      background: var(--card);
+      border: 1px solid rgba(61, 220, 132, 0.2);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+    .modal-overlay.show .modal-content { transform: scale(1); }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover {
+      background: rgba(255, 83, 112, 0.3);
+      transform: rotate(90deg);
+    }
+    .modal-button {
+      background: linear-gradient(135deg, var(--android-green), #00c853);
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 24px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+    .modal-button:hover { transform: translateY(-2px); }
+
+    .video-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s ease;
+    }
+    .video-modal-overlay.show { opacity: 1; visibility: visible; }
+    .video-modal-content {
+      width: 90%;
+      max-width: 1000px;
+      aspect-ratio: 16/9;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2px solid rgba(61, 220, 132, 0.3);
+      box-shadow: 0 30px 80px rgba(61, 220, 132, 0.2);
+      transform: scale(0.8);
+      transition: transform 0.4s ease;
+    }
+    .video-modal-overlay.show .video-modal-content { transform: scale(1); }
+    .video-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 24px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    .video-modal-close:hover {
+      background: rgba(255, 83, 112, 0.3);
+      transform: scale(1.1) rotate(90deg);
+    }
+
+    .circle-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: inline-grid;
+      place-items: center;
+      border: 1px solid rgba(61, 220, 132, 0.2);
+      background: rgba(61, 220, 132, 0.05);
+      transition: all 0.2s ease;
+    }
+    .circle-icon:hover {
+      border-color: var(--android-green);
+      background: rgba(61, 220, 132, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(61, 220, 132, 0.2);
+    }
+
+    .tooltip {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card);
+      color: #e4e4e7;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(61, 220, 132, 0.2);
+      font-size: 12px;
+      font-family: "JetBrains Mono", monospace;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s ease;
+    }
+    .icon-wrap { position: relative; }
+    .icon-wrap:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+
+    .android-robot { animation: robotFloat 4s ease-in-out infinite; }
+    @keyframes robotFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-8px) rotate(2deg); }
+      75% { transform: translateY(-4px) rotate(-2deg); }
+    }
+
+    .robot-wave { animation: robotWave 0.8s ease-in-out; }
+    @keyframes robotWave {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-20deg); }
+      75% { transform: rotate(20deg); }
+    }
+
+    .robot-jump { animation: robotJump 0.6s ease-in-out; }
+    @keyframes robotJump {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-25px); }
+    }
+
+    .robot-spin { animation: robotSpin 1s ease-in-out; }
+    @keyframes robotSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .circular-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: linear-gradient(135deg, var(--android-green), #00c853);
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(61, 220, 132, 0.4);
+      transition: all 0.3s ease;
+    }
+    .circular-toggle:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 30px rgba(61, 220, 132, 0.5);
+    }
+    .circular-toggle ion-icon {
+      font-size: 28px;
+      color: #000;
+      transition: 0.4s;
+    }
+    .circular-toggle.active ion-icon { transform: rotate(135deg); }
+
+    ul.circular-menu {
+      position: fixed;
+      bottom: 70px;
+      right: 70px;
+      width: 180px;
+      height: 180px;
+      pointer-events: none;
+      z-index: 99;
+      transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+      transform: scale(0);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    ul.circular-menu.active { pointer-events: all; transform: scale(1); }
+    ul.circular-menu li {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      transition: 0.4s;
+    }
+    ul.circular-menu li a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--card);
+      color: var(--android-green);
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      font-size: 22px;
+      border: 1px solid rgba(61, 220, 132, 0.3);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    ul.circular-menu li a:hover { background: var(--android-green); color: #000; }
+    ul.circular-menu li:nth-child(1) { --angle: 0deg; }
+    ul.circular-menu li:nth-child(2) { --angle: 60deg; }
+    ul.circular-menu li:nth-child(3) { --angle: 120deg; }
+    ul.circular-menu li:nth-child(4) { --angle: 180deg; }
+    ul.circular-menu li:nth-child(5) { --angle: 240deg; }
+    ul.circular-menu li:nth-child(6) { --angle: 300deg; }
+    ul.circular-menu.active li {
+      transform: translate(-50%, -50%) rotate(var(--angle)) translate(80px) rotate(calc(-1 * var(--angle)));
+    }
+
+    .glow-ring {
+      box-shadow: 0 0 0 4px rgba(61, 220, 132, 0.2), 0 0 30px rgba(61, 220, 132, 0.3);
+      animation: glowRing 3s ease-in-out infinite alternate;
+    }
+    @keyframes glowRing {
+      0% { box-shadow: 0 0 0 4px rgba(61, 220, 132, 0.2), 0 0 30px rgba(61, 220, 132, 0.3); }
+      100% { box-shadow: 0 0 0 8px rgba(61, 220, 132, 0.1), 0 0 50px rgba(61, 220, 132, 0.4); }
+    }
+
+    /* Light Mode */
+    body.light-mode {
+      background: #f8fafc !important;
+      color: #1e293b !important;
+      background-image: 
+        radial-gradient(ellipse at top, rgba(61, 220, 132, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(66, 133, 244, 0.05) 0%, transparent 50%);
+    }
+    body.light-mode .card {
+      background: linear-gradient(145deg, #ffffff, #f1f5f9) !important;
+      border-color: rgba(61, 220, 132, 0.2) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    }
+    body.light-mode .card:hover { box-shadow: 0 12px 40px rgba(61, 220, 132, 0.15) !important; }
+    body.light-mode header {
+      background: rgba(255, 255, 255, 0.9) !important;
+      border-color: rgba(61, 220, 132, 0.15) !important;
+    }
+    body.light-mode .text-neutral-300,
+    body.light-mode .text-neutral-400 { color: #64748b !important; }
+    body.light-mode .tag {
+      background: rgba(61, 220, 132, 0.1) !important;
+      color: #059669 !important;
+      border-color: rgba(61, 220, 132, 0.3) !important;
+    }
+    body.light-mode .btn-ghost {
+      color: #059669 !important;
+      border-color: rgba(61, 220, 132, 0.4) !important;
+    }
+    body.light-mode .btn-ghost:hover { background: rgba(61, 220, 132, 0.1) !important; }
+    body.light-mode .gradient-text {
+      background: linear-gradient(135deg, #059669, #0284c7) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+    body.light-mode .android-glow { text-shadow: none !important; color: #059669 !important; }
+    body.light-mode .circle-icon {
+      background: rgba(61, 220, 132, 0.08) !important;
+      border-color: rgba(61, 220, 132, 0.2) !important;
+    }
+    body.light-mode .circle-icon:hover { background: rgba(61, 220, 132, 0.15) !important; }
+    body.light-mode .tooltip {
+      background: #ffffff !important;
+      color: #1e293b !important;
+      border-color: rgba(61, 220, 132, 0.2) !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    body.light-mode .modal-content { background: #ffffff !important; color: #1e293b !important; }
+    body.light-mode ul.circular-menu li a {
+      background: #ffffff !important;
+      color: #059669 !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    }
+    body.light-mode ul.circular-menu li a:hover { background: var(--android-green) !important; color: #000 !important; }
+    body.light-mode .video-container { border-color: rgba(61, 220, 132, 0.3) !important; }
+    body.light-mode input,
+    body.light-mode textarea {
+      background: #f1f5f9 !important;
+      border-color: rgba(61, 220, 132, 0.2) !important;
+      color: #1e293b !important;
+    }
+    body.light-mode input::placeholder,
+    body.light-mode textarea::placeholder { color: #94a3b8 !important; }
+
+    .sending-anim { background: linear-gradient(90deg, var(--android-blue), var(--android-green)) !important; }
+
+    @media (max-width: 640px) {
+      .circular-toggle { bottom: 16px; right: 16px; width: 50px; height: 50px; }
+    }
   </style>
 </head>
 <body class="min-h-screen">
-  <!-- Cinematic Intro Overlay -->
-  <div id="cinematicIntro" class="fixed inset-0 z-50 bg-black flex items-center justify-center">
-    <div class="text-center">
-      <div class="particles-bg"></div>
-      <h1 class="text-6xl md:text-8xl font-bold mb-4">
-        <span id="typewriter" class="neon-glow"></span>
-      </h1>
-      <p class="text-xl text-neutral-300 opacity-0 fade-in-delayed">Welcome to my digital world</p>
-    </div>
-  </div>
+  <div id="root"></div>
 
-  <!-- Floating orbs background -->
-  <div class="floating-orbs">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-  </div>
-  <!-- Navbar -->
-  <header class="sticky top-0 z-40 backdrop-blur bg-neutral-900/80 border-b border-white/30">
-    <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-      <a href="#home" class="text-lg font-semibold tracking-tight">Moaz<span class="text-indigo-400">.dev</span></a>
-      <!-- زر تبديل الوضع -->
-      <button id="themeToggle" class="mr-3 px-2 py-2 rounded-xl border border-white/10 text-sm" aria-label="Toggle light/dark mode">
-        🌙
-      </button>
-      <button id="menuBtn" class="md:hidden px-3 py-2 rounded-xl border border-white/10 text-sm">Menu</button>
-      <ul class="hidden md:flex gap-6 text-sm">
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#about">About</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#skills">Skills</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#projects">Projects</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#internship">Internship Experience</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#education">Education</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline" href="#contact">Contact</a></li>
-        <li><a class="opacity-80 hover:opacity-100 link-underline text-indigo-300" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
-      </ul>
-    </nav>
-    <div id="mobileMenu" class="hidden md:hidden border-t border-white/30 slide-down">
-      <ul class="mx-auto max-w-6xl px-4 py-3 grid gap-3 text-sm">
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#about">About</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#skills">Skills</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#projects">Projects</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#internship">Internship Experience</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#education">Education</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100" href="#contact">Contact</a></li>
-        <li><a class="block py-2 opacity-80 hover:opacity-100 text-indigo-300" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
-      </ul>
-    </div>
-  </header>
+  <script type="text/babel">
+    const { useState, useEffect, useRef, useCallback } = React;
 
-  <!-- Hero -->
-  <section id="home" class="relative overflow-hidden">
-    <div class="absolute top-8 left-6 robot-hero" aria-hidden="true">
-      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#4f46e5"/>
-            <stop offset="100%" stop-color="#22d3ee"/>
-          </linearGradient>
-        </defs>
-        <circle cx="60" cy="60" r="52" stroke="url(#g)" stroke-width="4" opacity="0.25"/>
-        <rect x="32" y="38" width="56" height="44" rx="10" fill="#141622" stroke="url(#g)" stroke-width="2"/>
-        <rect x="50" y="30" width="20" height="10" rx="3" fill="#141622" stroke="url(#g)" stroke-width="2"/>
-        <circle cx="48" cy="58" r="6" fill="#22d3ee"/>
-        <circle cx="72" cy="58" r="6" fill="#4f46e5"/>
-        <rect x="44" y="72" width="32" height="6" rx="3" fill="url(#g)"/>
-      </svg>
-    </div>
+    // ===================
+    // Reusable Components
+    // ===================
+    const Tag = ({ children }) => <span className="tag">{children}</span>;
 
-    <div class="mx-auto max-w-6xl px-4 py-20 md:py-28 relative">
-      <div class="relative card pulse-glow p-8 md:p-12">
-        <div class="ring-grad rounded-2xl"></div>
-        <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
-          <div class="flex-1">
-            <p class="text-sm uppercase tracking-widest text-indigo-300/80 mb-3">Hello, I’m</p>
-            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight neon-glow">
-              Moaz Ragab <span class="gradient-text">Kamel</span>
-            </h1>
-            <p class="mt-4 text-neutral-300 max-w-2xl">
-              Android Developer turning ideas into smooth, user-friendly apps
-            </p>
-            <div class="mt-6 flex flex-wrap gap-3">
-              <a href="#projects" class="btn-primary">View Projects</a>
-              <a href="#contact" class="btn-ghost">Contact Me</a>
-            </div>
+    const PrimaryButton = ({ children, onClick, href, className = "", ...props }) => {
+      if (href) return <a href={href} className={`btn-primary ${className}`} {...props}>{children}</a>;
+      return <button onClick={onClick} className={`btn-primary ${className}`} {...props}>{children}</button>;
+    };
+
+    const GhostButton = ({ children, onClick, href, className = "", ...props }) => {
+      if (href) return <a href={href} className={`btn-ghost ${className}`} {...props}>{children}</a>;
+      return <button onClick={onClick} className={`btn-ghost ${className}`} {...props}>{children}</button>;
+    };
+
+    const Card = ({ children, className = "", ...props }) => (
+      <div className={`card ${className}`} {...props}>{children}</div>
+    );
+
+    const IconLink = ({ href, label, icon, tooltip }) => (
+      <div className="icon-wrap">
+        <a className="circle-icon" href={href} target="_blank" rel="noopener" aria-label={label}>{icon}</a>
+        <span className="tooltip">{tooltip}</span>
+      </div>
+    );
+
+    // Modal
+    const Modal = ({ isOpen, onClose, title, description, children }) => {
+      useEffect(() => {
+        const handleEsc = (e) => { if (e.key === 'Escape' && isOpen) onClose(); };
+        document.addEventListener('keydown', handleEsc);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        return () => { document.removeEventListener('keydown', handleEsc); document.body.style.overflow = ''; };
+      }, [isOpen, onClose]);
+
+      return (
+        <div className={`modal-overlay ${isOpen ? 'show' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
+          <div className="modal-content">
+            <button className="modal-close" onClick={onClose}>×</button>
+            {title && <h3 className="text-xl font-bold mb-2 font-mono">{title}</h3>}
+            {description && <p className="text-neutral-400 mb-6">{description}</p>}
+            {children}
           </div>
-          <div class="w-full md:w-auto">
-            <div class="card p-6 md:p-8 text-center">
-              <p class="text-sm text-neutral-300">Current Focus</p>
-              <p class="text-lg font-semibold mt-2">C++ • Kotlin • Problem Solving</p>
-              <div class="mt-4 grid grid-cols-3 gap-2">
-                <span class="tag">OOP</span>
-                <span class="tag">JAVA</span>
-                <span class="tag">GitHub</span>
+        </div>
+      );
+    };
+
+    // Video Modal
+    const VideoModal = ({ isOpen, onClose, videoUrl }) => {
+      useEffect(() => {
+        const handleEsc = (e) => { if (e.key === 'Escape' && isOpen) onClose(); };
+        document.addEventListener('keydown', handleEsc);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+        return () => { document.removeEventListener('keydown', handleEsc); document.body.style.overflow = ''; };
+      }, [isOpen, onClose]);
+
+      return (
+        <div className={`video-modal-overlay ${isOpen ? 'show' : ''}`} onClick={(e) => e.target === e.currentTarget && onClose()}>
+          <button className="video-modal-close" onClick={onClose}>×</button>
+          <div className="video-modal-content">
+            {isOpen && (
+              <iframe
+                src={`${videoUrl}?autoplay=1&loop=1&autopause=0`}
+                width="100%"
+                height="100%"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+                title="Project Demo"
+              />
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // ===================
+    // Cinematic Intro
+    // ===================
+    const CinematicIntro = ({ onComplete }) => {
+      const [text, setText] = useState('');
+      const [showWelcome, setShowWelcome] = useState(false);
+      const [fadeOut, setFadeOut] = useState(false);
+      const fullText = 'Moaz.dev';
+
+      useEffect(() => {
+        let i = 0;
+        const timer = setInterval(() => {
+          if (i < fullText.length) {
+            setText(fullText.slice(0, i + 1));
+            i++;
+          } else {
+            clearInterval(timer);
+            setShowWelcome(true);
+            setTimeout(() => { setFadeOut(true); setTimeout(onComplete, 1000); }, 1500);
+          }
+        }, 120);
+        return () => clearInterval(timer);
+      }, [onComplete]);
+
+      return (
+        <div id="cinematicIntro" className={`fixed inset-0 z-50 bg-[#0a0a0f] flex items-center justify-center ${fadeOut ? 'fade-out' : ''}`}>
+          <div className="text-center">
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 font-mono">
+              <span className={`gradient-text ${text.length < fullText.length ? 'typewriter' : ''}`}>{text}</span>
+            </h1>
+            <p className={`text-lg text-neutral-400 font-mono transition-all duration-700 ${showWelcome ? 'opacity-100' : 'opacity-0'}`}>
+              <span className="text-[#c792ea]">const</span> <span className="text-[#ffcb6b]">developer</span> = <span className="text-[#c3e88d]">"Android"</span>;
+            </p>
+          </div>
+        </div>
+      );
+    };
+
+    // ===================
+    // Navbar
+    // ===================
+    const Navbar = ({ theme, toggleTheme }) => {
+      const [menuOpen, setMenuOpen] = useState(false);
+      const navLinks = [
+        { href: '#about', label: 'About' },
+        { href: '#skills', label: 'Skills' },
+        { href: '#projects', label: 'Projects' },
+        { href: '#internship', label: 'Experience' },
+        { href: '#education', label: 'Education' },
+        { href: '#contact', label: 'Contact' },
+      ];
+
+      return (
+        <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#0a0a0f]/80 border-b border-[#3ddc84]/10">
+          <nav className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+            <a href="#home" className="text-xl font-bold font-mono">
+              <span className="text-[#3ddc84]">&lt;</span>Moaz<span className="text-[#3ddc84]">/&gt;</span>
+            </a>
+            
+            <div className="flex items-center gap-3">
+              <button onClick={toggleTheme} className="w-10 h-10 rounded-xl border border-[#3ddc84]/20 flex items-center justify-center hover:bg-[#3ddc84]/10 transition-colors">
+                {theme === 'dark' ? '🌙' : '☀️'}
+              </button>
+              <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden px-3 py-2 rounded-xl border border-[#3ddc84]/20 text-sm font-mono hover:bg-[#3ddc84]/10">
+                {menuOpen ? '</>' : '</>'}
+              </button>
+            </div>
+
+            <ul className="hidden md:flex gap-6 text-sm font-mono">
+              {navLinks.map(link => (
+                <li key={link.href}><a className="text-neutral-400 hover:text-[#3ddc84] transition-colors" href={link.href}>{link.label}</a></li>
+              ))}
+              <li><a className="text-[#3ddc84] hover:text-[#00c853]" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
+            </ul>
+          </nav>
+
+          {menuOpen && (
+            <div className="md:hidden border-t border-[#3ddc84]/10 slide-down">
+              <ul className="mx-auto max-w-6xl px-4 py-4 grid gap-3 text-sm font-mono">
+                {navLinks.map(link => (
+                  <li key={link.href}><a className="block py-2 text-neutral-400 hover:text-[#3ddc84]" href={link.href} onClick={() => setMenuOpen(false)}>{link.label}</a></li>
+                ))}
+                <li><a className="block py-2 text-[#3ddc84]" href="https://drive.google.com/file/d/10uEqy_fDJh8c2fBLl7WknT_QKPNQbi0g/view?usp=drive_link" target="_blank" rel="noopener">CV</a></li>
+              </ul>
+            </div>
+          )}
+        </header>
+      );
+    };
+
+    // ===================
+    // Hero Section
+    // ===================
+    const Hero = () => (
+      <section id="home" className="relative overflow-hidden">
+        <div className="mx-auto max-w-6xl px-4 py-20 md:py-28">
+          <Card className="pulse-glow p-8 md:p-12 relative overflow-hidden">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-8">
+              <div className="flex-1">
+                <div className="font-mono text-sm mb-4">
+                  <span className="text-[#c792ea]">class</span> <span className="text-[#ffcb6b]">Developer</span> <span className="text-white">{"{"}</span>
+                </div>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
+                  <span className="text-white">Moaz Ragab</span>{' '}
+                  <span className="gradient-text">Kamel</span>
+                </h1>
+                <p className="text-neutral-400 max-w-xl mb-6 font-mono text-sm">
+                  Android Developer turning ideas into smooth, user-friendly apps
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <PrimaryButton href="#projects">
+                    <span className="flex items-center gap-2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                      View Projects
+                    </span>
+                  </PrimaryButton>
+                  <GhostButton href="#contact">Contact Me</GhostButton>
+                </div>
+                <div className="font-mono text-sm mt-6"><span className="text-white">{"}"}</span></div>
+              </div>
+              
+              <div className="w-full md:w-auto">
+                <Card className="p-6 text-center">
+                  <p className="text-xs text-neutral-400 font-mono mb-2">current_focus</p>
+                  <p className="text-lg font-semibold font-mono text-[#3ddc84] mb-4">Android • Kotlin • Java</p>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    <Tag>OOP</Tag>
+                    <Tag>Jetpack</Tag>
+                    <Tag>Firebase</Tag>
+                  </div>
+                </Card>
               </div>
             </div>
+          </Card>
+
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+            <Card className="p-5 text-center">
+              <p className="text-3xl font-bold font-mono text-[#3ddc84]">2025</p>
+              <p className="text-xs text-neutral-400 mt-1 font-mono">active_year</p>
+            </Card>
+            <Card className="p-5 text-center">
+              <p className="text-3xl font-bold font-mono text-[#4285f4]">4</p>
+              <p className="text-xs text-neutral-400 mt-1 font-mono">projects</p>
+            </Card>
+            <Card className="p-5 text-center col-span-2 md:col-span-1">
+              <p className="text-xl font-bold font-mono gradient-text">Kotlin</p>
+              <p className="text-xs text-neutral-400 mt-1 font-mono">primary_stack</p>
+            </Card>
           </div>
         </div>
-      </div>
+      </section>
+    );
 
-      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div class="card p-4 text-center">
-          <p class="text-2xl font-bold">2025</p>
-          <p class="text-xs text-neutral-400 mt-1">Active Year</p>
-        </div>
-        <div class="card p-4 text-center">
-          <p class="text-2xl font-bold">2</p>
-          <p class="text-xs text-neutral-400 mt-1">Showcase Projects</p>
-        </div>
-        <div class="card p-4 text-center">
-          <p class="text-2xl font-bold">java / Kotlin</p>
-          <p class="text-xs text-neutral-400 mt-1">Core Stack</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    // ===================
+    // About Section
+    // ===================
+    const About = () => (
+      <section id="about" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+        <div className="grid md:grid-cols-2 gap-8 items-stretch">
+          <Card className="p-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 android-glow">About Me</h2>
+            <p className="text-neutral-300 mb-4 leading-relaxed">
+              AI-track Computer Science student at Beni-Suef National University. Trained in Android development through DEPI using Kotlin, Android Studio, Jetpack Compose & XML.
+            </p>
+            <p className="text-neutral-300 mb-6 leading-relaxed">
+              Strong foundations in C++, Java, OOP, and problem-solving. Eager to apply my skills in real-world mobile development projects.
+            </p>
+            <GhostButton href="#projects">See My Work →</GhostButton>
+          </Card>
 
-  <!-- About -->
-  <section id="about" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-    <div class="grid md:grid-cols-2 gap-8 items-stretch">
-      <div class="card p-8 flex flex-col">
-        <h2 class="text-2xl md:text-3xl font-bold neon-glow">About</h2>
-        <p class="mt-4 text-neutral-300">
-AI-track Computer Science student at Beni-Suef National University.Trained in Android development through DEPI using Kotlin, Android Studio, Jetpack Compose &amp; XML.Strong foundations in C++, Java, OOP, and problem-solving.Eager to apply my skills in real-world mobile development projects and grow as an Android developer.        </p>
-        <p class="mt-3 text-neutral-300">
-          My proficiency in Java and OOP complements my focus on mobile app development, preparing me to bring valuable contributions to real-world projects.
-        </p>
-        <div class="mt-6">
-          <a href="#projects" class="btn-ghost">See What I’ve Built</a>
+          <Card className="p-8 flex items-center justify-center">
+            <div className="relative">
+              <div className="w-56 h-56 md:w-64 md:h-64 rounded-2xl overflow-hidden glow-ring">
+                <img src="https://i.postimg.cc/MHBs7rhR/Designer-20.png" alt="Moaz Ragab Kamel" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+              </div>
+            </div>
+          </Card>
         </div>
-      </div>
+      </section>
+    );
 
-      <div class="card p-8">
-        <div class="grid sm:grid-cols-2 gap-6 items-center">
-          <div class="relative">
-            <div class="absolute inset-0 rounded-2xl opacity-60" style="background: radial-gradient(120px 120px at 30% 20%, rgba(99,102,241,0.25), transparent 60%), radial-gradient(140px 140px at 80% 70%, rgba(34,211,238,0.22), transparent 60%);"></div>
-            <div class="relative rounded-2xl overflow-hidden ring-1 ring-white/10 mx-auto w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[28rem] xl:h-[28rem] glow-ring">
-              <img src="https://i.postimg.cc/MHBs7rhR/Designer-20.png" alt="Moaz Ragab Kamel photo" class="w-full h-full object-cover float-soft rounded-full border-4 border-indigo-200" referrerpolicy="no-referrer" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';"/>
+    // ===================
+    // Skills Section
+    // ===================
+    const Skills = () => {
+      const skillCategories = [
+        { title: 'Languages', icon: '{ }', skills: ['Kotlin', 'Java', 'C++', 'XML'] },
+        { title: 'Android', icon: '📱', skills: ['Jetpack Compose', 'Android Studio', 'Material Design', 'Room DB'] },
+        { title: 'Tools', icon: '⚙️', skills: ['Git', 'GitHub', 'Firebase', 'IntelliJ IDEA'] },
+      ];
+
+      return (
+        <section id="skills" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+          <Card className="p-8">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold android-glow">Skills</h2>
+              <span className="text-sm text-neutral-400 font-mono">v2025.1</span>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {skillCategories.map((category, index) => (
+                <Card key={index} className="p-5">
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="text-xl">{category.icon}</span>
+                    <p className="font-mono text-sm text-[#3ddc84]">{category.title}</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {category.skills.map((skill, i) => <Tag key={i}>{skill}</Tag>)}
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </Card>
+        </section>
+      );
+    };
+
+          // ===================
+    // Projects Section
+    // ===================
+    const Projects = () => {
+      const [activeModal, setActiveModal] = useState(null);
+      const [videoModalOpen, setVideoModalOpen] = useState(false);
+
+      const projects = [
+        {
+          id: 'app-demo',
+          title: 'University Management System',
+          year: '2025',
+          featured: true,
+          description: `The application is designed as a real-world university management system with a clear hierarchical structure: Faculties → Departments → Subjects, where subjects and doctors are properly linked to their respective departments.`,
+          features: [
+            'Browsing faculties, departments, subjects, and doctors',
+            'Search functionality across multiple sections',
+            'User authentication with email verification (verification email may appear in Spam)',
+            'Profile management and notification preferences',
+            'Permanent account deletion or clearing local data only (Shared Preferences)',
+          ],
+          roles: [
+            'Guest users',
+            'Registered users',
+            'Admin users for content and structure management',
+            'Super Admin with full system control and high-priority notifications',
+          ],
+          additionalInfo: 'Admins can manage news, activities, and events, as well as schedule news by setting start and end display times. The application was fully designed and developed by me, including all technical and implementation aspects.',
+          tags: ['Android', 'Kotlin', 'Firebase', 'Jetpack Compose'],
+          hasVideo: true,
+          videoUrl: 'https://player.vimeo.com/video/1149476430',
+          apkUrl: 'https://drive.google.com/file/d/1XF939yWymy5ODkzK7TWY6jCPV-4Hicmy/view?usp=drive_link',
+        },
+        {
+          id: 'egypt-explorer',
+          title: 'Authentication System For Egypt Explorer',
+          year: '2025',
+          description: 'Worked on the authentication module as part of a team project. Developed and implemented login, signup, and password recovery screens, and integrated them with Firebase for secure user management.',
+          tags: ['Android Development', 'Firebase', 'Kotlin/Java', 'UI/UX'],
+          image: 'https://i.postimg.cc/1X344Y0Y/Screenshot-2025-12-08-001247.png',
+          githubUrl: 'https://github.com/DEPI-Android/DEPI-Android-Project-Graduation',
+          contributions: [
+            'Created and connected authentication screens to Firebase',
+            'Managed user registration, login, and authentication states',
+            'Ensured a smooth and secure user experience within the app',
+          ],
+        },
+        {
+          id: 'rps',
+          title: 'Rock–Paper–Scissors (C++)',
+          year: '2025',
+          description: 'Console game written in modern C++ with clean input handling and replay logic.',
+          tags: ['C++', 'OOP', 'Console'],
+          replitUrl: 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1',
+        },
+        {
+          id: 'todo',
+          title: 'TODO (Java)',
+          year: '2025',
+          description: 'Lightweight productivity tool with persistent storage. Features sound effects, built-in timer, and automatic task saving to .txt files for seamless workflow management.',
+          tags: ['Java', 'File I/O', 'Audio'],
+          replitUrl: 'https://replit.com/@moazragab652/TODO?v=1',
+        },
+      ];
+
+      return (
+        <section id="projects" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold android-glow">Projects</h2>
+            <a href="#contact" className="text-sm text-[#3ddc84] hover:text-[#00c853] font-mono transition-colors">
+              Open to collaboration
+            </a>
+          </div>
+
+          <div className="space-y-6">
+            
+            {/* Featured Project - University Management System */}
+            {projects.filter(p => p.featured).map(project => (
+              <Card key={project.id} className="project-card p-6 md:p-8 relative">
+                <div className="featured-badge">⭐ Featured</div>
+                
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
+                    <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+                  </div>
+                  
+                  <p className="text-neutral-300 mb-4">{project.description}</p>
+                  
+                  {/* Key Features */}
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-[#3ddc84] mb-2">Key Features:</p>
+                    <ul className="text-sm text-neutral-400 space-y-1">
+                      {project.features.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-[#3ddc84]">→</span> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* User Roles */}
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-[#4285f4] mb-2">Supported Roles:</p>
+                    <ul className="text-sm text-neutral-400 space-y-1">
+                      {project.roles.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-[#4285f4]">•</span> {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Additional Info */}
+                  <p className="text-neutral-400 text-sm mb-6 italic">{project.additionalInfo}</p>
+                  
+                  {/* Video Section */}
+                  <div className="video-container mb-6">
+                    <div className="video-wrapper">
+                      <iframe
+                        src={`${project.videoUrl}?autoplay=0&loop=1&background=0`}
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title="Project Demo"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                  </div>
+                  
+                  {/* Action Buttons */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <button onClick={() => setVideoModalOpen(true)} className="cta-button py-4 flex items-center justify-center gap-2">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                      Watch Full Screen
+                    </button>
+                    <a href={project.apkUrl} target="_blank" rel="noopener" className="apk-button py-4">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                      </svg>
+                      Download APK
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            ))}
+
+            {/* Egypt Explorer Project */}
+            {projects.filter(p => p.id === 'egypt-explorer').map(project => (
+              <Card key={project.id} className="project-card p-6 md:p-8">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Image Section */}
+                  <div>
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className="w-full rounded-xl border-2 border-[#3ddc84]/20 hover:border-[#3ddc84]/40 transition-colors"
+                    />
+                  </div>
+                  
+                  {/* Info Section */}
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
+                      <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+                    </div>
+                    
+                    <p className="text-neutral-300 mb-4">{project.description}</p>
+                    
+                    <div className="mb-4">
+                      <p className="text-sm font-semibold text-[#3ddc84] mb-2">My Contributions:</p>
+                      <ul className="text-sm text-neutral-400 space-y-1">
+                        {project.contributions.map((item, i) => (
+                          <li key={i} className="flex items-start gap-2">
+                            <span className="text-[#3ddc84]">→</span> {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                    </div>
+                    
+                    <a href={project.githubUrl} target="_blank" rel="noopener" className="btn-ghost inline-flex items-center gap-2 text-sm">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/>
+                      </svg>
+                      View on GitHub
+                    </a>
+                  </div>
+                </div>
+              </Card>
+            ))}
+
+            {/* Other Projects Grid */}
+            <div className="grid md:grid-cols-2 gap-6">
+              {projects.filter(p => !p.featured && p.id !== 'egypt-explorer').map(project => (
+                <Card key={project.id} className="project-card p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-bold font-mono">{project.title}</h3>
+                    <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+                  </div>
+                  <p className="text-neutral-400 text-sm mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                  </div>
+                  <button onClick={() => setActiveModal(project.id)} className="cta-button w-full text-sm">
+                    Demo & Code →
+                  </button>
+                </Card>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Skills -->
-  <section id="skills" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-    <div class="card p-8">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Skills</h2>
-        <span class="text-sm text-neutral-400">Updated 2025</span>
-      </div>
-      <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        <div class="card p-5">
-          <p class="text-sm text-neutral-400">Core</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span class="tag">C++</span><span class="tag">Java</span><span class="tag">Kotlin</span><span class="tag">OOP</span><span class="tag">Jetback Compose</span><span class="tag">XML</span>
+          {/* Modals for Replit Projects */}
+          {projects.filter(p => p.replitUrl).map(project => (
+            <Modal
+              key={project.id}
+              isOpen={activeModal === project.id}
+              onClose={() => setActiveModal(null)}
+              title={project.title}
+              description="Choose how to explore this project:"
+            >
+              <div className="space-y-3">
+                <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>
+                  🚀 Open Live Demo
+                </button>
+                <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>
+                  📝 View Source Code
+                </button>
+              </div>
+            </Modal>
+          ))}
+
+          {/* Video Modal */}
+          <VideoModal
+            isOpen={videoModalOpen}
+            onClose={() => setVideoModalOpen(false)}
+            videoUrl="https://player.vimeo.com/video/1149476430"
+          />
+        </section>
+      );
+    };
+    // ===================
+    // Internship Section
+    // ===================
+    const Internship = () => (
+      <section id="internship" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+        <Card className="p-8">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold android-glow">Internship Experience</h2>
+            <span className="text-sm text-neutral-400 font-mono">2025</span>
           </div>
-        </div>
-        <div class="card p-5">
-          <p class="text-sm text-neutral-400">Mobile</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span class="tag">Android</span>
+          <Card className="p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-4">
+              <div>
+                <h3 className="text-xl font-semibold font-mono text-[#3ddc84]">Android Development Trainee</h3>
+                <p className="text-neutral-300">Digital Egypt Pioneers Initiative (DEPI)</p>
+              </div>
+              <p className="text-sm text-neutral-400 font-mono">07/2025 – 12/2025 • Egypt</p>
+            </div>
+            <p className="text-neutral-400 mb-4">Trainee focused on Android development.</p>
+            <ul className="space-y-2 text-neutral-400 text-sm">
+              <li className="flex items-start gap-2"><span className="text-[#3ddc84]">→</span> Enrolled in DEPI program focused on Android development</li>
+              <li className="flex items-start gap-2"><span className="text-[#3ddc84]">→</span> Studying core Android components such as activities, layouts, and views</li>
+              <li className="flex items-start gap-2"><span className="text-[#3ddc84]">→</span> Developing communication and team collaboration skills</li>
+            </ul>
+          </Card>
+        </Card>
+      </section>
+    );
+
+    // ===================
+    // Education Section
+    // ===================
+    const Education = () => (
+      <section id="education" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+        <Card className="p-8">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold android-glow">Education</h2>
+            <span className="text-sm text-neutral-400 font-mono">2024 – 2028</span>
           </div>
-        </div>
-        <div class="card p-5">
-          <p class="text-sm text-neutral-400">Tools</p>
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span class="tag">Git & GitHubHub</span><span class="tag">Android studio</span><span class="tag">IntelliJ IDEA</span><span class="tag">Fierbase</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-    <div class="flex items-center justify-between flex-wrap gap-4 mb-6">
-      <h2 class="text-2xl md:text-3xl font-bold neon-glow">Projects</h2>
-      <a href="#contact" class="text-sm text-indigo-300 hover:text-indigo-200 link-underline">Open to collaboration</a>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-6">
-      <article class="card project-card p-6 flex flex-col">
-        <div class="flex items-center justify-between gap-3">
-          <h3 class="text-xl font-semibold">Rock–Paper–Scissors (C++)</h3>
-          <span class="text-xs text-neutral-400">2025</span>
-        </div>
-        <p class="mt-3 text-neutral-300">Console game written in modern C++ with clean input handling and replay logic.</p>
-        <div class="mt-4 flex flex-wrap gap-2"><span class="tag">C++</span></div>
-        <div class="mt-5">
-          <button 
-            id="openRockPaperScissorsModal" 
-            class="cta-button w-full text-center"
-            aria-label="Open demo and source code for Rock–Paper–Scissors (C++)"
-          >
-            Demo & Code — Rock–Paper–Scissors (C++)
-          </button>
-        </div>
-      </article>
-
-      <article class="card project-card p-6 flex flex-col">
-        <div class="flex items-center justify-between gap-3">
-          <h3 class="text-xl font-semibold">TODO (Java)</h3>
-          <span class="text-xs text-neutral-400">2025</span>
-        </div>
-        <p class="mt-3 text-neutral-300">Lightweight productivity tool with persistent storage. Features sound effects, built-in timer, and automatic task saving to .txt files for seamless workflow management.</p>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="tag">Java</span><span class="tag">File I/O</span><span class="tag">Audio</span>
-        </div>
-        <div class="mt-5">
-          <button 
-            id="openTodoModal" 
-            class="cta-button w-full text-center"
-            aria-label="Open demo and source code for TODO (Java)"
-          >
-            Demo & Code — TODO (Java)
-          </button>
-        </div>
-      </article>
-
-      <article class="card project-card p-6 flex flex-col">
-        <div class="flex items-center justify-between gap-3">
-          <h3 class="text-xl font-semibold">Authentication System For Egypt Exploreer</h3>
-          <span class="text-xs text-neutral-400">2025</span>
-        </div>
-        <img src="https://i.postimg.cc/1X344Y0Y/Screenshot-2025-12-08-001247.png" alt="Egypt Exploreer Authentication System screenshot" class="mt-4 w-full rounded-lg border border-white/10" referrerpolicy="no-referrer"/>
-        <p class="mt-4 text-neutral-300">Worked on the authentication module as part of a team project. Developed and implemented login, signup, and password recovery screens, and integrated them with Firebase for secure user management.</p>
-        <div class="mt-4">
-          <p class="text-sm font-semibold text-indigo-300 mb-2">My Contributions:</p>
-          <ul class="text-sm text-neutral-300 space-y-1 ml-4">
-            <li>• Created and connected authentication screens to Firebase</li>
-            <li>• Managed user registration, login, and authentication states</li>
-            <li>• Ensured a smooth and secure user experience within the app</li>
-          </ul>
-        </div>
-        <div class="mt-4 flex flex-wrap gap-2">
-          <span class="tag">Android Development</span><span class="tag">Firebase</span><span class="tag">Kotlin/Java</span><span class="tag">UI/UX</span>
-        </div>
-        <div class="mt-5">
-          <a 
-            href="https://github.com/DEPI-Android/DEPI-Android-Project-Graduation" 
-            target="_blank" 
-            rel="noopener"
-            class="cta-button w-full text-center"
-            aria-label="View project on GitHub"
-          >
-            View on GitHub
-          </a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- Internship Experience -->
-  <section id="internship" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-    <div class="card p-8">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Internship Experience</h2>
-        <span class="text-sm text-neutral-400">2025</span>
-      </div>
-      <article class="mt-6 card p-6">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
           <div>
-            <h3 class="text-xl font-semibold">Android Development Trainee</h3>
-            <p class="text-neutral-300">Digital Egypt Pioneers Initiative (DEPI)</p>
+            <h3 className="text-xl font-semibold font-mono text-[#3ddc84]">B.Sc. in Computer Science</h3>
+            <p className="text-neutral-300">Beni-Suef National University — Artificial Intelligence (AI) Track</p>
           </div>
-          <p class="text-sm text-neutral-400">07/2025 – 12/2025 • Egypt</p>
-        </div>
-        <p class="mt-4 text-neutral-300">Trainee focused on Android development.</p>
-        <ul class="mt-4 space-y-2 text-neutral-300">
-          <li>• Enrolled in DEPI program focused on Android development</li>
-          <li>• Studying core Android components such as activities, layouts, and views</li>
-          <li>• Developing communication and team collaboration skills</li>
-        </ul>
-      </article>
-    </div>
-  </section>
+        </Card>
+      </section>
+    );
 
-  <!-- Education -->
-  <section id="education" class="mx-auto max-w-6xl px-4 py-16 md:py-24">
-    <div class="card p-8">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Education</h2>
-        <span class="text-sm text-neutral-400">2024 – 2028</span>
-      </div>
-      <div class="mt-4">
-        <h3 class="text-xl font-semibold">B.Sc. in Computer Science</h3>
-        <p class="text-neutral-300">Beni-Suef National University — Artificial Intelligence (AI) Track</p>
+    // ===================
+    // Contact Form
+    // ===================
+    const ContactForm = () => {
+      const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+      const [sending, setSending] = useState(false);
+      const [sent, setSent] = useState(false);
 
-      </div>
-    </div>
-  </section>
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        setSending(true);
+        try {
+          const res = await fetch('https://formspree.io/f/xdkdvyeo', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+          });
+          if (res.ok) {
+            setSent(true);
+            setFormData({ name: '', email: '', message: '' });
+            setTimeout(() => setSent(false), 5000);
+          }
+        } catch (err) { alert('Error. Please try again.'); }
+        finally { setTimeout(() => setSending(false), 2000); }
+      };
 
-  <!-- Contact -->
-  <section id="contact" class="mx-auto max-w-6xl px-4 pb-20 md:pb-28">
-    <div class="card p-8">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <h2 class="text-2xl md:text-3xl font-bold neon-glow">Contact</h2>
-        <p class="text-sm text-neutral-400">Let’s build something great together!</p>
-      </div>
+      return (
+        <Card className="p-6">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block text-sm font-mono text-neutral-400 mb-2">Name</label>
+              <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono" placeholder="Your name" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-mono text-neutral-400 mb-2">Email</label>
+              <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono" placeholder="you@example.com" />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-mono text-neutral-400 mb-2">Message</label>
+              <textarea required rows="4" value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono resize-none" placeholder="Say hello..." />
+            </div>
+            <button type="submit" disabled={sending} className={`cta-button w-full ${sending ? 'sending-anim' : ''}`}>
+              {sending ? '📤 Sending...' : sent ? '✅ Sent!' : 'Send Message →'}
+            </button>
+          </form>
+        </Card>
+      );
+    };
 
-      <!-- Minimal circular icons with tooltips (kept in place) -->
-      <div class="mt-6 flex items-center gap-3">
-        <!-- WhatsApp -->
-        <div class="icon-wrap">
-          <a class="circle-icon" href="https://wa.me/201025586813" target="_blank" rel="noopener" aria-label="WhatsApp">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" fill="#25D366" aria-hidden="true">
-              <path d="M187.6 68.4A84 84 0 0 0 41.7 186.2L28.1 227a8 8 0 0 0 10.1 10.1l40.8-13.6A84 84 0 0 0 187.6 68.4Zm-10.9 108.7A68 68 0 0 1 83 83a68.2 68.2 0 0 1 96.3 96.1Zm-12.5-27.6c-2.2 6.1-12.8 11.6-17.8 12.4c-4.8.7-11 .9-31.9-9.9c-26.9-13.8-44.3-39.9-45.7-41.8s-10.9-14.5-10.9-27.7s6.9-19.7 9.4-22.4a12.8 12.8 0 0 1 9.1-4.1c2.2 0 4.5 0 6.4.1c2 .1 4.8-.8 7.5 5.8s9.6 23.3 10.5 25s1.6 3.6.3 5.8s-2 3.6-4 5.6s-4.1 4.6-5.9 6.2s-4.1 4.5-1.7 8.6s10.5 17.3 22.5 28c15.5 13.7 28.5 18 33 20s7.2 1.7 9.9-1s11.4-13.3 14.4-17.9s6-3.7 9.9-2.2s25.7 12.1 30.1 14.3s7.2 3.3 8.2 5.1s1 11.9-5.1 18Z"/>
-            </svg>
-          </a>
-          <span class="tooltip">WhatsApp</span>
-        </div>
+    // ===================
+    // Contact Section
+    // ===================
+    const Contact = () => (
+      <section id="contact" className="mx-auto max-w-6xl px-4 pb-20 md:pb-28 reveal">
+        <Card className="p-8">
+          <div className="flex items-center justify-between flex-wrap gap-4 mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold android-glow">Contact</h2>
+            <p className="text-sm text-neutral-400 font-mono">Let's build something great together!</p>
+          </div>
 
-        <!-- LinkedIn -->
-        <div class="icon-wrap">
-          <a class="circle-icon" href="https://www.linkedin.com/in/moaz-ragab-1a868931b" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8-2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.2V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9-2.4 0-2.8 1.9-2.8 3.8V24h-4V8z"/>
-            </svg>
-          </a>
-          <span class="tooltip">LinkedIn</span>
-        </div>
+          <div className="flex items-center gap-3 mb-8">
+            <IconLink href="https://wa.me/201025586813" label="WhatsApp" tooltip="WhatsApp"
+              icon={<svg width="22" height="22" viewBox="0 0 256 256" fill="#25D366"><path d="M187.6 68.4A84 84 0 0 0 41.7 186.2L28.1 227a8 8 0 0 0 10.1 10.1l40.8-13.6A84 84 0 0 0 187.6 68.4Zm-10.9 108.7A68 68 0 0 1 83 83a68.2 68.2 0 0 1 96.3 96.1Z"/></svg>} />
+            <IconLink href="https://www.linkedin.com/in/moaz-ragab-1a868931b" label="LinkedIn" tooltip="LinkedIn"
+              icon={<svg width="22" height="22" viewBox="0 0 24 24" fill="#0A66C2"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8 -2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.2V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9-2.4 0-2.8 1.9-2.8 3.8V24h-4V8z"/></svg>} />
+            <IconLink href="https://github.com/Moaz221" label="GitHub" tooltip="GitHub"
+              icon={<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/></svg>} />
+          </div>
 
-        <!-- GitHub -->
-        <div class="icon-wrap">
-          <a class="circle-icon" href="https://github.com/Moaz221" target="_blank" rel="noopener" aria-label="GitHub">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/>
-            </svg>
-          </a>
-          <span class="tooltip">GitHub</span>
-        </div>
-      </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            <ContactForm />
+            
+            <Card className="p-6">
+              <h3 className="font-bold font-mono text-[#3ddc84] mb-4">Quick Info</h3>
+              <ul className="space-y-4">
+                <li className="flex items-center gap-3 text-neutral-300">
+                  <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/10 flex items-center justify-center">📍</span>
+                  <span>Beni-Suef, Egypt</span>
+                </li>
+                <li className="flex items-center gap-3 text-neutral-300">
+                  <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/10 flex items-center justify-center">⚡</span>
+                  <span>Available for projects</span>
+                </li>
+                <li className="flex items-center gap-3 text-neutral-300">
+                  <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/10 flex items-center justify-center">🎯</span>
+                  <span>Android Development Focus</span>
+                </li>
+                <li className="flex items-center gap-3 text-neutral-300">
+                  <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/10 flex items-center justify-center">✉️</span>
+                  <span className="font-mono text-sm">moazragab652@gmail.com</span>
+                </li>
+              </ul>
+            </Card>
+          </div>
+        </Card>
+      </section>
+    );
 
-      <div class="mt-6 grid md:grid-cols-2 gap-6">
-        <form id="contactForm" class="card p-6" action="https://formspree.io/f/xdkdvyeo" method="POST">
-          <p class="text-sm text-emerald-300/90 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 mb-4">
-            Your message is delivered to my inbox: <span class="font-semibold text-emerald-300">moazragab652@gmail.com</span>.
+    // ===================
+    // Footer
+    // ===================
+    const Footer = () => (
+      <footer className="border-t border-[#3ddc84]/10 py-6">
+        <div className="mx-auto max-w-6xl px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-500 font-mono">
+          <p>© 2025 Moaz Ragab Kamel</p>
+          <p>
+            <span className="text-[#c792ea]">const</span> madeWith = <span className="text-[#c3e88d]">"❤️ + React"</span>;
           </p>
+        </div>
+      </footer>
+    );
 
-          <input type="hidden" name="_subject" value="New message from Moaz.dev"/>
+    // ===================
+    // Android Robot Component
+    // ===================
+    const AndroidRobot = () => {
+      const [visible, setVisible] = useState(true);
+      const [position, setPosition] = useState({ x: null, y: null });
+      const [animation, setAnimation] = useState('');
+      const [showBubble, setShowBubble] = useState(false);
+      const [currentMessage, setCurrentMessage] = useState('');
+      const robotRef = useRef(null);
+      const isDragging = useRef(false);
+      const dragOffset = useRef({ x: 0, y: 0 });
+      const clickCount = useRef(0);
+      const audioContext = useRef(null);
 
-          <label class="block text-sm mb-1">Name</label>
-          <input required type="text" name="name" placeholder="Your name" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"/>
+      const animations = ['robot-wave', 'robot-jump', 'robot-spin'];
+      
+      const messages = [
+        "Hello! 👋 Welcome to Moaz's Portfolio!",
+        "I'm an Android robot! 🤖",
+        "Check out the projects below! ⬇️",
+        "Kotlin is awesome! 💚",
+        "Need an Android developer? 📱",
+        "Beep boop! 🔊",
+        "Click me again! 😄",
+        "I love coding! 💻",
+        "Firebase is cool! 🔥",
+        "Jetpack Compose rocks! 🚀",
+      ];
 
-          <label class="block text-sm mt-4 mb-1">Email</label>
-          <input required type="email" name="email" placeholder="you@example.com" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"/>
+      // Initialize Audio Context
+      const initAudio = () => {
+        if (!audioContext.current) {
+          audioContext.current = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        return audioContext.current;
+      };
 
-          <label class="block text-sm mt-4 mb-1">Message</label>
-          <textarea required name="message" rows="4" placeholder="Say hi!" class="w-full bg-neutral-900 border border-white/10 rounded-lg px-3 py-2 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-[var(--ring)] transition"></textarea>
+      // Play robot beep sound
+      const playSound = (type = 'beep') => {
+        try {
+          const ctx = initAudio();
+          const oscillator = ctx.createOscillator();
+          const gainNode = ctx.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(ctx.destination);
+          
+          switch(type) {
+            case 'beep':
+              oscillator.frequency.setValueAtTime(800, ctx.currentTime);
+              oscillator.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
+              oscillator.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.2);
+              gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+              oscillator.start(ctx.currentTime);
+              oscillator.stop(ctx.currentTime + 0.3);
+              break;
+            case 'happy':
+              oscillator.frequency.setValueAtTime(523, ctx.currentTime);
+              oscillator.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+              oscillator.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+              gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+              oscillator.start(ctx.currentTime);
+              oscillator.stop(ctx.currentTime + 0.4);
+              break;
+            case 'boop':
+              oscillator.frequency.setValueAtTime(400, ctx.currentTime);
+              oscillator.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.15);
+              gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+              oscillator.start(ctx.currentTime);
+              oscillator.stop(ctx.currentTime + 0.2);
+              break;
+            case 'robot':
+              // Robot-like sound
+              oscillator.type = 'square';
+              oscillator.frequency.setValueAtTime(150, ctx.currentTime);
+              oscillator.frequency.setValueAtTime(300, ctx.currentTime + 0.05);
+              oscillator.frequency.setValueAtTime(150, ctx.currentTime + 0.1);
+              oscillator.frequency.setValueAtTime(400, ctx.currentTime + 0.15);
+              gainNode.gain.setValueAtTime(0.2, ctx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+              oscillator.start(ctx.currentTime);
+              oscillator.stop(ctx.currentTime + 0.25);
+              break;
+            default:
+              oscillator.frequency.setValueAtTime(600, ctx.currentTime);
+              gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+              gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.2);
+              oscillator.start(ctx.currentTime);
+              oscillator.stop(ctx.currentTime + 0.2);
+          }
+        } catch (error) {
+          console.log('Audio not supported');
+        }
+      };
 
-          <button class="btn-primary w-full mt-4" type="submit">Send Message</button>
-        </form>
+      const triggerAnimation = useCallback(() => {
+        if (animation) return;
+        clickCount.current++;
+        
+        // Get random animation
+        const currentAnim = animations[clickCount.current % animations.length];
+        setAnimation(currentAnim);
+        
+        // Get random message
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        setCurrentMessage(randomMessage);
+        setShowBubble(true);
+        
+        // Play sound based on animation
+        const sounds = ['beep', 'happy', 'boop', 'robot'];
+        const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+        playSound(randomSound);
+        
+        // Hide bubble after 3 seconds
+        setTimeout(() => setShowBubble(false), 3000);
+        
+        // Reset animation after it completes
+        setTimeout(() => setAnimation(''), 1000);
+      }, [animation]);
 
-        <div class="card p-6">
-          <h3 class="font-semibold">Quick Info</h3>
-          <ul class="mt-4 space-y-3">
-            <li class="text-neutral-300">📍 Beni-suif, Egypt</li>
-            <li class="text-neutral-300">⚡ Available for projects</li>
-            <li class="text-neutral-300">🎯 Android Development Focus</li>
+      const handlePointerDown = (e) => {
+        isDragging.current = true;
+        const rect = robotRef.current.getBoundingClientRect();
+        dragOffset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        document.addEventListener('pointermove', handlePointerMove);
+        document.addEventListener('pointerup', handlePointerUp);
+      };
+
+      const handlePointerMove = (e) => {
+        if (!isDragging.current) return;
+        const x = e.clientX - dragOffset.current.x;
+        const y = e.clientY - dragOffset.current.y;
+        const maxX = window.innerWidth - 100;
+        const maxY = window.innerHeight - 140;
+        setPosition({ x: Math.min(Math.max(4, x), maxX), y: Math.min(Math.max(4, y), maxY) });
+      };
+
+      const handlePointerUp = () => {
+        isDragging.current = false;
+        document.removeEventListener('pointermove', handlePointerMove);
+        document.removeEventListener('pointerup', handlePointerUp);
+      };
+
+      // Show welcome message on first load
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setCurrentMessage("Hey! Click me! 👆");
+          setShowBubble(true);
+          setTimeout(() => setShowBubble(false), 3000);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }, []);
+
+      if (!visible) return null;
+
+      const style = position.x !== null ? { left: position.x, top: position.y, right: 'auto', bottom: 'auto' } : {};
+
+      return (
+        <div ref={robotRef} className="fixed top-6 right-6 z-[9998]" style={style}>
+          <div className="relative">
+            {/* Speech Bubble */}
+            <div className={`speech-bubble ${showBubble ? 'show' : ''}`}>
+              {currentMessage}
+            </div>
+            
+            {/* Close Button */}
+            <button onClick={() => setVisible(false)}
+              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500/80 hover:bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold transition-colors z-10">
+              ×
+            </button>
+            
+            {/* Robot SVG */}
+            <div className={`android-robot cursor-grab active:cursor-grabbing ${animation}`}
+              onPointerDown={handlePointerDown}
+              onClick={() => !isDragging.current && triggerAnimation()}>
+              <svg width="80" height="100" viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+                {/* Antennas */}
+                <line x1="28" y1="12" x2="22" y2="2" stroke="#3ddc84" strokeWidth="3" strokeLinecap="round"/>
+                <line x1="52" y1="12" x2="58" y2="2" stroke="#3ddc84" strokeWidth="3" strokeLinecap="round"/>
+                <circle cx="22" cy="2" r="3" fill="#3ddc84"/>
+                <circle cx="58" cy="2" r="3" fill="#3ddc84"/>
+                
+                {/* Head */}
+                <path d="M15 35 Q15 12, 40 12 Q65 12, 65 35 L65 40 L15 40 Z" fill="#3ddc84"/>
+                
+                {/* Eyes */}
+                <circle cx="28" cy="28" r="4" fill="#0a0a0f"/>
+                <circle cx="52" cy="28" r="4" fill="#0a0a0f"/>
+                <circle cx="29" cy="27" r="1.5" fill="#fff"/>
+                <circle cx="53" cy="27" r="1.5" fill="#fff"/>
+                
+                {/* Body */}
+                <rect x="15" y="44" width="50" height="40" rx="6" fill="#3ddc84"/>
+                
+                {/* Arms */}
+                <rect x="2" y="48" width="10" height="28" rx="5" fill="#3ddc84"/>
+                <rect x="68" y="48" width="10" height="28" rx="5" fill="#3ddc84"/>
+                
+                {/* Legs */}
+                <rect x="22" y="86" width="12" height="14" rx="6" fill="#3ddc84"/>
+                <rect x="46" y="86" width="12" height="14" rx="6" fill="#3ddc84"/>
+                
+                {/* Body Details */}
+                <rect x="25" y="54" width="30" height="4" rx="2" fill="#0a0a0f" opacity="0.3"/>
+                <rect x="25" y="62" width="20" height="4" rx="2" fill="#0a0a0f" opacity="0.3"/>
+                
+                {/* Heart (shows love for coding) */}
+                <path d="M40 72 C40 70, 37 68, 35 70 C33 72, 35 75, 40 78 C45 75, 47 72, 45 70 C43 68, 40 70, 40 72" fill="#ff5252" opacity="0.8"/>
+              </svg>
+            </div>
+            
+            {/* Shadow */}
+            <div className="w-16 h-3 bg-black/30 rounded-full blur-sm mx-auto -mt-1"></div>
+          </div>
+        </div>
+      );
+    };
+    // ===================
+    // Circular Menu
+    // ===================
+    const CircularMenu = () => {
+      const [isOpen, setIsOpen] = useState(false);
+
+      const menuItems = [
+        { href: '#about', icon: 'person-outline', title: 'About' },
+        { href: '#skills', icon: 'code-slash-outline', title: 'Skills' },
+        { href: '#projects', icon: 'folder-outline', title: 'Projects' },
+        { href: '#education', icon: 'school-outline', title: 'Education' },
+        { href: '#internship', icon: 'briefcase-outline', title: 'Experience' },
+        { href: '#contact', icon: 'mail-outline', title: 'Contact' },
+      ];
+
+      return (
+        <>
+          <div className={`circular-toggle ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+            <ion-icon name="add-outline"></ion-icon>
+          </div>
+          <ul className={`circular-menu ${isOpen ? 'active' : ''}`}>
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                <a href={item.href} title={item.title} onClick={() => setIsOpen(false)}>
+                  <ion-icon name={item.icon}></ion-icon>
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
-      </div>
+        </>
+      );
+    };
 
-      <div class="mt-6 card p-6">
-        <h3 class="font-semibold">Submissions (Demo)</h3>
-        <div id="submissions" class="mt-4 space-y-3 text-neutral-300">
-          <p class="text-neutral-400">No messages yet.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    // ===================
+    // Main App
+    // ===================
+    const App = () => {
+      const [showIntro, setShowIntro] = useState(true);
+      const [theme, setTheme] = useState(() => {
+        const saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      });
 
-  <footer class="border-t border-white/10 py-6">
-    <div class="mx-auto max-w-6xl px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-neutral-400">
-      <p>© 2025 Moaz Ragab Kamel</p>
-      <p>Built with love and curiosity.</p>
-    </div>
-  </footer>
+      useEffect(() => {
+        document.body.classList.toggle('light-mode', theme === 'light');
+        localStorage.setItem('theme', theme);
+      }, [theme]);
 
-  <!-- Rock Paper Scissors Modal -->
-  <div id="rockPaperScissorsModal" class="modal-overlay" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
-    <div class="modal-content">
-      <button class="modal-close" aria-label="Close modal">×</button>
-      <h3 id="modalTitle" class="text-xl font-semibold mb-2">Rock–Paper–Scissors (C++)</h3>
-      <p id="modalDescription" class="text-neutral-300 mb-6">Choose how you'd like to explore this project:</p>
-      <div class="space-y-3">
-        <button 
-          id="openLiveDemo" 
-          class="modal-button"
-          aria-label="Open live demo in new tab"
-        >
-          🚀 Open Live Demo
-        </button>
-        <button 
-          id="viewSourceCode" 
-          class="modal-button"
-          aria-label="View source code in new tab"
-        >
-          📝 View Source Code
-        </button>
-      </div>
-    </div>
-  </div>
+      useEffect(() => {
+        const observer = new IntersectionObserver(
+          (entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); }); },
+          { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+        setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => observer.observe(el)); }, 100);
+        return () => observer.disconnect();
+      }, [showIntro]);
 
-  <!-- TODO Modal -->
-  <div id="todoModal" class="modal-overlay" role="dialog" aria-labelledby="todoModalTitle" aria-describedby="todoModalDescription">
-    <div class="modal-content">
-      <button class="modal-close" aria-label="Close modal">×</button>
-      <h3 id="todoModalTitle" class="text-xl font-semibold mb-2">TODO (Java)</h3>
-      <p id="todoModalDescription" class="text-neutral-300 mb-6">Choose how you'd like to explore this project:</p>
-      <div class="space-y-3">
-        <button 
-          id="openTodoLiveDemo" 
-          class="modal-button"
-          aria-label="Run live demo in new tab"
-        >
-          🚀 Run Live Demo
-        </button>
-        <button 
-          id="viewTodoSourceCode" 
-          class="modal-button"
-          aria-label="View source code in new tab"
-        >
-          📝 View Source Code
-        </button>
-      </div>
-    </div>
-  </div>
+      const toggleTheme = () => setTheme(prev => prev === 'dark' ? 'light' : 'dark');
 
-  <!-- Floating Full-Body Robot Buddy (عائم وقابل للسحب وفوق الصفحة) -->
-  <div id="robotBuddy" class="draggable fixed top-6 right-6 z-[9999]">
-    <div class="relative">
-      <div id="speechBubble" class="speech-bubble">Hello, welcome to my portfolio!</div>
-      <button id="closeBuddy" aria-label="Close robot" class="absolute -top-2 -right-2 bg-white/10 hover:bg-white/20 text-white rounded-full w-6 h-6 leading-none grid place-items-center border border-white/20 shadow">×</button>
-      <div class="mx-auto w-20 h-4 bg-black/50 blur-lg rounded-full opacity-60"></div>
-      <div id="robotHandle" class="float-buddy mt-1 cursor-grab active:cursor-grabbing select-none cursor-pointer">
-        <svg width="124" height="160" viewBox="0 0 124 160" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="rbA" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4f46e5"/><stop offset="100%" stop-color="#22d3ee"/></linearGradient>
-            <linearGradient id="rbB" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9ea8ff"/><stop offset="100%" stop-color="#bff5ff"/></linearGradient>
-          </defs>
-          <line x1="62" y1="10" x2="62" y2="26" stroke="url(#rbA)" stroke-width="3" stroke-linecap="round"/>
-          <circle cx="62" cy="7" r="5" fill="url(#rbA)"/>
-          <rect x="34" y="26" width="56" height="40" rx="10" fill="#141622" stroke="url(#rbA)" stroke-width="3"/>
-          <circle cx="50" cy="46" r="6" fill="#22d3ee"/>
-          <circle cx="74" cy="46" r="6" fill="#4f46e5"/>
-          <rect x="48" y="58" width="28" height="6" rx="3" fill="url(#rbB)"/>
-          <rect x="28" y="70" width="68" height="52" rx="14" fill="#141622" stroke="url(#rbA)" stroke-width="3"/>
-          <rect x="40" y="82" width="44" height="16" rx="8" fill="url(#rbB)" opacity="0.9"/>
-          <circle cx="46" cy="108" r="5" fill="#22d3ee" opacity="0.85"/>
-          <rect x="14" y="78" width="12" height="40" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
-          <rect x="98" y="78" width="12" height="40" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
-          <circle cx="20" cy="122" r="6" fill="url(#rbB)"/>
-          <circle cx="104" cy="122" r="6" fill="url(#rbB)"/>
-          <rect x="42" y="122" width="12" height="24" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
-          <rect x="70" y="122" width="12" height="24" rx="6" fill="#111318" stroke="url(#rbA)" stroke-width="2"/>
-          <rect x="36" y="146" width="24" height="8" rx="4" fill="url(#rbB)"/>
-          <rect x="64" y="146" width="24" height="8" rx="4" fill="url(#rbB)"/>
-        </svg>
-      </div>
-    </div>
-  </div>
+      return (
+        <>
+          {showIntro && <CinematicIntro onComplete={() => setShowIntro(false)} />}
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
+          <main>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Internship />
+            <Education />
+            <Contact />
+          </main>
+          <Footer />
+          <AndroidRobot />
+          <CircularMenu />
+        </>
+      );
+    };
 
-  <!-- Circular Floating Menu Button & Menu -->
-<link rel="stylesheet" href="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.css"/>
-<style>
- /* Circular Floating Menu Styles */
-.circular-toggle {
-  position: fixed;   /* يفضل عن absolute */
-  bottom: 24px;
-  right: 24px;
-  background: linear-gradient(135deg, #22d3ee, #6366f1);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  z-index: 9999; /* فوق كل العناصر */
-}
--
+    // Render
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 
-/* Hover effect */
-.circular-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
-}
-
-/* Floating animation */
-@keyframes floatPlus {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.circular-toggle {
-  animation: floatPlus 3s ease-in-out infinite;
-}
-
-  @media (max-width: 640px) {
-    .circular-toggle {
-      bottom: 16px;
-      right: 16px;
-    }
-    ul.circular-menu {
-      bottom: 46px;
-      right: 46px;
-    }
-  }
-  .circular-toggle:hover {
-    box-shadow: 0 12px 32px rgba(99,102,241,0.35);
-  }
-  .circular-toggle ion-icon {
-    font-size: 32px;
-    color: #fff;
-    transition: 0.4s;
-  }
-  .circular-toggle.active ion-icon {
-    transform: rotate(135deg);
-  }
-  ul.circular-menu {
-    position: fixed;
-    bottom: 70px;
-    right: 70px;
-    width: 180px;
-    height: 180px;
-    pointer-events: none;
-    z-index: 99;
-    transition: transform 0.4s cubic-bezier(.68,-0.55,.27,1.55);
-    transform: scale(0);
-  }
-  ul.circular-menu.active {
-    pointer-events: all;
-    transform: scale(1);
-  }
-  ul.circular-menu li {
-    position: absolute;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    transition: 0.4s;
-  }
-  ul.circular-menu.active li {
-    /* 6 items, 60deg apart */
-  }
-  ul.circular-menu li a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-    color: #18181b;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 24px;
-    box-shadow: 0 4px 16px rgba(99,102,241,0.10);
-    transition: background 0.2s, color 0.2s;
-    border: 2px solid #e0e7ff;
-  }
-  ul.circular-menu li a:hover {
-    background: #6366f1;
-    color: #fff;
-    border-color: #6366f1;
-  }
-  /* Position each menu item in a circle */
-  ul.circular-menu li:nth-child(1) { --angle: 0deg; }
-  ul.circular-menu li:nth-child(2) { --angle: 60deg; }
-  ul.circular-menu li:nth-child(3) { --angle: 120deg; }
-  ul.circular-menu li:nth-child(4) { --angle: 180deg; }
-  ul.circular-menu li:nth-child(5) { --angle: 240deg; }
-  ul.circular-menu li:nth-child(6) { --angle: 300deg; }
-  ul.circular-menu.active li {
-    transform:
-      translate(-50%, -50%)
-      rotate(var(--angle))
-      translate(80px)
-      rotate(calc(-1 * var(--angle)));
-  }
-</style>
-
-<div class="circular-toggle" id="circularToggle" aria-label="Open menu">
-  <ion-icon name="add-outline"></ion-icon>
-</div>
-<ul class="circular-menu" id="circularMenu">
-  <li><a href="#about" title="About"><ion-icon name="person-outline"></ion-icon></a></li>
-  <li><a href="#skills" title="Skills"><ion-icon name="settings-outline"></ion-icon></a></li>
-  <li><a href="#projects" title="Projects"><ion-icon name="briefcase-outline"></ion-icon></a></li>
-  <li><a href="#education" title="Education"><ion-icon name="school-outline"></ion-icon></a></li>
-  <li><a href="#internship" title="Internship"><ion-icon name="business-outline"></ion-icon></a></li>
-  <li><a href="#contact" title="Contact"><ion-icon name="mail-outline"></ion-icon></a></li>
-</ul>
+  <!-- Ionicons -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-  <script>
-  // Circular Floating Menu Logic
-  const circularToggle = document.getElementById('circularToggle');
-  const circularMenu = document.getElementById('circularMenu');
-  circularToggle.addEventListener('click', () => {
-    circularToggle.classList.toggle('active');
-    circularMenu.classList.toggle('active');
-  });
-  // Close menu on link click (optional)
-  circularMenu.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      circularToggle.classList.remove('active');
-      circularMenu.classList.remove('active');
-    });
-  });
-</script>
-  <script>
-    // Mobile menu toggle
-    const menuBtn=document.getElementById('menuBtn');
-    const mobileMenu=document.getElementById('mobileMenu');
-    const mobileLinks=mobileMenu.querySelectorAll('a');
-    let open=false;
-    function setMenu(state){open=state;mobileMenu.classList.toggle('hidden',!open);menuBtn.textContent=open?'Close':'Menu'}
-    menuBtn?.addEventListener('click',()=>setMenu(!open));
-    mobileLinks.forEach(a=>a.addEventListener('click',()=>setMenu(false)));
-
-    // Contact form confirmation
-    const form=document.getElementById('contactForm');
-const submissions=document.getElementById('submissions');
-if(form){
-  form.addEventListener('submit',async(e)=>{
-    e.preventDefault();
-    const submitBtn=form.querySelector('button[type="submit"]');
-    const original=submitBtn.textContent;
-    // أضف كلاس للزر لبدء الأنيميشن
-    submitBtn.classList.add('sending-anim');
-    submitBtn.innerHTML = 'It\'s on the way 🚀';
-    submitBtn.disabled=true;
-    const formData=new FormData(form);
-    try{
-      const res=await fetch(form.action,{method:'POST',body:formData,headers:{'Accept':'application/json'}});
-      if(res.ok){
-        const wrap=document.createElement('div');wrap.className='card p-4';
-        wrap.innerHTML=`<p><strong>Thanks!</strong> Your message has been sent.</p><p class="mt-2 text-neutral-400">I’ll reply to you at the email you provided.</p>`;
-        if(submissions && submissions.firstElementChild && submissions.firstElementChild.tagName.toLowerCase()==='p'){submissions.innerHTML='';}
-        submissions?.prepend(wrap);form.reset();
-      }else{
-        alert('Sorry, something went wrong. Please try again or email me directly at moazragab652@gmail.com.');
-      }
-    }catch(err){
-      alert('Network error. Please try again later.');
-    }finally{
-      // بعد 10 ثواني يرجع الزر لطبيعته
-      setTimeout(()=>{
-        submitBtn.classList.remove('sending-anim');
-        submitBtn.textContent=original;
-        submitBtn.disabled=false;
-      },10000);
-    }
-  });
-}
-
-    // Floating robot buddy: drag + close
-    const buddy=document.getElementById('robotBuddy');
-    const handle=document.getElementById('robotHandle');
-    const closeBuddy=document.getElementById('closeBuddy');
-
-    closeBuddy?.addEventListener('click',()=>{buddy.style.display='none';});
-
-    let dragging=false;let offsetX=0,offsetY=0;
-    function onPointerDown(e){
-      dragging=true;
-      const rect=buddy.getBoundingClientRect();
-      offsetX=(e.clientX||(e.touches&&e.touches[0].clientX))-rect.left;
-      offsetY=(e.clientY||(e.touches&&e.touches[0].clientY))-rect.top;
-      document.addEventListener('pointermove',onPointerMove);
-      document.addEventListener('pointerup',onPointerUp);
-    }
-    function onPointerMove(e){
-      if(!dragging)return;
-      const x=e.clientX-offsetX;
-      const y=e.clientY-offsetY;
-      const maxX=window.innerWidth-buddy.offsetWidth-4;
-      const maxY=window.innerHeight-buddy.offsetHeight-4;
-      buddy.style.left=Math.min(Math.max(4,x),maxX)+'px';
-      buddy.style.top=Math.min(Math.max(4,y),maxY)+'px';
-      buddy.style.right='auto';buddy.style.bottom='auto';buddy.style.position='fixed';
-    }
-    function onPointerUp(){
-      dragging=false;
-      document.removeEventListener('pointermove',onPointerMove);
-      document.removeEventListener('pointerup',onPointerUp);
-    }
-    handle?.addEventListener('pointerdown',onPointerDown);
-
-    window.addEventListener('resize',()=>{
-      if(!buddy||buddy.style.display==='none')return;
-      const rect=buddy.getBoundingClientRect();
-      const maxX=window.innerWidth-buddy.offsetWidth-4;
-      const maxY=window.innerHeight-buddy.offsetHeight-4;
-      buddy.style.left=Math.min(rect.left,maxX)+'px';
-      buddy.style.top=Math.min(rect.top,maxY)+'px';
-    });
-
-    // Cinematic Intro with Typewriter Effect
-    const cinematicIntro = document.getElementById('cinematicIntro');
-    const typewriter = document.getElementById('typewriter');
-    const text = 'Moaz.dev';
-    let i = 0;
-
-    function typeEffect() {
-      if (i < text.length) {
-        typewriter.textContent += text.charAt(i);
-        i++;
-        setTimeout(typeEffect, 150);
-      } else {
-        setTimeout(() => {
-          typewriter.classList.remove('typewriter');
-          setTimeout(() => {
-            cinematicIntro.classList.add('fade-out');
-            document.body.classList.add('page-fade-in');
-          }, 1000);
-        }, 1000);
-      }
-    }
-
-    // Start the intro sequence
-    window.addEventListener('load', () => {
-      typewriter.classList.add('typewriter');
-      setTimeout(typeEffect, 500);
-    });
-
-    // Scroll reveal animation
-    const observerOptions={threshold:0.1,rootMargin:'0px 0px -50px 0px'};
-    const observer=new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('active');
-    }
-  });
-},observerOptions);
-
-    // Add reveal class to sections and observe them
-    document.querySelectorAll('section').forEach((section,index)=>{
-      if(index>0){ // Skip hero section
-        section.classList.add('reveal');
-        observer.observe(section);
-      }
-    });
-
-    // Page transition effects for navigation
-    document.querySelectorAll('a[href^="#"]').forEach(link => {
-      link.addEventListener('click', (e) => {
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          document.body.classList.add('page-transition');
-          setTimeout(() => {
-            target.scrollIntoView({ behavior: 'smooth' });
-            document.body.classList.remove('page-transition');
-          }, 100);
-        }
-      });
-    });
-
-    // Robot Interactive Animations
-    const robotHandle = document.getElementById('robotHandle');
-    const speechBubble = document.getElementById('speechBubble');
-    const robotBuddy = document.getElementById('robotBuddy');
-    let clickCount = 0;
-    let isAnimating = false;
-
-    function createConfetti() {
-      const colors = ['confetti-1', 'confetti-2', 'confetti-3', 'confetti-4', 'confetti-5', 'confetti-6'];
-      const robotRect = robotBuddy.getBoundingClientRect();
-      
-      for (let i = 0; i < 12; i++) {
-        const confetti = document.createElement('div');
-       
-
-        confetti.className = `confetti ${colors[Math.floor(Math.random() * colors.length)]}`;
-        confetti.style.left = (robotRect.left + robotRect.width / 2) + 'px';
-        confetti.style.top = (robotRect.top + robotRect.height / 2) + 'px';
-        confetti.style.animationDelay = (Math.random() * 0.3) + 's';
-        document.body.appendChild(confetti);
-        
-        setTimeout(() => {
-          confetti.remove();
-        }, 2000);
-      }
-    }
-
-    function showSpeechBubble() {
-      speechBubble.classList.add('show');
-      setTimeout(() => {
-        speechBubble.classList.remove('show');
-      }, 3000);
-    }
-
-    function triggerRobotAnimation() {
-      if (isAnimating) return;
-      isAnimating = true;
-      clickCount++;
-
-      // Remove any existing animation classes
-      robotHandle.className = robotHandle.className.replace(/robot-\w+/g, '');
-      
-      const animations = ['robot-wave', 'robot-eyes-glow', 'robot-spin', 'robot-jump', 'robot-transform'];
-      const currentAnimation = animations[clickCount % animations.length];
-      
-      robotHandle.classList.add(currentAnimation);
-      
-      // Special effects for specific animations
-      if (currentAnimation === 'robot-eyes-glow') {
-        showSpeechBubble();
-      } else if (currentAnimation === 'robot-jump') {
-        createConfetti();
-      } else if (currentAnimation === 'robot-wave') {
-        showSpeechBubble();
-      }
-      
-      // Reset animation state
-      setTimeout(() => {
-        robotHandle.className = robotHandle.className.replace(/robot-\w+/g, '');
-        robotHandle.classList.add('float-buddy', 'mt-1', 'cursor-grab', 'active:cursor-grabbing', 'select-none', 'cursor-pointer');
-        isAnimating = false;
-      }, currentAnimation === 'robot-transform' ? 2000 : 1500);
-    }
-
-    // Add click event to robot (separate from drag functionality)
-    robotHandle?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!dragging) {
-        triggerRobotAnimation();
-      }
-    });
-
-    // Prevent animation trigger during drag
-    let dragStartTime = 0;
-    const originalOnPointerDown = onPointerDown;
-    
-    function onPointerDown(e) {
-      dragStartTime = Date.now();
-      originalOnPointerDown(e);
-    }
-    
-    function onPointerUp() {
-      const dragDuration = Date.now() - dragStartTime;
-      dragging = false;
-      document.removeEventListener('pointermove', onPointerMove);
-      document.removeEventListener('pointerup', onPointerUp);
-      
-      // Only trigger animation if it was a quick click (not a drag)
-      if (dragDuration < 200) {
-        setTimeout(() => triggerRobotAnimation(), 50);
-      }
-    }
-
-    // Modal Functionality - Reusable for both projects
-    function createModalHandler(modalId, openBtnId, replitUrl) {
-      const modal = document.getElementById(modalId);
-      const openModalBtn = document.getElementById(openBtnId);
-      const closeModalBtn = modal?.querySelector('.modal-close');
-      const openLiveDemoBtn = modal?.querySelector('[id*="LiveDemo"]');
-      const viewSourceCodeBtn = modal?.querySelector('[id*="SourceCode"]');
-
-      function openModal() {
-        modal?.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        closeModalBtn?.focus();
-      }
-
-      function closeModal() {
-        modal?.classList.remove('show');
-        document.body.style.overflow = '';
-        openModalBtn?.focus();
-      }
-
-      // Event listeners
-      openModalBtn?.addEventListener('click', openModal);
-      closeModalBtn?.addEventListener('click', closeModal);
-
-      openLiveDemoBtn?.addEventListener('click', () => {
-        window.open(replitUrl, '_blank', 'noopener,noreferrer');
-        closeModal();
-      });
-
-      viewSourceCodeBtn?.addEventListener('click', () => {
-        window.open(replitUrl, '_blank', 'noopener,noreferrer');
-        closeModal();
-      });
-
-      // Close modal on overlay click
-      modal?.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          closeModal();
-        }
-      });
-
-      // Close modal on Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal?.classList.contains('show')) {
-          closeModal();
-        }
-      });
-
-      // Keyboard navigation within modal
-      modal?.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          const focusableElements = modal.querySelectorAll('button');
-          const firstElement = focusableElements[0];
-          const lastElement = focusableElements[focusableElements.length - 1];
-
-          if (e.shiftKey && document.activeElement === firstElement) {
-            e.preventDefault();
-            lastElement.focus();
-          } else if (!e.shiftKey && document.activeElement === lastElement) {
-            e.preventDefault();
-            firstElement.focus();
-          }
-        }
-      });
-    }
-
-    // Initialize both modals
-    createModalHandler('rockPaperScissorsModal', 'openRockPaperScissorsModal', 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1');
-    createModalHandler('todoModal', 'openTodoModal', 'https://replit.com/@moazragab652/TODO?v=1');
-
-    // Theme toggle (Light/Dark mode)
-const themeToggle = document.getElementById('themeToggle');
-const body = document.body;
-
-// حفظ الوضع في localStorage
-function setTheme(mode) {
-  if (mode === 'light') {
-    body.classList.add('light-mode');
-    themeToggle.textContent = '🌞';
-    localStorage.setItem('theme', 'light');
-  } else {
-    body.classList.remove('light-mode');
-    themeToggle.textContent = '🌙';
-    localStorage.setItem('theme', 'dark');
-  }
-}
-
-// عند الضغط على الزر
-themeToggle?.addEventListener('click', () => {
-  if (body.classList.contains('light-mode')) {
-    setTheme('dark');
-  } else {
-    setTheme('light');
-  }
-});
-
-// عند تحميل الصفحة: استرجع الوضع من localStorage أو حسب تفضيل النظام
-(function () {
-  const saved = localStorage.getItem('theme');
-  if (saved) {
-    setTheme(saved);
-  } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-    setTheme('light');
-  } else {
-    setTheme('dark');
-  }
-})();
-  </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e87a19432211c0',t:'MTc1Nzc3NTIzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
