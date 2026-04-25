@@ -1298,16 +1298,32 @@
     const About = () => (
       <section id="about" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
         <div className="grid md:grid-cols-2 gap-8 items-stretch">
-          <Card className="p-8">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 android-glow">About Me</h2>
-            <p className="text-neutral-300 mb-4 leading-relaxed">
-              AI-track Computer Science student at Beni-Suef National University. Trained in Android development through DEPI using Kotlin, Android Studio, Jetpack Compose & XML.
-            </p>
-            <p className="text-neutral-300 mb-6 leading-relaxed">
-              Strong foundations in C++, Java, OOP, and problem-solving. Eager to apply my skills in real-world mobile development projects.
-            </p>
-            <GhostButton href="#projects">See My Work →</GhostButton>
-          </Card>
+      <Card className="p-8">
+  <h2 className="text-2xl md:text-3xl font-bold mb-4 android-glow">About Me</h2>
+  
+  <p className="text-neutral-300 mb-4 leading-relaxed">
+    I am Moaz Ragab, a Computer Science student specializing in Artificial Intelligence 
+    at Beni-Suef National University.
+  </p>
+  
+  <p className="text-neutral-300 mb-6 leading-relaxed">
+    Passionate about Android development, I trained intensively through the DEPI program, 
+    mastering <strong>Kotlin</strong>, <strong>Jetpack Compose</strong>, and modern Android architectures.
+  </p>
+  
+  <p className="text-neutral-300 mb-6 leading-relaxed">
+    I also have a strong foundation in <strong>C++</strong>, <strong>Java</strong>, 
+    Object-Oriented Programming (<strong>OOP</strong>), Data Structures & Algorithms (<strong>DSA</strong>), 
+    and Software Engineering (<strong>SWE</strong>).
+  </p>
+  
+  <p className="text-neutral-300 mb-6 leading-relaxed">
+    I enjoy building clean, user-friendly mobile apps that solve real problems — 
+    such as the University Management System I developed to help students and faculty.
+  </p>
+
+  <GhostButton href="#projects">See My Work →</GhostButton>
+</Card>
 
           <Card className="p-8 flex items-center justify-center">
             <div className="relative">
@@ -1355,210 +1371,268 @@
       );
     };
 
-    // ===================
-    // Projects Section
-    // ===================
-    const Projects = () => {
-      const [activeModal, setActiveModal] = useState(null);
-      const [videoModalOpen, setVideoModalOpen] = useState(false);
+ // ===================
+// Projects Section
+// ===================
+const Projects = () => {
+  const [activeModal, setActiveModal] = useState(null);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
 
-      const projects = [
-        {
-          id: 'app-demo',
-          title: 'University Management System',
-          year: '2025',
-          featured: true,
-          description: `The application is designed as a real-world university management system with a clear hierarchical structure: Faculties → Departments → Subjects, where subjects and doctors are properly linked to their respective departments.`,
-          features: [
-            'Browsing faculties, departments, subjects, and doctors',
-            'Search functionality across multiple sections',
-            'User authentication with email verification (verification email may appear in Spam)',
-            'Profile management and notification preferences',
-            'Permanent account deletion or clearing local data only (Shared Preferences)',
-          ],
-          roles: [
-            'Guest users',
-            'Registered users',
-            'Admin users for content and structure management',
-            'Super Admin with full system control and high-priority notifications',
-          ],
-          additionalInfo: 'Admins can manage news, activities, and events, as well as schedule news by setting start and end display times. The application was fully designed and developed by me, including all technical and implementation aspects.',
-          tags: ['Android', 'Kotlin', 'Firebase', 'Jetpack Compose'],
-          hasVideo: true,
-          videoUrl: 'https://player.vimeo.com/video/1149476430',
-          apkUrl: 'https://drive.google.com/file/d/1XF939yWymy5ODkzK7TWY6jCPV-4Hicmy/view?usp=drive_link',
-        },
-        {
-          id: 'egypt-explorer',
-          title: 'Authentication System For Egypt Explorer',
-          year: '2025',
-          description: 'Worked on the authentication module as part of a team project. Developed and implemented login, signup, and password recovery screens, and integrated them with Firebase for secure user management.',
-          tags: ['Android Development', 'Firebase', 'Kotlin/Java', 'UI/UX'],
-          image: 'https://i.postimg.cc/1X344Y0Y/Screenshot-2025-12-08-001247.png',
-          githubUrl: 'https://github.com/DEPI-Android/DEPI-Android-Project-Graduation',
-          contributions: [
-            'Created and connected authentication screens to Firebase',
-            'Managed user registration, login, and authentication states',
-            'Ensured a smooth and secure user experience within the app',
-          ],
-        },
-        {
-          id: 'rps',
-          title: 'Rock–Paper–Scissors (C++)',
-          year: '2025',
-          description: 'Console game written in modern C++ with clean input handling and replay logic.',
-          tags: ['C++', 'OOP', 'Console'],
-          replitUrl: 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1',
-        },
-        {
-          id: 'todo',
-          title: 'TODO (Java)',
-          year: '2025',
-          description: 'Lightweight productivity tool with persistent storage. Features sound effects, built-in timer, and automatic task saving to .txt files for seamless workflow management.',
-          tags: ['Java', 'File I/O', 'Audio'],
-          replitUrl: 'https://replit.com/@moazragab652/TODO?v=1',
-        },
-      ];
+  const projects = [
+    {
+      id: 'med-journey',
+      title: 'MedJourney: Gamified Learning Ecosystem',
+      year: '2026',
+      featured: true,
+      description: 'A comprehensive medical education platform that transforms learning into an immersive experience through Gamification, featuring a complex hierarchical content delivery system and a real-time character economy.',
+      features: [
+        'Structured Learning Paths: Hierarchy of Modules → Subjects → Chapters → Lessons',
+        'Interactive Flashcards system for active recall and spaced repetition',
+        'Gamification Engine: Experience Points (XP), Global Ranking, and Store integration',
+        'Virtual Companion: Character health mechanics (Happiness/Hunger) to drive engagement',
+        'E-commerce Integration: Real-world Bookstore for physical medical resources',
+        'Achievement System: Dynamic PDF certificate generation upon course completion',
+      ],
+      roles: [
+        'Learners (Students)',
+        'Administrators (Full content management & Analytics via Secure Panel)',
+      ],
+      additionalInfo: 'Built with a focus on high security and scalability. The Admin Panel allows full control over the learning ecosystem, from lesson updates to store inventory management.',
+      tags: ['Android', 'Kotlin', 'Jetpack Compose', 'Gamification', 'PDF Generation', 'Secure Architecture'],
+      image: 'https://i.postimg.cc/YCfWhrdz/Gemini-Generated-Image-f1pmk7f1pmk7f1pm.png',
+      isSecure: true, 
+    },
+    {
+      id: 'app-demo',
+      title: 'University Management System',
+      year: '2025',
+      featured: true,
+      description: `The application is designed as a real-world university management system with a clear hierarchical structure: Faculties → Departments → Subjects, where subjects and doctors are properly linked to their respective departments.`,
+      features: [
+        'Browsing faculties, departments, subjects, and doctors',
+        'Search functionality across multiple sections',
+        'User authentication with email verification (verification email may appear in Spam)',
+        'Profile management and notification preferences',
+        'Permanent account deletion or clearing local data only (Shared Preferences)',
+      ],
+      roles: [
+        'Guest users',
+        'Registered users',
+        'Admin users for content and structure management',
+        'Super Admin with full system control and high-priority notifications',
+      ],
+      additionalInfo: 'Admins can manage news, activities, and events, as well as schedule news by setting start and end display times. The application was fully designed and developed by me, including all technical and implementation aspects.',
+      tags: ['Android', 'Kotlin', 'Firebase', 'Jetpack Compose'],
+      hasVideo: true,
+      videoUrl: 'https://player.vimeo.com/video/1149476430',
+      apkUrl: 'https://drive.google.com/file/d/1XF939yWymy5ODkzK7TWY6jCPV-4Hicmy/view?usp=drive_link',
+    },
+    {
+      id: 'egypt-explorer',
+      title: 'Authentication System For Egypt Explorer',
+      year: '2025',
+      description: 'Worked on the authentication module as part of a team project. Developed and implemented login, signup, and password recovery screens, and integrated them with Firebase for secure user management.',
+      tags: ['Android Development', 'Firebase', 'Kotlin/Java', 'UI/UX'],
+      image: 'https://i.postimg.cc/1X344Y0Y/Screenshot-2025-12-08-001247.png',
+      githubUrl: 'https://github.com/DEPI-Android/DEPI-Android-Project-Graduation',
+      contributions: [
+        'Created and connected authentication screens to Firebase',
+        'Managed user registration, login, and authentication states',
+        'Ensured a smooth and secure user experience within the app',
+      ],
+    },
+    {
+      id: 'rps',
+      title: 'Rock–Paper–Scissors (C++)',
+      year: '2025',
+      description: 'Console game written in modern C++ with clean input handling and replay logic.',
+      tags: ['C++', 'OOP', 'Console'],
+      replitUrl: 'https://replit.com/@moazragab652/Rock-Paper-Secissor?v=1',
+    },
+    {
+      id: 'todo',
+      title: 'TODO (Java)',
+      year: '2025',
+      description: 'Lightweight productivity tool with persistent storage. Features sound effects, built-in timer, and automatic task saving to .txt files for seamless workflow management.',
+      tags: ['Java', 'File I/O', 'Audio'],
+      replitUrl: 'https://replit.com/@moazragab652/TODO?v=1',
+    },
+  ];
 
-      return (
-        <section id="projects" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold android-glow">Projects</h2>
-            <a href="#contact" className="text-sm text-[#3ddc84] hover:text-[#00c853] font-mono transition-colors">
-              Open to collaboration
-            </a>
-          </div>
+  return (
+    <section id="projects" className="mx-auto max-w-6xl px-4 py-16 md:py-24 reveal">
+      <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold android-glow">Projects</h2>
+        <a href="#contact" className="text-sm text-[#3ddc84] hover:text-[#00c853] font-mono transition-colors">
+          Open to collaboration
+        </a>
+      </div>
 
-          <div className="space-y-6">
-            {projects.filter(p => p.featured).map(project => (
-              <Card key={project.id} className="project-card p-6 md:p-8 relative">
-                <div className="featured-badge">⭐ Featured</div>
-                <div className="mt-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
-                    <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
-                  </div>
-                  <p className="text-neutral-300 mb-4">{project.description}</p>
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-[#3ddc84] mb-2">Key Features:</p>
-                    <ul className="text-sm text-neutral-400 space-y-1">
-                      {project.features.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-[#3ddc84]">→</span> {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-[#4285f4] mb-2">Supported Roles:</p>
-                    <ul className="text-sm text-neutral-400 space-y-1">
-                      {project.roles.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-[#4285f4]">•</span> {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <p className="text-neutral-400 text-sm mb-6 italic">{project.additionalInfo}</p>
-                  <div className="video-container mb-6">
-                    <div className="video-wrapper">
-                      <iframe
-                        src={`${project.videoUrl}?autoplay=0&loop=1&background=0`}
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                        title="Project Demo"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <button onClick={() => setVideoModalOpen(true)} className="cta-button py-4 flex items-center justify-center gap-2">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                      Watch Full Screen
-                    </button>
-                    <a href={project.apkUrl} target="_blank" rel="noopener" className="apk-button py-4">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
-                      </svg>
-                      Download APK
-                    </a>
-                  </div>
-                </div>
-              </Card>
-            ))}
-
-            {projects.filter(p => p.id === 'egypt-explorer').map(project => (
-              <Card key={project.id} className="project-card p-6 md:p-8">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <img src={project.image} alt={project.title} className="w-full rounded-xl border-2 border-[#3ddc84]/20 hover:border-[#3ddc84]/40 transition-colors" />
-                  </div>
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
-                      <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
-                    </div>
-                    <p className="text-neutral-300 mb-4">{project.description}</p>
-                    <div className="mb-4">
-                      <p className="text-sm font-semibold text-[#3ddc84] mb-2">My Contributions:</p>
-                      <ul className="text-sm text-neutral-400 space-y-1">
-                        {project.contributions.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2">
-                            <span className="text-[#3ddc84]">→</span> {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
-                    </div>
-                    <a href={project.githubUrl} target="_blank" rel="noopener" className="btn-ghost inline-flex items-center gap-2 text-sm">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/>
-                      </svg>
-                      View on GitHub
-                    </a>
-                  </div>
-                </div>
-              </Card>
-            ))}
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {projects.filter(p => !p.featured && p.id !== 'egypt-explorer').map(project => (
-                <Card key={project.id} className="project-card p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold font-mono">{project.title}</h3>
-                    <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
-                  </div>
-                  <p className="text-neutral-400 text-sm mb-4">{project.description}</p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
-                  </div>
-                  <button onClick={() => setActiveModal(project.id)} className="cta-button w-full text-sm">
-                    Demo & Code →
-                  </button>
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          {projects.filter(p => p.replitUrl).map(project => (
-            <Modal key={project.id} isOpen={activeModal === project.id} onClose={() => setActiveModal(null)} title={project.title} description="Choose how to explore this project:">
-              <div className="space-y-3">
-                <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>🚀 Open Live Demo</button>
-                <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>📝 View Source Code</button>
+      <div className="space-y-6">
+        {/* Featured Projects Map */}
+        {projects.filter(p => p.featured).map(project => (
+          <Card key={project.id} className="project-card p-6 md:p-8 relative">
+            <div className="featured-badge">⭐ Featured</div>
+            
+            {/* عرض الصورة هنا للمشاريع الـ Featured - تم تعديل الحجم هنا */}
+            {project.image && (
+              <div className="mt-8 mb-6 overflow-hidden rounded-xl border border-[#3ddc84]/10 max-w-lg mx-auto">
+                <img 
+                  src={project.image} 
+                  alt={project.title} 
+                  className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" 
+                />
               </div>
-            </Modal>
-          ))}
+            )}
 
-          <VideoModal isOpen={videoModalOpen} onClose={() => setVideoModalOpen(false)} videoUrl="https://player.vimeo.com/video/1149476430" />
-        </section>
-      );
-    };
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
+                <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+              </div>
+              <p className="text-neutral-300 mb-4">{project.description}</p>
+              
+              <div className="mb-4">
+                <p className="text-sm font-semibold text-[#3ddc84] mb-2">Key Features:</p>
+                <ul className="text-sm text-neutral-400 space-y-1">
+                  {project.features.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#3ddc84]">→</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mb-4">
+                <p className="text-sm font-semibold text-[#4285f4] mb-2">Supported Roles:</p>
+                <ul className="text-sm text-neutral-400 space-y-1">
+                  {project.roles.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-[#4285f4]">•</span> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <p className="text-neutral-400 text-sm mb-6 italic">{project.additionalInfo}</p>
+              
+              {/* عرض الفيديو فقط إذا كان متاحاً وغير مشفر */}
+              {project.hasVideo && !project.isSecure && (
+                <div className="video-container mb-6">
+                  <div className="video-wrapper">
+                    <iframe
+                      src={`${project.videoUrl}?autoplay=0&loop=1&background=0`}
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title="Project Demo"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+              </div>
+
+              {/* أزرار التحميل والمشاهدة تظهر فقط لو المشروع مش Secure */}
+              {!project.isSecure && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <button onClick={() => setVideoModalOpen(true)} className="cta-button py-4 flex items-center justify-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    Watch Full Screen
+                  </button>
+                  <a href={project.apkUrl} target="_blank" rel="noopener" className="apk-button py-4">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/>
+                    </svg>
+                    Download APK
+                  </a>
+                </div>
+              )}
+              
+              {/* لو المشروع Secure ممكن تعرض رسالة بسيطة أو تكتفي بالأيقونة */}
+              {project.isSecure && (
+                <div className="text-xs text-neutral-500 font-mono italic border-t border-neutral-800 pt-4">
+                  🔒 Private Project - Code & Assets are protected for security reasons.
+                </div>
+              )}
+            </div>
+          </Card>
+        ))}
+
+        {/* Egypt Explorer Section */}
+        {projects.filter(p => p.id === 'egypt-explorer').map(project => (
+          <Card key={project.id} className="project-card p-6 md:p-8">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <img src={project.image} alt={project.title} className="w-full rounded-xl border-2 border-[#3ddc84]/20 hover:border-[#3ddc84]/40 transition-colors" />
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl md:text-2xl font-bold font-mono">{project.title}</h3>
+                  <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+                </div>
+                <p className="text-neutral-300 mb-4">{project.description}</p>
+                <div className="mb-4">
+                  <p className="text-sm font-semibold text-[#3ddc84] mb-2">My Contributions:</p>
+                  <ul className="text-sm text-neutral-400 space-y-1">
+                    {project.contributions.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-[#3ddc84]">→</span> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                </div>
+                <a href={project.githubUrl} target="_blank" rel="noopener" className="btn-ghost inline-flex items-center gap-2 text-sm">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 0 1 5.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 0 0 7.51-10.42C23.02 5.25 18.27.5 12 .5z"/>
+                  </svg>
+                  View on GitHub
+                </a>
+              </div>
+            </div>
+          </Card>
+        ))}
+
+        {/* Small Projects Grid */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {projects.filter(p => !p.featured && p.id !== 'egypt-explorer').map(project => (
+            <Card key={project.id} className="project-card p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold font-mono">{project.title}</h3>
+                <span className="text-xs text-neutral-400 font-mono">{project.year}</span>
+              </div>
+              <p className="text-neutral-400 text-sm mb-4">{project.description}</p>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {project.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+              </div>
+              <button onClick={() => setActiveModal(project.id)} className="cta-button w-full text-sm">
+                Demo & Code →
+              </button>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Modals for Replit Projects */}
+      {projects.filter(p => p.replitUrl).map(project => (
+        <Modal key={project.id} isOpen={activeModal === project.id} onClose={() => setActiveModal(null)} title={project.title} description="Choose how to explore this project:">
+          <div className="space-y-3">
+            <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>🚀 Open Live Demo</button>
+            <button className="modal-button" onClick={() => { window.open(project.replitUrl, '_blank'); setActiveModal(null); }}>📝 View Source Code</button>
+          </div>
+        </Modal>
+      ))}
+
+      <VideoModal isOpen={videoModalOpen} onClose={() => setVideoModalOpen(false)} videoUrl="https://player.vimeo.com/video/1149476430" />
+    </section>
+  );
+};
 
     // ===================
     // Internship Section
@@ -1607,57 +1681,101 @@
       </section>
     );
 
-    // ===================
-    // Contact Form
-    // ===================
-    const ContactForm = () => {
-      const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-      const [sending, setSending] = useState(false);
-      const [sent, setSent] = useState(false);
+   // ===================
+// Contact Form (Special Animated Version)
+// ===================
+const ContactForm = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success'
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-        setSending(true);
-        try {
-          const res = await fetch('https://formspree.io/f/xdkdvyeo', {
-            method: 'POST',
-            body: JSON.stringify(formData),
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
-          });
-          if (res.ok) {
-            setSent(true);
-            setFormData({ name: '', email: '', message: '' });
-            setTimeout(() => setSent(false), 5000);
-          }
-        } catch (err) { alert('Error. Please try again.'); }
-        finally { setTimeout(() => setSending(false), 2000); }
-      };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('sending');
 
-      return (
-        <Card className="p-6">
+    try {
+      const res = await fetch('https://formspree.io/f/xdkdvyeo', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      });
+
+      if (res.ok) {
+        // تأخير بسيط عشان المستخدم يلحق يشوف انيميشن التحميل
+        setTimeout(() => {
+          setStatus('success');
+          setFormData({ name: '', email: '', message: '' });
+        }, 1500);
+
+        // يرجع للحالة العادية بعد 5 ثواني
+        setTimeout(() => setStatus('idle'), 6000);
+      }
+    } catch (err) {
+      alert('Error. Please try again.');
+      setStatus('idle');
+    }
+  };
+
+  return (
+    <Card className="p-6 relative min-h-[400px] flex flex-col justify-center overflow-hidden border-[#3ddc84]/20 shadow-[0_0_20px_rgba(61,220,132,0.05)]">
+      
+      {/* 1- الحالة العادية: الفورم */}
+      {status === 'idle' && (
+        <div className="animate-in fade-in duration-500">
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-sm font-mono text-neutral-400 mb-2">Name</label>
+              <label className="block text-sm font-mono text-neutral-400 mb-2">/usr/name</label>
               <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono" placeholder="Your name" />
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-all font-mono" placeholder="Your name" />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-mono text-neutral-400 mb-2">Email</label>
+              <label className="block text-sm font-mono text-neutral-400 mb-2">/usr/email</label>
               <input required type="email" value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono" placeholder="you@example.com" />
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-all font-mono" placeholder="you@example.com" />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-mono text-neutral-400 mb-2">Message</label>
+              <label className="block text-sm font-mono text-neutral-400 mb-2">/usr/message</label>
               <textarea required rows="4" value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})}
-                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-colors font-mono resize-none" placeholder="Say hello..." />
+                className="w-full bg-black/30 border border-[#3ddc84]/20 rounded-xl px-4 py-3 outline-none focus:border-[#3ddc84] transition-all font-mono resize-none" placeholder="Say hello..." />
             </div>
-            <button type="submit" disabled={sending} className={`cta-button w-full ${sending ? 'sending-anim' : ''}`}>
-              {sending ? '📤 Sending...' : sent ? '✅ Sent!' : 'Send Message →'}
+            <button type="submit" className="cta-button w-full group relative overflow-hidden py-4">
+              <span className="relative z-10 font-mono font-bold">SEND_PACKET --execute</span>
+              <div className="absolute inset-0 bg-[#3ddc84] translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
             </button>
           </form>
-        </Card>
-      );
-    };
+        </div>
+      )}
+
+      {/* 2- حالة الإرسال: انيميشن تحميل أندرويد */}
+      {status === 'sending' && (
+        <div className="flex flex-col items-center justify-center space-y-4 animate-pulse font-mono">
+          <div className="w-12 h-12 border-4 border-[#3ddc84]/20 border-t-[#3ddc84] rounded-full animate-spin"></div>
+          <p className="text-[#3ddc84] text-sm tracking-widest">ENCRYPTING & SENDING...</p>
+        </div>
+      )}
+
+      {/* 3- حالة النجاح: انيميشن "Special" */}
+      {status === 'success' && (
+        <div className="text-center space-y-6 animate-in zoom-in duration-500">
+          <div className="relative inline-block">
+             {/* تأثير نبض أخضر خلف الصاروخ */}
+            <div className="absolute inset-0 bg-[#3ddc84] blur-3xl opacity-20 animate-ping"></div>
+            <span className="text-7xl block relative">🚀</span>
+          </div>
+          <h3 className="text-2xl font-bold font-mono text-[#3ddc84]">TRANSMISSION_COMPLETE</h3>
+          <p className="text-neutral-400 font-mono text-sm max-w-[280px] mx-auto">
+            Your data has been successfully pushed to the master branch.
+          </p>
+          <button 
+            onClick={() => setStatus('idle')}
+            className="text-[#3ddc84]/60 hover:text-[#3ddc84] text-xs font-mono underline transition-colors"
+          >
+            // Send another message?
+          </button>
+        </div>
+      )}
+    </Card>
+  );
+};
 
     // ===================
     // Contact Section
