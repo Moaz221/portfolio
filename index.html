@@ -1,36 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <meta name="theme-color" content="#0a0a0f" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- SEO Meta Tags -->
   <title>Moaz Ragab | Android Developer & CS Student</title>
   <meta name="description" content="Moaz Ragab Kamel — Android Developer from Egypt specializing in Kotlin, Jetpack Compose & Firebase. CS & AI student at Beni-Suef National University." />
   <meta name="keywords" content="Moaz Ragab, Android Developer, Kotlin, Jetpack Compose, Firebase, Egypt, Mobile Developer, CS Student" />
   <meta name="author" content="Moaz Ragab Kamel" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://moaz221.github.io/portfolio/" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Moaz Ragab | Android Developer" />
   <meta property="og:description" content="Android Developer from Egypt — Kotlin, Jetpack Compose, Firebase." />
   <meta property="og:image" content="https://i.postimg.cc/MHBs7rhR/Designer-20.png" />
-  <meta property="og:image:alt" content="Moaz Ragab Kamel, Android Developer" />
   <meta property="og:url" content="https://moaz221.github.io/portfolio/" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Moaz Ragab Portfolio" />
-  <meta property="og:locale" content="en_US" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Moaz Ragab | Android Developer" />
   <meta name="twitter:description" content="Android Developer — Kotlin, Jetpack Compose, Firebase." />
   <meta name="twitter:image" content="https://i.postimg.cc/MHBs7rhR/Designer-20.png" />
-  <meta name="twitter:image:alt" content="Moaz Ragab Kamel, Android Developer" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-8GW9K33SL1"></script>
@@ -41,7 +34,15 @@
     gtag('config', 'G-8GW9K33SL1');
   </script>
 
-  <!-- Structured Data -->
+  <!--
+    Structured Data (Schema.org)
+    NOTE: The "email" field was intentionally removed from here.
+    JSON-LD is plain, static text in the page source, so any address placed here
+    is trivially harvestable by data-aggregation crawlers (this is how the old
+    version likely ended up on third-party contact-scraping sites). Search
+    engines do not require an email field for a valid Person schema, so removing
+    it costs nothing in SEO terms while closing that scraping vector.
+  -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,7 +51,6 @@
     "jobTitle": "Android Developer",
     "url": "https://moaz221.github.io/portfolio/",
     "image": "https://i.postimg.cc/MHBs7rhR/Designer-20.png",
-    "email": "moazragab652@gmail.com",
     "address": { "@type": "PostalAddress", "addressCountry": "EG" },
     "sameAs": [
       "https://www.linkedin.com/in/moaz-ragab-1a868931b",
@@ -554,6 +554,16 @@
     }
     .form-input::placeholder { color: #52525b; }
 
+    /* Honeypot field - hidden from real users, catches bots that auto-fill every input */
+    .hp-field {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+    }
+
     /* ===== Light Mode ===== */
     body.light {
       background: #f8fafc !important;
@@ -629,14 +639,20 @@
   <!-- Canvas Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
-  <!-- Noscript Fallback -->
+  <!--
+    Noscript Fallback
+    Email/phone below are written as decimal HTML character references
+    (e.g. &#109; = "m") instead of plain text. Browsers render them as a normal,
+    clickable, copy-able address - but simple scrapers that regex the raw HTML
+    for an "@" pattern will not find a literal email string here.
+  -->
   <noscript>
     <div class="noscript-fallback">
       <h1>Moaz Ragab Kamel</h1>
       <p>Android Developer from Egypt specializing in Kotlin, Jetpack Compose & Firebase.</p>
       <p>CS & AI student at Beni-Suef National University.</p>
       <p>
-        <a href="mailto:moazragab652@gmail.com">moazragab652@gmail.com</a> •
+        <a href="mailto:&#109;&#111;&#97;&#122;&#114;&#97;&#103;&#97;&#98;&#54;&#53;&#50;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">&#109;&#111;&#97;&#122;&#114;&#97;&#103;&#97;&#98;&#54;&#53;&#50;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</a> •
         <a href="https://github.com/Moaz221">GitHub</a> •
         <a href="https://www.linkedin.com/in/moaz-ragab-1a868931b">LinkedIn</a>
       </p>
@@ -657,8 +673,8 @@
       const matrixChars = 'アイウエオカキクケコ0123456789KOTLINANDROID{}[]<>/';
 
       function resize() {
-        W = canvas.width = innerWidth;
-        H = canvas.height = innerHeight;
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
         initParticles();
         initMatrix();
         initCode();
@@ -819,8 +835,8 @@
         if (document.hidden) cancelAnimationFrame(animId);
         else draw();
       });
-      addEventListener('resize', resize);
-      addEventListener('load', () => { resize(); ctx.fillStyle='#0a0a0f'; ctx.fillRect(0,0,W,H); draw(); });
+      window.addEventListener('resize', resize);
+      window.addEventListener('load', () => { resize(); ctx.fillStyle='#0a0a0f'; ctx.fillRect(0,0,W,H); draw(); });
     })();
   </script>
 
@@ -831,8 +847,18 @@
     /* ========== Constants ========== */
     const CV_URL = "https://drive.google.com/file/d/10ldL5De8cLSp70R4utMmRunNlBCRUB7Y/view?usp=sharing";
     const VIMEO_URL = "https://player.vimeo.com/video/1149476430";
-    const APK_URL = "https://drive.google.com/file/d/1XF939yWymy5ODkzK7TWY6jCPV-4Hicmy/view?usp=drive_link";
+    // Direct-download link (Drive "uc?export=download" form) instead of the
+    // "view" page, so the "Download APK" button actually downloads the file
+    // rather than opening a Drive preview screen first.
+    const APK_DIRECT_URL = "https://drive.google.com/uc?export=download&id=1XF939yWymy5ODkzK7TWY6jCPV-4Hicmy";
     const FORMSPREE = "https://formspree.io/f/xdkdvyeo";
+
+    // Contact details are assembled from character codes rather than written
+    // as plain literals, so the address/number does not exist as a searchable
+    // string in the page's source. This is a deterrent against basic
+    // source-scraping aggregators, not a guarantee of full privacy.
+    const EMAIL = String.fromCharCode(109,111,97,122,114,97,103,97,98,54,53,50,64,103,109,97,105,108,46,99,111,109);
+    const PHONE_DIGITS = String.fromCharCode(50,48,49,48,50,53,53,56,54,56,49,51);
 
     const NAV_LINKS = [
       { href:'#about', label:'About', icon:'👤' },
@@ -872,7 +898,10 @@
       );
     };
 
-    /* ========== Video Modal ========== */
+    /* ========== Video Modal ==========
+       Accepts the url dynamically per-project (rather than a single hardcoded
+       constant), and appends muted=1 so autoplay reliably works — most
+       browsers block autoplay-with-sound, silently failing it otherwise. */
     const VideoModal = ({open, onClose, url}) => {
       useEffect(() => {
         if (!open) return;
@@ -886,7 +915,7 @@
         <div className={`vid-modal-bg ${open?'open':''}`} onClick={e => e.target===e.currentTarget && onClose()}>
           <button className="vid-modal-x" onClick={onClose} aria-label="Close video">×</button>
           <div className="vid-modal-box">
-            {open && <iframe src={`${url}?autoplay=1&loop=1&autopause=0`} width="100%" height="100%" allow="autoplay;fullscreen;picture-in-picture" allowFullScreen title="Project Demo"/>}
+            {open && url && <iframe src={`${url}?autoplay=1&muted=1&loop=1&autopause=0`} width="100%" height="100%" allow="autoplay;fullscreen;picture-in-picture" allowFullScreen title="Project Demo"/>}
           </div>
         </div>
       );
@@ -930,9 +959,9 @@
       const [scrolled, setScrolled] = useState(false);
 
       useEffect(() => {
-        const fn = () => setScrolled(scrollY > 50);
-        addEventListener('scroll', fn, {passive:true});
-        return () => removeEventListener('scroll', fn);
+        const fn = () => setScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', fn, {passive:true});
+        return () => window.removeEventListener('scroll', fn);
       }, []);
 
       return (
@@ -1146,6 +1175,9 @@
     const Projects = () => {
       const [activeModal, setActiveModal] = useState(null);
       const [vidOpen, setVidOpen] = useState(false);
+      // Tracks which project's video is currently loaded in the modal,
+      // instead of always pointing at one hardcoded constant.
+      const [activeVideoUrl, setActiveVideoUrl] = useState(null);
 
       const projects = useMemo(() => [
         {
@@ -1178,7 +1210,7 @@
           roles:['Guest users','Registered users','Admin users','Super Admin with full system control'],
           extra:'Admins can manage news, activities, events, and schedule display times. Fully designed and developed by me.',
           tags:['Android','Kotlin','Firebase','Jetpack Compose'],
-          hasVideo:true, videoUrl:VIMEO_URL, apkUrl:APK_URL,
+          hasVideo:true, videoUrl:VIMEO_URL, apkUrl:APK_DIRECT_URL,
         },
         {
           id:'egypt-explorer', title:'Authentication System For Egypt Explorer', year:'2025',
@@ -1205,6 +1237,8 @@
       const featured = projects.filter(p => p.featured);
       const egypt = projects.find(p => p.id === 'egypt-explorer');
       const small = projects.filter(p => !p.featured && p.id !== 'egypt-explorer');
+
+      const openVideo = (url) => { setActiveVideoUrl(url); setVidOpen(true); };
 
       return (
         <section id="projects" className="mx-auto max-w-6xl px-4 py-14 md:py-20 reveal">
@@ -1262,11 +1296,11 @@
 
                   {!p.isSecure && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <button onClick={() => setVidOpen(true)} className="cta-btn w-full py-3.5">
+                      <button onClick={() => openVideo(p.videoUrl)} className="cta-btn w-full py-3.5">
                         <SVGIcon d="M8 5v14l11-7z" size={18}/>
                         Watch Full Screen
                       </button>
-                      <a href={p.apkUrl} target="_blank" rel="noopener noreferrer" className="apk-btn py-3.5">
+                      <a href={p.apkUrl} download rel="noopener noreferrer" className="apk-btn py-3.5">
                         <SVGIcon d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" size={18} fill="#fff"/>
                         Download APK
                       </a>
@@ -1331,17 +1365,19 @@
             </div>
           </div>
 
-          {/* Replit Modals */}
+          {/*
+            Replit Modals
+            Replit projects show the live app AND the source code on the same
+            page, so a single, honest button replaces the old pair of buttons
+            that both silently did the exact same thing.
+          */}
           {small.filter(p => p.replitUrl).map(p => (
-            <Modal key={p.id} open={activeModal===p.id} onClose={() => setActiveModal(null)} title={p.title} desc="Choose how to explore this project:">
-              <div className="space-y-3">
-                <button className="modal-action" onClick={() => { window.open(p.replitUrl,'_blank'); setActiveModal(null); }}>🚀 Open Live Demo</button>
-                <button className="modal-action" onClick={() => { window.open(p.replitUrl,'_blank'); setActiveModal(null); }}>📝 View Source Code</button>
-              </div>
+            <Modal key={p.id} open={activeModal===p.id} onClose={() => setActiveModal(null)} title={p.title} desc="Opens on Replit, where you can run the live demo and read the source side by side.">
+              <button className="modal-action" onClick={() => { window.open(p.replitUrl,'_blank','noopener,noreferrer'); setActiveModal(null); }}>🚀 Open in Replit →</button>
             </Modal>
           ))}
 
-          <VideoModal open={vidOpen} onClose={() => setVidOpen(false)} url={VIMEO_URL}/>
+          <VideoModal open={vidOpen} onClose={() => setVidOpen(false)} url={activeVideoUrl}/>
         </section>
       );
     };
@@ -1386,13 +1422,26 @@
       </section>
     );
 
-    /* ========== Contact Form ========== */
+    /* ========== Contact Form ==========
+       Includes a honeypot field ("_gotcha"): it is invisible and unreachable
+       to real visitors (off-screen + not tab-focusable), but a form-filling
+       bot will typically fill in every input it finds. If that field arrives
+       non-empty, Formspree silently discards the submission as spam. */
     const ContactForm = () => {
-      const [form, setForm] = useState({name:'', email:'', message:''});
+      const [form, setForm] = useState({name:'', email:'', message:'', _gotcha:''});
       const [status, setStatus] = useState('idle');
 
       const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Bot caught the honeypot — pretend success, submit nothing.
+        if (form._gotcha) {
+          setStatus('success');
+          setForm({name:'', email:'', message:'', _gotcha:''});
+          setTimeout(() => setStatus('idle'), 6000);
+          return;
+        }
+
         setStatus('sending');
         try {
           const res = await fetch(FORMSPREE, {
@@ -1401,7 +1450,7 @@
             headers: {'Accept':'application/json', 'Content-Type':'application/json'}
           });
           if (res.ok) {
-            setTimeout(() => { setStatus('success'); setForm({name:'',email:'',message:''}); }, 1200);
+            setTimeout(() => { setStatus('success'); setForm({name:'',email:'',message:'',_gotcha:''}); }, 1200);
             setTimeout(() => setStatus('idle'), 6000);
           } else { throw new Error(); }
         } catch {
@@ -1459,6 +1508,11 @@
               <label htmlFor="message" className="block text-sm font-mono text-neutral-400 mb-2">/usr/message</label>
               <textarea id="message" name="message" required rows="4" value={form.message} onChange={e => setForm({...form, message:e.target.value})} className="form-input resize-none" placeholder="Say hello..." aria-required="true"/>
             </div>
+            {/* Honeypot - stays empty and hidden for real humans */}
+            <div className="hp-field" aria-hidden="true">
+              <label htmlFor="company">Company</label>
+              <input id="company" name="_gotcha" type="text" tabIndex="-1" autoComplete="off" value={form._gotcha} onChange={e => setForm({...form, _gotcha:e.target.value})}/>
+            </div>
             <button type="submit" className="cta-btn w-full py-3.5 relative overflow-hidden group">
               <span className="relative z-10 font-mono font-bold">SEND_PACKET --execute</span>
               <div className="absolute inset-0 bg-[#3ddc84] translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
@@ -1469,50 +1523,62 @@
     };
 
     /* ========== Contact Section ========== */
-    const Contact = () => (
-      <section id="contact" className="mx-auto max-w-6xl px-4 pb-16 md:pb-24 reveal">
-        <div className="card p-7">
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-5">
-            <h2 className="text-2xl md:text-3xl font-bold android-glow">Contact</h2>
-            <p className="text-sm text-neutral-500 font-mono">Let's build something great!</p>
-          </div>
+    const Contact = () => {
+      const whatsappHref = `https://wa.me/${PHONE_DIGITS}`;
+      const mailtoHref = `mailto:${EMAIL}`;
 
-          {/* Social Icons */}
-          <div className="flex items-center gap-3 mb-7">
-            {[
-              { href:'https://wa.me/201025586813', label:'WhatsApp', tip:'WhatsApp', svg:<svg width="20" height="20" viewBox="0 0 256 256" fill="#25D366"><path d="M187.6 68.4A84 84 0 0041.7 186.2L28.1 227a8 8 0 0010.1 10.1l40.8-13.6A84 84 0 00187.6 68.4Zm-10.9 108.7A68 68 0 0183 83a68.2 68.2 0 0196.3 96.1Z"/></svg> },
-              { href:'https://www.linkedin.com/in/moaz-ragab-1a868931b', label:'LinkedIn', tip:'LinkedIn', svg:<svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8-2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.2V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9-2.4 0-2.8 1.9-2.8 3.8V24h-4V8z"/></svg> },
-              { href:'https://github.com/Moaz221', label:'GitHub', tip:'GitHub', svg:<SVGIcon d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 015.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 007.51-10.42C23.02 5.25 18.27.5 12 .5z" size={20}/> },
-            ].map((s, i) => (
-              <a key={i} className="icon-btn" href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
-                {s.svg}
-                <span className="tt">{s.tip}</span>
+      return (
+        <section id="contact" className="mx-auto max-w-6xl px-4 pb-16 md:pb-24 reveal">
+          <div className="card p-7">
+            <div className="flex items-center justify-between flex-wrap gap-4 mb-5">
+              <h2 className="text-2xl md:text-3xl font-bold android-glow">Contact</h2>
+              <p className="text-sm text-neutral-500 font-mono">Let's build something great!</p>
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-3 mb-7">
+              <a className="icon-btn" href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 256 256" fill="#25D366"><path d="M187.6 68.4A84 84 0 0041.7 186.2L28.1 227a8 8 0 0010.1 10.1l40.8-13.6A84 84 0 00187.6 68.4Zm-10.9 108.7A68 68 0 0183 83a68.2 68.2 0 0196.3 96.1Z"/></svg>
+                <span className="tt">WhatsApp</span>
               </a>
-            ))}
-          </div>
+              <a className="icon-btn" href="https://www.linkedin.com/in/moaz-ragab-1a868931b" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#0A66C2"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.8v2.2h.1c.5-1 1.8-2.2 3.8-2.2 4.1 0 4.9 2.7 4.9 6.2V24h-4v-7.1c0-1.7 0-3.9-2.4-3.9-2.4 0-2.8 1.9-2.8 3.8V24h-4V8z"/></svg>
+                <span className="tt">LinkedIn</span>
+              </a>
+              <a className="icon-btn" href="https://github.com/Moaz221" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                <SVGIcon d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 015.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 007.51-10.42C23.02 5.25 18.27.5 12 .5z" size={20}/>
+                <span className="tt">GitHub</span>
+              </a>
+            </div>
 
-          <div className="grid md:grid-cols-2 gap-5">
-            <ContactForm/>
-            <div className="card p-6">
-              <h3 className="font-bold font-mono text-[#3ddc84] mb-4">Quick Info</h3>
-              <ul className="space-y-4">
-                {[
-                  { icon:'📍', text:'Beni-Suef, Egypt' },
-                  { icon:'⚡', text:'Available for projects' },
-                  { icon:'🎯', text:'Android Development Focus' },
-                  { icon:'✉️', text:'moazragab652@gmail.com', mono:true },
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-neutral-300">
-                    <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/8 flex items-center justify-center flex-shrink-0">{item.icon}</span>
-                    <span className={item.mono ? 'font-mono text-sm' : ''}>{item.text}</span>
+            <div className="grid md:grid-cols-2 gap-5">
+              <ContactForm/>
+              <div className="card p-6">
+                <h3 className="font-bold font-mono text-[#3ddc84] mb-4">Quick Info</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-3 text-neutral-300">
+                    <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/8 flex items-center justify-center flex-shrink-0">📍</span>
+                    <span>Beni-Suef, Egypt</span>
                   </li>
-                ))}
-              </ul>
+                  <li className="flex items-center gap-3 text-neutral-300">
+                    <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/8 flex items-center justify-center flex-shrink-0">⚡</span>
+                    <span>Available for projects</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-neutral-300">
+                    <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/8 flex items-center justify-center flex-shrink-0">🎯</span>
+                    <span>Android Development Focus</span>
+                  </li>
+                  <li className="flex items-center gap-3 text-neutral-300">
+                    <span className="w-10 h-10 rounded-xl bg-[#3ddc84]/8 flex items-center justify-center flex-shrink-0">✉️</span>
+                    <a href={mailtoHref} className="font-mono text-sm hover:text-[#3ddc84] transition-colors">{EMAIL}</a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    );
+        </section>
+      );
+    };
 
     /* ========== Footer ========== */
     const Footer = () => (
@@ -1528,12 +1594,12 @@
     const ScrollTop = () => {
       const [show, setShow] = useState(false);
       useEffect(() => {
-        const fn = () => setShow(scrollY > 400);
-        addEventListener('scroll', fn, {passive:true});
-        return () => removeEventListener('scroll', fn);
+        const fn = () => setShow(window.scrollY > 400);
+        window.addEventListener('scroll', fn, {passive:true});
+        return () => window.removeEventListener('scroll', fn);
       }, []);
       return (
-        <button className={`scroll-top ${show?'show':''}`} onClick={() => scrollTo({top:0, behavior:'smooth'})} aria-label="Scroll to top">
+        <button className={`scroll-top ${show?'show':''}`} onClick={() => window.scrollTo({top:0, behavior:'smooth'})} aria-label="Scroll to top">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
         </button>
       );
@@ -1547,7 +1613,7 @@
           const s = localStorage.getItem('portfolio-theme');
           if (s) return s;
         } catch {}
-        return matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
       });
 
       useEffect(() => {
