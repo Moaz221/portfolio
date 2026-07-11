@@ -429,6 +429,13 @@
     }
     .modal-bg.open .modal-box { transform: scale(1); }
 
+    .project-details-modal {
+      max-width: 900px;
+      max-height: min(84vh, 900px);
+      overflow-y: auto;
+      padding: 32px;
+    }
+
     .modal-x {
       position: absolute;
       top: 14px;
@@ -847,6 +854,7 @@
     /* ========== Constants ========== */
     const CV_URL = "https://drive.google.com/file/d/10ldL5De8cLSp70R4utMmRunNlBCRUB7Y/view?usp=sharing";
     const VIMEO_URL = "https://player.vimeo.com/video/1149476430";
+    const MN_MANAGER_VIDEO_URL = "https://www.youtube.com/embed/_yb3U57rSRw";
     // Direct-download link (Drive "uc?export=download" form) instead of the
     // "view" page, so the "Download APK" button actually downloads the file
     // rather than opening a Drive preview screen first.
@@ -877,7 +885,7 @@
     );
 
     /* ========== Modal ========== */
-    const Modal = ({open, onClose, title, desc, children}) => {
+    const Modal = ({open, onClose, title, desc, children, className=''}) => {
       useEffect(() => {
         if (!open) return;
         const esc = e => e.key==='Escape' && onClose();
@@ -886,16 +894,18 @@
         return () => { document.removeEventListener('keydown', esc); document.body.style.overflow = ''; };
       }, [open, onClose]);
 
-      return (
+      // Render at document level so transformed section containers cannot clip
+      // or trap the dialog below the page content.
+      return ReactDOM.createPortal(
         <div className={`modal-bg ${open?'open':''}`} onClick={e => e.target===e.currentTarget && onClose()} role="dialog" aria-modal="true" aria-label={title||'Dialog'}>
-          <div className="modal-box">
+          <div className={`modal-box ${className}`}>
             <button className="modal-x" onClick={onClose} aria-label="Close dialog">×</button>
             {title && <h3 className="text-xl font-bold mb-2 font-mono">{title}</h3>}
             {desc && <p className="text-neutral-400 mb-5 text-sm">{desc}</p>}
             {children}
           </div>
         </div>
-      );
+      , document.body);
     };
 
     /* ========== Video Modal ==========
@@ -911,14 +921,14 @@
         return () => { document.removeEventListener('keydown', esc); document.body.style.overflow = ''; };
       }, [open, onClose]);
 
-      return (
+      return ReactDOM.createPortal(
         <div className={`vid-modal-bg ${open?'open':''}`} onClick={e => e.target===e.currentTarget && onClose()}>
           <button className="vid-modal-x" onClick={onClose} aria-label="Close video">×</button>
           <div className="vid-modal-box">
             {open && url && <iframe src={`${url}?autoplay=1&muted=1&loop=1&autopause=0`} width="100%" height="100%" allow="autoplay;fullscreen;picture-in-picture" allowFullScreen title="Project Demo"/>}
           </div>
         </div>
-      );
+      , document.body);
     };
 
     /* ========== Cinematic Intro ========== */
@@ -1086,7 +1096,7 @@
                 <p className="text-xs text-neutral-500 font-mono mb-2">current_focus</p>
                 <p className="text-lg font-semibold font-mono text-[#3ddc84] mb-3">Android • Kotlin • Java</p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <Tag>OOP</Tag><Tag>Jetpack</Tag><Tag>Firebase</Tag>
+                  <Tag>OOP</Tag><Tag>DSA</Tag><Tag>Jetpack</Tag><Tag>Firebase</Tag>
                 </div>
               </div>
             </div>
@@ -1099,7 +1109,7 @@
             <p className="text-xs text-neutral-500 mt-1 font-mono">active_year</p>
           </div>
           <div className="card p-5 text-center">
-            <p className="text-3xl font-bold font-mono text-[#4285f4]">4</p>
+            <p className="text-3xl font-bold font-mono text-[#4285f4]">6</p>
             <p className="text-xs text-neutral-500 mt-1 font-mono">projects</p>
           </div>
           <div className="card p-5 text-center col-span-2 md:col-span-1">
@@ -1117,16 +1127,16 @@
           <div className="card p-7">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 android-glow">About Me</h2>
             <p className="text-neutral-300 mb-3 leading-relaxed">
-              I am Moaz Ragab, a Computer Science student specializing in Artificial Intelligence at Beni-Suef National University.
+              I am Moaz, a passionate programmer and Android application developer. I combine specialized academic study in Computer Science with practical experience building modern mobile and desktop applications.
             </p>
             <p className="text-neutral-300 mb-3 leading-relaxed">
-              Passionate about Android development, I trained intensively through the DEPI program, mastering <strong className="text-white">Kotlin</strong>, <strong className="text-white">Jetpack Compose</strong>, and modern Android architectures.
+              My goal is not simply to write code, but to turn your idea into a smart, fast application with an engaging UI/UX and a memorable user experience.
             </p>
             <p className="text-neutral-300 mb-3 leading-relaxed">
-              I also have a strong foundation in <strong className="text-white">C++</strong>, <strong className="text-white">Java</strong>, OOP, Data Structures & Algorithms, and Software Engineering.
+              I build each project with a focus on clean code, maintainability, and modern engineering standards.
             </p>
             <p className="text-neutral-300 mb-5 leading-relaxed">
-              I enjoy building clean, user-friendly mobile apps that solve real problems — such as the University Management System I developed.
+              Quality, speed, and continuous communication are the foundations I guarantee in every project. If you are looking for a developer who can turn your vision into an efficient, intelligent digital product, feel free to contact me to discuss your next project.
             </p>
             <a href="#projects" className="btn-ghost">See My Work →</a>
           </div>
@@ -1143,8 +1153,8 @@
     const Skills = () => {
       const cats = [
         { title:'Languages', icon:'{ }', skills:['Kotlin','Java','C++','XML'] },
-        { title:'Android', icon:'📱', skills:['Jetpack Compose','Android Studio','Material Design','Room DB'] },
-        { title:'Tools', icon:'⚙️', skills:['Git','GitHub','Firebase','Gradle'] },
+        { title:'Cross-Platform', icon:'📱', skills:['Kotlin Multiplatform (KMP)','Compose Multiplatform','Jetpack Compose','Android Studio','Material Design'] },
+        { title:'Data & Integrations', icon:'⚙️', skills:['Firebase Firestore','REST APIs','Offline-First','Room DB','QR Code','Git','GitHub','Gradle'] },
       ];
       return (
         <section id="skills" className="mx-auto max-w-6xl px-4 py-14 md:py-20 reveal">
@@ -1174,12 +1184,34 @@
     /* ========== Projects ========== */
     const Projects = () => {
       const [activeModal, setActiveModal] = useState(null);
+      const [activeDetails, setActiveDetails] = useState(null);
       const [vidOpen, setVidOpen] = useState(false);
       // Tracks which project's video is currently loaded in the modal,
       // instead of always pointing at one hardcoded constant.
       const [activeVideoUrl, setActiveVideoUrl] = useState(null);
 
       const projects = useMemo(() => [
+        {
+          id:'mn-manager', title:'MN Manager', year:'2026', featured:true,
+          description:'A cross-platform pharmacy and medical warehouse management system built for fast sales, accurate inventory control, financial reporting, and reliable offline work.',
+          features:[
+            'Fast POS sales flow with invoice review, professional printing, and QR-coded receipts',
+            'Smart inventory alerts for low-stock and near-expiry products',
+            'Supplier management with purchase invoices, due payments, and product tracking',
+            'Dashboard and reports for daily and monthly performance, profit, and waste analysis',
+            'Smart multi-device synchronization with offline-first support',
+          ],
+          roles:['Business Owners','Pharmacy Managers','Sales Staff'],
+          extra:'Designed with complete Arabic and RTL support for a unified experience across Android and desktop.',
+          tags:['Kotlin Multiplatform','Compose Multiplatform','Firebase Firestore','REST APIs','Offline-First','QR Code'],
+          hasVideo:true, videoUrl:MN_MANAGER_VIDEO_URL, isExpandable:true,
+          details:{
+            overview:'MN Manager (MedManager) is a comprehensive cross-platform application designed to help pharmacies and medical warehouses operate efficiently. It gives owners and managers a single, Arabic-first interface for monitoring inventory, managing sales and suppliers, and producing precise financial reports.',
+            architecture:'Built with Kotlin Multiplatform (KMP), the app shares core business logic across Android and desktop (Windows, Linux, and macOS). Compose Multiplatform provides a flexible, consistent UI with full right-to-left language support, while a modern MVVM or Clean Architecture approach keeps the codebase maintainable and ready to scale.',
+            sync:'The application follows an offline-first approach, using local storage such as Room or SQLDelight so teams can continue working without an internet connection. Android devices synchronize in real time through Firebase Firestore, while desktop uses REST APIs. Smart Sync automatically reconnects and resolves data conflicts when devices come back online.',
+            advanced:'Advanced functionality includes QR code generation and scanning for secure invoices and returns, analytics logic for profit, shortages, waste, and custom time periods, plus manual and automatic local backup to protect invoices and sensitive business data.',
+          },
+        },
         {
           id:'med-journey', title:'MedJourney: Gamified Learning Ecosystem', year:'2026', featured:true,
           description:'A comprehensive medical education platform that transforms learning into an immersive experience through Gamification, featuring a complex hierarchical content delivery system and a real-time character economy.',
@@ -1282,6 +1314,12 @@
 
                   {p.extra && <p className="text-neutral-500 text-sm mb-5 italic">{p.extra}</p>}
 
+                  {p.isExpandable && (
+                    <button onClick={() => setActiveDetails(p.id)} className="btn-ghost text-sm mb-5">
+                      Read more →
+                    </button>
+                  )}
+
                   {p.hasVideo && !p.isSecure && (
                     <div className="video-container mb-5">
                       <div className="video-wrapper">
@@ -1294,16 +1332,22 @@
                     {p.tags.map((t, i) => <Tag key={i}>{t}</Tag>)}
                   </div>
 
-                  {!p.isSecure && (
+                  {!p.isSecure && p.hasVideo && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <button onClick={() => openVideo(p.videoUrl)} className="cta-btn w-full py-3.5">
                         <SVGIcon d="M8 5v14l11-7z" size={18}/>
                         Watch Full Screen
                       </button>
-                      <a href={p.apkUrl} download rel="noopener noreferrer" className="apk-btn py-3.5">
-                        <SVGIcon d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" size={18} fill="#fff"/>
-                        Download APK
-                      </a>
+                      {p.apkUrl ? (
+                        <a href={p.apkUrl} download rel="noopener noreferrer" className="apk-btn py-3.5">
+                          <SVGIcon d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z" size={18} fill="#fff"/>
+                          Download APK
+                        </a>
+                      ) : (
+                        <a href="https://youtu.be/_yb3U57rSRw?si=3mQ0jfvSW2nHyB12" target="_blank" rel="noopener noreferrer" className="apk-btn py-3.5">
+                          Watch on YouTube
+                        </a>
+                      )}
                     </div>
                   )}
 
@@ -1374,6 +1418,25 @@
           {small.filter(p => p.replitUrl).map(p => (
             <Modal key={p.id} open={activeModal===p.id} onClose={() => setActiveModal(null)} title={p.title} desc="Opens on Replit, where you can run the live demo and read the source side by side.">
               <button className="modal-action" onClick={() => { window.open(p.replitUrl,'_blank','noopener,noreferrer'); setActiveModal(null); }}>🚀 Open in Replit →</button>
+            </Modal>
+          ))}
+
+          {featured.filter(p => p.isExpandable && p.details).map(p => (
+            <Modal key={`${p.id}-details`} open={activeDetails===p.id} onClose={() => setActiveDetails(null)} title={p.title} className="project-details-modal">
+              <p className="text-neutral-300 leading-relaxed mb-5">{p.details.overview}</p>
+
+              <h4 className="text-base font-semibold text-[#3ddc84] mb-2">Core Technologies & Architecture</h4>
+              <p className="text-neutral-400 text-sm leading-relaxed mb-5">{p.details.architecture}</p>
+
+              <h4 className="text-base font-semibold text-[#3ddc84] mb-2">Data Management & Smart Sync</h4>
+              <p className="text-neutral-400 text-sm leading-relaxed mb-5">{p.details.sync}</p>
+
+              <h4 className="text-base font-semibold text-[#3ddc84] mb-2">Advanced Features</h4>
+              <p className="text-neutral-400 text-sm leading-relaxed mb-5">{p.details.advanced}</p>
+
+              <div className="flex flex-wrap gap-2">
+                {p.tags.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
+              </div>
             </Modal>
           ))}
 
@@ -1549,6 +1612,18 @@
                 <SVGIcon d="M12 .5C5.73.5.98 5.25.98 11.52c0 4.86 3.15 8.98 7.52 10.43.55.1.75-.24.75-.54v-1.9c-3.06.66-3.7-1.31-3.7-1.31-.5-1.27-1.22-1.6-1.22-1.6-.99-.67.08-.66.08-.66 1.1.08 1.68 1.13 1.68 1.13.98 1.67 2.56 1.19 3.18.9.1-.72.39-1.19.7-1.46-2.44-.28-5.01-1.22-5.01-5.43 0-1.2.43-2.18 1.12-2.95-.11-.28-.48-1.42.1-2.96 0 0 .92-.3 3.01 1.13a10.4 10.4 0 015.48 0c2.09-1.43 3.01-1.13 3.01-1.13.58 1.54.21 2.68.1 2.96.69.77 1.12 1.75 1.12 2.95 0 4.22-2.58 5.15-5.03 5.42.4.34.75 1.02.75 2.07v3.07c0 .3.2.64.76.53a10.99 10.99 0 007.51-10.42C23.02 5.25 18.27.5 12 .5z" size={20}/>
                 <span className="tt">GitHub</span>
               </a>
+              <a className="icon-btn" href="https://khamsat.com/user/moaragab" target="_blank" rel="noopener noreferrer" aria-label="Khamsat">
+                <img src="https://www.google.com/s2/favicons?domain=khamsat.com&sz=64" alt="" width="20" height="20" loading="lazy"/>
+                <span className="tt">Khamsat</span>
+              </a>
+              <a className="icon-btn" href="https://mostaql.com/u/MoaRagab" target="_blank" rel="noopener noreferrer" aria-label="Mostaql">
+                <img src="https://www.google.com/s2/favicons?domain=mostaql.com&sz=64" alt="" width="20" height="20" loading="lazy"/>
+                <span className="tt">Mostaql</span>
+              </a>
+              <a className="icon-btn" href="https://nafezly.com/u/Moazragab" target="_blank" rel="noopener noreferrer" aria-label="Nafezly">
+                <img src="https://www.google.com/s2/favicons?domain=nafezly.com&sz=64" alt="" width="20" height="20" loading="lazy"/>
+                <span className="tt">Nafezly</span>
+              </a>
             </div>
 
             <div className="grid md:grid-cols-2 gap-5">
@@ -1573,6 +1648,7 @@
                     <a href={mailtoHref} className="font-mono text-sm hover:text-[#3ddc84] transition-colors">{EMAIL}</a>
                   </li>
                 </ul>
+
               </div>
             </div>
           </div>
