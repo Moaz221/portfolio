@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://moaz221.github.io/portfolio/sitemap.xml
+Sitemap: https://moaz221.github.io/portfolio/sitemap.txt
