@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://moaz221.github.io/portfolio/sitemap.xml
-Sitemap: https://moaz221.github.io/portfolio/sitemap.txt
+Sitemap: https://portfolio-neon-phi-85.vercel.app/sitemap.xml
+Sitemap: https://portfolio-neon-phi-85.vercel.app/sitemap.txt
