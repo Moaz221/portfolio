@@ -31,7 +31,7 @@ export default function Hero() {
       </div>
       <div className="mt-6 grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="card p-5 text-center"><p className="text-3xl font-bold font-mono text-[#3ddc84]">2025</p><p className="text-xs text-neutral-500 mt-1 font-mono">active_year</p></div>
-        <div className="card p-5 text-center"><p className="text-3xl font-bold font-mono text-[#4285f4]">6</p><p className="text-xs text-neutral-500 mt-1 font-mono">projects</p></div>
+        <div className="card p-5 text-center"><p className="text-3xl font-bold font-mono text-[#4285f4]">7</p><p className="text-xs text-neutral-500 mt-1 font-mono">projects</p></div>
         <div className="card p-5 text-center col-span-2 md:col-span-1"><p className="text-xl font-bold font-mono gradient-text">Kotlin</p><p className="text-xs text-neutral-500 mt-1 font-mono">primary_stack</p></div>
       </div>
     </section>
