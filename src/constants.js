@@ -39,6 +39,30 @@ export const PROJECTS = [
     },
   },
   {
+    id:'usage-guard', title:'Usage Guard', year:'2026', featured:true,
+    description:'A comprehensive Android application designed to help users monitor, control, and save their data usage through a professional-grade dashboard and intelligent VPN-powered firewall.',
+    features:[
+      'Real-time data usage monitoring with a custom Canvas-based circular gauge dashboard',
+      'Smart VPN firewall (VpnService) for intercepting DNS and blocking apps/websites',
+      'Web Blocker with Family Mode, Porn Block toggle, and PIN-protected parental controls',
+      'Background monitoring with configurable data limits, 80% threshold warnings, and notifications',
+      'Smart Insights engine that analyzes usage patterns and suggests actions every 30 minutes',
+      'Achievements & gamification system with points, challenges, and progress tracking',
+    ],
+    roles:['End Users','Parents (Parental Control)'],
+    extra:'Built with Kotlin and Jetpack Compose following MVVM architecture. Designed for minimal battery impact using native system APIs and efficient caching.',
+    tags:['Android','Kotlin','Jetpack Compose','MVVM','VpnService','NetworkStatsManager','DataStore'],
+    hasVideo:true, videoUrl:'https://www.youtube.com/embed/6qTuutyU8cI', isExpandable:true,
+    githubUrl:'https://github.com/Moaz221/UsageGuard',
+    apkUrl:'https://usage-guard.en.uptodown.com/android',
+    details:{
+      overview:'UsageGuard is a comprehensive Android application designed to help users monitor, control, and save their data usage. It leverages advanced system features like VPN (VpnService) and Usage Stats (NetworkStatsManager) to provide a professional-grade dashboard and control center.',
+      architecture:'Built with Jetpack Compose for modern reactive UI and MVVM architecture with a single source of truth pattern. Data persistence is handled via Jetpack DataStore (Preferences and Proto) providing reactive, thread-safe storage. Kotlin Coroutines & Flow power all asynchronous operations with Lottie Compose for rich animations.',
+      sync:'The SmartVpnService acts as the heart of the app\'s blocking and filtering capabilities. It creates a virtual DNS gateway (10.0.0.2), intercepts DNS queries at 10.0.0.1 (IPv4) and fd00:1:2:3::1 (IPv6), and forwards non-blocked queries to Google DNS (8.8.8.8) via a protected DatagramSocket. Blocked domains are sinkholed with fake IP responses. Three operation modes are supported: Full Tunnel Mode (domain and app blocking), Smart Mode (foreground-only access with dynamic reconfiguration), and Monitor Mode (passive tracking with limit notifications).',
+      advanced:'The BackgroundMonitorService maintains persistent foreground presence with real-time usage notifications, listens for connectivity changes, runs periodic checks against configurable limits, and generates smart suggestions every 30 minutes via the InsightsEngine with self-healing logic. The app includes a Web Blocker with Family Mode, Porn Block (thousands of adult domains via built-in blocklist), and DoH protection against DNS bypass. Additional features include per-app data limits, network policies (WiFi/Mobile only), protected apps that bypass all blocking, and a comprehensive DataStore layout for settings, web blocks, app limits, schedules, achievements, and network policies.',
+    },
+  },
+  {
     id:'med-journey', title:'MedJourney: Gamified Learning Ecosystem', year:'2026', featured:true,
     description:'A comprehensive medical education platform that transforms learning into an immersive experience through Gamification.',
     features:[
